@@ -382,7 +382,9 @@ const getItem =  (key) => {
     res.send('{"message":'+
      `"Hola. Se ha accedido a times mediante post! valores:id:${req.body.id}, nombre: ${req.body.nombre}"}`);
   }  );
-
+  app.get("/service-worker.js", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "public", "service-worker.js"));
+  });
   
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {   
