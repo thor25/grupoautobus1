@@ -383,7 +383,7 @@ const getItem =  (key) => {
      `"Hola. Se ha accedido a times mediante post! valores:id:${req.body.id}, nombre: ${req.body.nombre}"}`);
   }  );
   app.get("/service-worker.js", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "public", "service-worker.js"));
+    res.sendFile(path.resolve(__dirname, "../react-ui/build", "service-worker.js"));
   });
   
   // All remaining requests return the React app, so it can handle routing.
