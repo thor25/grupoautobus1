@@ -15,9 +15,9 @@ export default function Paradas () {
         return;
       }
   
-      snapshot.forEach(doc => {
-        console.log(doc.id, '=>', doc.data());
-      });
+      // snapshot.forEach(doc => {
+      //   console.log(doc.id, '=>', doc.data());
+      // });
     })
     .catch(err => {
       console.log('Error getting documents', err);
