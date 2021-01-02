@@ -63,6 +63,7 @@ class Bar extends Component {
     } = this.props;
 
     const { menu } = this.state;
+   // <Button onClick={onSignUpClick}>Sign up</Button>
 
     const menuItems = [
       {
@@ -186,7 +187,6 @@ class Bar extends Component {
               disabled={performingAction}
               variant="outlined"
             >
-              <Button onClick={onSignUpClick}>Sign up</Button>
               <Button onClick={onSignInClick}>Sign in</Button>
             </ButtonGroup>
           )}

@@ -488,7 +488,7 @@ class SignUpDialog extends Component {
         <DialogActions>
           <Button
             color="primary"
-            disabled={
+            disabled={ 
               !emailAddress ||
               !emailAddressConfirmation ||
               !password ||

@@ -432,8 +432,8 @@ class SignInDialog extends Component {
                           ? errors.emailAddress[0]
                           : ""
                       }
-                      label="E-mail address"
-                      placeholder="john@doe.com"
+                      label="Usuaio"
+                      placeholder="john"
                       required
                       type="email"
                       value={emailAddress}
@@ -480,12 +480,12 @@ class SignInDialog extends Component {
                   autoComplete="email"
                   disabled={performingAction}
                   error={!!(errors && errors.emailAddress)}
-                  fullWidth
+                  fullWidths
                   helperText={
                     errors && errors.emailAddress ? errors.emailAddress[0] : ""
                   }
-                  label="E-mail address"
-                  placeholder="john@doe.com"
+                  label="usuario"
+                  placeholder="john"
                   required
                   type="email"
                   value={emailAddress}
