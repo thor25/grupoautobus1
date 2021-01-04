@@ -16,7 +16,6 @@ export default function BotonRedondo (props)
          aria-label="add"
          onClick = {
            ()=>{
-             console.log(funcion)
             funcion(0)
              }
            

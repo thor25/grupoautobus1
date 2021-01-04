@@ -37,9 +37,7 @@ class Router extends Component {
           <Route path="/user/:userId">
             {user ? <UserPage /> : <Redirect to="/" />}
           </Route>
-          <Route path='/users'>
-            
-          </Route>
+         
           <Route>
             <NotFoundPage />
           </Route>

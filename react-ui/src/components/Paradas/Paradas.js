@@ -1,4 +1,4 @@
-import Rect, {useState,useEffect} from "react"
+import React, {useState,useEffect} from "react"
 import firebase, { firestore } from "../../firebase"
 
 export default function Paradas () {

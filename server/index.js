@@ -361,15 +361,16 @@ const getItem =  (key) => {
 
   app.post('/users', async (req, res) =>
   {
+    console.log("users-post")
     var id = req.body.params
-    if (isDev)
+    if (isDev===false)
     {
       var valor=JSON.stringify(tiempo)
      
     }
     else
      var  valor =await  post(req)
-    
+    console.log(valor)
     res.set('Content-Type', 'application/json');
    
     res.send(JSON.parse(valor));

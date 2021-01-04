@@ -52,7 +52,7 @@ export default function Lista()
        async function fetchData() 
        {
           try {
-            console.log("fetchdata")
+            console.log("fetchdata", url)
 
             const res = await fetch(url, options);
             const json = await res.json();
@@ -88,7 +88,7 @@ export default function Lista()
     */ 
       //   data.parada ="26"
       //   options.body=  JSON.stringify(data)      
-        setRefresh(false) 
+        setRefresh(true) 
         console.log(result)   
   /*    if (error)
          enqueueSnackbar(error, { 
@@ -126,7 +126,7 @@ export default function Lista()
         { result.map((value,index) =>(
                 <ListItem key={index}>  
                 <ListItemAvatar>
-                  <Avatar style={{backgroundColor:value.color}}>
+                  <Avatar style={{backgroundColor:value.color,color:"white"}}>
                     {value.linea}
                   </Avatar>
                 </ListItemAvatar>

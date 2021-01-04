@@ -15,6 +15,8 @@ import { ReactComponent as InsertBlockIllustration } from "../../illustrations/i
 
 import Paradas from "../Paradas"
 import Lista from "../Lista"
+import SeleccionParada from "../SeleccionParada";
+
 class HomePage extends Component {
   signInWithEmailLink = () => {
     const { user } = this.props;
@@ -77,11 +79,7 @@ class HomePage extends Component {
     if (user) {
       return (
         <>
-        <EmptyState
-          image={<CabinIllustration />}
-          title="Home"
-          description="This is the home page. You can edit it from HomePage.js."
-        />
+        <SeleccionParada></SeleccionParada>
         <Lista></Lista>
         </>
       );
