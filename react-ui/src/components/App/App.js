@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import readingTime from "reading-time";
 
 import { MuiThemeProvider } from "@material-ui/core/styles";
-
+import { SnackbarProvider } from 'notistack';
 import { CssBaseline, Button, Snackbar } from "@material-ui/core";
 
 import { auth, firestore } from "../../firebase";
@@ -265,6 +265,7 @@ class App extends Component {
 
     return (
       <MuiThemeProvider theme={theme}>
+       <SnackbarProvider maxSnack={3}>
         <CssBaseline />
 
         <ErrorBoundary>
@@ -403,6 +404,7 @@ class App extends Component {
             </>
           )}
         </ErrorBoundary>
+       </SnackbarProvider>
       </MuiThemeProvider>
     );
   }

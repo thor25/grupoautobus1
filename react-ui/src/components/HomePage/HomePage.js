@@ -14,7 +14,7 @@ import { ReactComponent as CabinIllustration } from "../../illustrations/cabin.s
 import { ReactComponent as InsertBlockIllustration } from "../../illustrations/insert-block.svg";
 
 import Paradas from "../Paradas"
-
+import Lista from "../Lista"
 class HomePage extends Component {
   signInWithEmailLink = () => {
     const { user } = this.props;
@@ -82,7 +82,7 @@ class HomePage extends Component {
           title="Home"
           description="This is the home page. You can edit it from HomePage.js."
         />
-        <Paradas></Paradas>
+        <Lista></Lista>
         </>
       );
     }
