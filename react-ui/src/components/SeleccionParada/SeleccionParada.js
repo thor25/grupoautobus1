@@ -74,14 +74,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SeleccionParadas(props) {
-  const [paradas, setParadas] = useState("Salida de casa")
   const [grupoParada,setgrupoParada] = useState('Mañana')
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [value, setValue] = React.useState('female');
-
+  const [value, setValue] = React.useState('');
+  const [paradas, setparadas] = useState('')
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -105,7 +104,10 @@ export default function SeleccionParadas(props) {
     
     </div>
   );
-
+  function setParadas(valor)
+  {
+    setparadas(valor)
+  }
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
@@ -162,36 +164,49 @@ export default function SeleccionParadas(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <FormControlLabelPlacement></FormControlLabelPlacement>
+        <FormControlLabelPlacement setParadas = {setParadas}></FormControlLabelPlacement>
         <TextoParadas paradas = {paradas}></TextoParadas>
         <Lista refresh={true} paradas={paradas} style={{top:120}}></Lista>
       </main>
     </div>
   );
 }
+;
 
-function FormControlLabelPlacement() {
+function FormControlLabelPlacement(props) {
+ 
+  const [value, setValue] = React.useState('');
+  const {setParadas} = props
+
+  
+  const handleRadioChange = (event) => {
+    console.log(event.target.value)
+    setParadas (event.target.value)
+  }
+
+
   return (
     <FormControl component="fieldset">
       <FormLabel component="legend">Paradas</FormLabel>
-      <RadioGroup row aria-label="position" name="position" defaultValue="top">
+      <RadioGroup row aria-label="position" onChange={handleRadioChange} 
+       name="position" defaultValue="top" >
         <FormControlLabel
-          value="top"
+          value="253,47"
           control={<Radio color="primary" />}
           label="Salida de casa"
-          labelPlacement="start"
+          labelPlacement="end"
         />
         <FormControlLabel
-          value="start"
+          value="918"
           control={<Radio color="primary" />}
           label="Llegada a Prado"
-          labelPlacement="start"
+          labelPlacement="end"
         />
         <FormControlLabel
-          value="bottom"
+          value="21"
           control={<Radio color="primary" />}
           label="Trinidad"
-          labelPlacement="start"
+          labelPlacement="end"
         />
       </RadioGroup>
     </FormControl>
