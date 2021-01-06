@@ -1,7 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import Lista from "../Lista/Lista"
 import Select from '@material-ui/core/Select';
 
 import PropTypes from 'prop-types';
@@ -28,7 +27,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
-
+import Lista from "../Lista/Lista"
+import TextoParadas from "../TextoParadas"
 const drawerWidth = 240;
 
  
@@ -163,6 +163,7 @@ export default function SeleccionParadas(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <FormControlLabelPlacement></FormControlLabelPlacement>
+        <TextoParadas paradas = {paradas}></TextoParadas>
         <Lista refresh={true} paradas={paradas} style={{top:120}}></Lista>
       </main>
     </div>
@@ -172,27 +173,26 @@ export default function SeleccionParadas(props) {
 function FormControlLabelPlacement() {
   return (
     <FormControl component="fieldset">
-      <FormLabel component="legend">labelPlacement</FormLabel>
+      <FormLabel component="legend">Paradas</FormLabel>
       <RadioGroup row aria-label="position" name="position" defaultValue="top">
         <FormControlLabel
           value="top"
           control={<Radio color="primary" />}
-          label="Top"
-          labelPlacement="top"
+          label="Salida de casa"
+          labelPlacement="start"
         />
         <FormControlLabel
           value="start"
           control={<Radio color="primary" />}
-          label="Start"
+          label="Llegada a Prado"
           labelPlacement="start"
         />
         <FormControlLabel
           value="bottom"
           control={<Radio color="primary" />}
-          label="Bottom"
-          labelPlacement="bottom"
+          label="Trinidad"
+          labelPlacement="start"
         />
-        <FormControlLabel value="end" control={<Radio color="primary" />} label="End" />
       </RadioGroup>
     </FormControl>
   );
