@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component , useState} from "react";
 
 import PropTypes from "prop-types";
 
@@ -18,6 +18,8 @@ import Lista from "../Lista"
 import SeleccionParada from "../SeleccionParada";
 
 class HomePage extends Component {
+
+  
   signInWithEmailLink = () => {
     const { user } = this.props;
 
@@ -72,15 +74,22 @@ class HomePage extends Component {
         });
     }
   };
-
+ 
+  
   render() {
     const { user } = this.props;
-
+    var paradas0 = "253,47"
+    var refresh = false
+    function setParadas(valor)
+    {
+      // settxtParadas(valor)
+      paradas0 = valor  
+    }
     if (user) {
+
       return (
         <>
-        <SeleccionParada></SeleccionParada>
-        <Lista></Lista>
+        <SeleccionParada setParadas={setParadas} refresh={refresh}></SeleccionParada>
         </>
       );
     }

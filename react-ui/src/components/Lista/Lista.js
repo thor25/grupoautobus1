@@ -1,5 +1,6 @@
 import React, {useEffect,useState} from "react"
 import { Button } from '@material-ui/core'
+
 import BotonRedondo from "../../components/BotonRedondo"
 import { useSnackbar } from 'notistack';
 // Para Lista
@@ -11,20 +12,20 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
 
 import Typography from '@material-ui/core/Typography';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+
  
 
-export default function Lista()
+export default function Lista(props)
 {
-
-
+ const {paradas, refresh0} = props
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
- 
     var data = {
        
          userId: 2,
@@ -47,6 +48,7 @@ export default function Lista()
       const [dense, setDense] = React.useState(false);
       const [secondary, setSecondary] = React.useState(false);
 
+      const [parada, setParada] = useState('47,253')
      
       useEffect(() => {
        async function fetchData() 
@@ -65,6 +67,7 @@ export default function Lista()
             setLoading(false);
           }
        }
+       data.parada=parada
        if (options === null)
           setOptions(
            {
@@ -76,7 +79,7 @@ export default function Lista()
             }
           )
         fetchData();
-        },[refresh]);
+        },[refresh,paradas, refresh0]);
       
      
       const  setUrl =  (url) =>
@@ -89,7 +92,7 @@ export default function Lista()
       //   data.parada ="26"
       //   options.body=  JSON.stringify(data)      
         setRefresh(true) 
-        console.log(result)   
+        console.log("resultado",result)   
   /*    if (error)
          enqueueSnackbar(error, { 
           variant: 'error',
@@ -100,7 +103,7 @@ export default function Lista()
            });
 */
      }
-     console.log(result)
+     console.log("resultado",result)
      if (result === null) {
       return (
         <div>
@@ -119,11 +122,12 @@ export default function Lista()
 
 
     return (
-     <>
+     <div>
+
         <BotonRedondo funcion = {setUrl}/>  
-       
         <List dense={dense}>
         { result.map((value,index) =>(
+                
                 <ListItem key={index}>  
                 <ListItemAvatar>
                   <Avatar style={{backgroundColor:value.color,color:"white"}}>
@@ -144,7 +148,7 @@ export default function Lista()
                 ))
               }
             </List>
-   </>
+   </div>
     )    
     
 }
