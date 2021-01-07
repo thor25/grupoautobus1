@@ -13,6 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import TextoParadas from '.';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +32,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function InputAdornments(props) {
+  const {setParadas,txtParadas} = props
+  console.log("txt",props)
   const classes = useStyles();
   const [values, setValues] = React.useState({
     amount: '',
@@ -41,6 +44,17 @@ export default function InputAdornments(props) {
   });
   const [paradas, setparadas] = React.useState('253,47')
   const [error, setError] = useState(false)
+
+
+  React.useEffect(() => {
+    function fijarParadas()
+    {
+      console.log("useEffect")
+      setparadas(txtParadas)
+    }
+    fijarParadas()
+  }, [txtParadas])
+  
   const handleChange = () => (event) => {
    //  setValues({ ...values, [prop]: event.target.value });
    console.log(event.target.value)
@@ -60,6 +74,7 @@ export default function InputAdornments(props) {
   {
      console.log(values.weight) 
      setError(false)
+     setParadas(paradas)
   }
 
   

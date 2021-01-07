@@ -23,7 +23,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 export default function Lista(props)
 {
- const {paradas, refresh0} = props
+ const {paradas} = props
+ console.log(paradas)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     var data = {
@@ -34,7 +35,7 @@ export default function Lista(props)
            tipo:'primera', // orden, primera, principal
            reloj: 'true'
          },
-         parada : '47,253'
+         parada : '918'
     }
       
       const  url = "/users"     
@@ -54,7 +55,7 @@ export default function Lista(props)
        async function fetchData() 
        {
           try {
-            console.log("fetchdata", url)
+            console.log("fetchdata", paradas,options)
 
             const res = await fetch(url, options);
             const json = await res.json();
@@ -67,7 +68,8 @@ export default function Lista(props)
             setLoading(false);
           }
        }
-       data.parada=parada
+       data.parada=paradas
+      
        if (options === null)
           setOptions(
            {
@@ -78,8 +80,9 @@ export default function Lista(props)
               body: JSON.stringify(data),
             }
           )
+          console.log("antes de fetch")
         fetchData();
-        },[refresh,paradas, refresh0]);
+        },[refresh,paradas]);
       
      
       const  setUrl =  (url) =>

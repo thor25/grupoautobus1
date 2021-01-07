@@ -165,7 +165,7 @@ export default function SeleccionParadas(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <FormControlLabelPlacement setParadas = {setParadas}></FormControlLabelPlacement>
-        <TextoParadas paradas = {paradas}></TextoParadas>
+        <TextoParadas txtParadas = {paradas} setParadas = {setParadas}></TextoParadas>
         <Lista refresh={true} paradas={paradas} style={{top:120}}></Lista>
       </main>
     </div>
