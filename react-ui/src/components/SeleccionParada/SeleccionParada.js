@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
+      color:'transparent'
     },
   },
   menuButton: {
@@ -145,8 +146,9 @@ export default function SeleccionParadas(props) {
       </nav>
       <main className={classes.content}>
       <CssBaseline />
-      <Divider />
-      <AppBar className={classes.AppBar} position='reñative'>
+      <Paper superficie={3} variant="outlined" square style={{paddingTop:5}}>
+
+      <AppBar className={classes.AppBar} position='reñative' color="transparent">
         <Toolbar className={classes.toolbar}  >
           <IconButton
             color="inherit"
@@ -163,11 +165,13 @@ export default function SeleccionParadas(props) {
           <Divider />
           </Toolbar>
           </AppBar>
-
+         </Paper>   
          <Paper superficie={3} variant="outlined" square style={{paddingTop:5}}>
           <FormControlLabelPlacement setParadas = {setParadas}></FormControlLabelPlacement>
         </Paper>
+        <Paper  variant="outlined" square style={{paddingTop:5}}>
         <TextoParadas txtParadas = {paradas} setParadas = {setParadas}></TextoParadas>
+        </Paper>
         <Paper  variant="outlined" square style={{paddingTop:5}}>
         <Lista refresh={true} paradas={paradas} style={{top:120}}></Lista>
         </Paper>

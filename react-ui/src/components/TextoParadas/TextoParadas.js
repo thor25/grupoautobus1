@@ -84,7 +84,7 @@ export default function InputAdornments(props) {
       <div>
         <FormControl className={clsx(classes.margin, classes.textField)} variant="filled">
           <InputLabel htmlFor="filled-adornment-password">Paradas</InputLabel>
-          <FilledInput
+          <Input
             id="filled-adornment-password"
             error={error}
             value={paradas}
