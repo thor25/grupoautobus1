@@ -27,19 +27,9 @@ export default function Lista(props)
  console.log(paradas)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-    var data = {
-       
-         userId: 2,
-         params : {
-           principal:'253',
-           tipo:'primera', // orden, primera, principal
-           reloj: 'true'
-         },
-         parada : '918'
-    }
+    
       
       const  url = "/users"     
-      const [options,setOptions] = useState(null)
       const [refresh, setRefresh] = useState(true) 
     
       const [loading, setLoading] = useState(true);
@@ -47,13 +37,29 @@ export default function Lista(props)
       const [error, setError] = useState(null);
      
       const [dense, setDense] = React.useState(false);
-      const [secondary, setSecondary] = React.useState(false);
 
-      const [parada, setParada] = useState('47,253')
      
       useEffect(() => {
-       async function fetchData() 
+       async function fetchData(paradas) 
        {
+         var options = 
+         {
+            method: 'POST', // or 'PUT'
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(
+              {
+                userId: 2,
+                params : {
+                  principal:'253',
+                  tipo:'primera', // orden, primera, principal
+                  reloj: 'true'
+                },
+                parada : paradas
+           })
+          }
+        
           try {
             console.log("fetchdata", paradas,options)
 
@@ -67,27 +73,14 @@ export default function Lista(props)
             setError(err);
             setLoading(false);
           }
-       }
-       data.parada=paradas
-      
-       if (options === null)
-          setOptions(
-           {
-              method: 'POST', // or 'PUT'
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(data),
-            }
-          )
-          console.log("antes de fetch")
-        fetchData();
+       } 
+       if (paradas!=="")    
+         fetchData(paradas);
         },[refresh,paradas]);
       
      
       const  setUrl =  (url) =>
       {
-      console.log("url")
   /*      enqueueSnackbar('CArgando datos', { 
           variant: 'info',
       });
@@ -95,7 +88,7 @@ export default function Lista(props)
       //   data.parada ="26"
       //   options.body=  JSON.stringify(data)      
         setRefresh(true) 
-        console.log("resultado",result)   
+        console.log("resultado-set url",result)   
   /*    if (error)
          enqueueSnackbar(error, { 
           variant: 'error',

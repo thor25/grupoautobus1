@@ -89,7 +89,7 @@ export default function InputAdornments(props) {
             error={error}
             value={paradas}
             onChange={handleChange()}
-            helperText={error === true ? 'Pendiente de enviar' : 'ffdfsf '}
+            helpertext={error === true ? 'Pendiente de enviar' : 'ffdfsf '}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
