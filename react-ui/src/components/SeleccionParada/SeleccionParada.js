@@ -1,7 +1,6 @@
 import React, {useEffect,useState} from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import Paper from '@material-ui/core/Paper';
+
 
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
@@ -10,12 +9,9 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -31,12 +27,7 @@ import Lista from "../Lista/Lista"
 import TextoParadas from "../TextoParadas"
 const drawerWidth = 240;
 
- 
-
-
-
 const useStyles = makeStyles((theme) => ({
-  offset: theme.mixins.toolbar,
   root: {
     display: 'flex',
   },
@@ -50,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
-      top:70
     },
   },
   menuButton: {
@@ -60,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
+  toolbar:theme.minHeight,
+  
   drawerPaper: {
     width: drawerWidth,
     top:70,
@@ -96,7 +87,14 @@ export default function SeleccionParadas(props) {
       <List>
         {['Mañana', 'Salida', 'Duque', 'Ponce de Leon'].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['Nuevo grupo ', 'Borrar'].map((text, index) => (
+          <ListItem button key={text}>
             <ListItemText primary={text} />
           </ListItem>
         ))}
@@ -112,25 +110,8 @@ export default function SeleccionParadas(props) {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <Divider />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            {grupoParada}
-          </Typography>
-         
-        </Toolbar>
-      </AppBar>
+    
+    
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
@@ -163,11 +144,35 @@ export default function SeleccionParadas(props) {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <FormControlLabelPlacement setParadas = {setParadas}></FormControlLabelPlacement>
+      <CssBaseline />
+      <Divider />
+      <AppBar className={classes.AppBar} position='reñative'>
+        <Toolbar className={classes.toolbar}  >
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap>
+            {grupoParada}
+          </Typography>
+          <Divider />
+          </Toolbar>
+          </AppBar>
+
+         <Paper superficie={3} variant="outlined" square style={{paddingTop:5}}>
+          <FormControlLabelPlacement setParadas = {setParadas}></FormControlLabelPlacement>
+        </Paper>
         <TextoParadas txtParadas = {paradas} setParadas = {setParadas}></TextoParadas>
+        <Paper  variant="outlined" square style={{paddingTop:5}}>
         <Lista refresh={true} paradas={paradas} style={{top:120}}></Lista>
-      </main>
+        </Paper>
+           </main>
+     
     </div>
   );
 }

@@ -89,7 +89,6 @@ export default function InputAdornments(props) {
             error={error}
             value={paradas}
             onChange={handleChange()}
-            helpertext={error === true ? 'Pendiente de enviar' : 'ffdfsf '}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -101,8 +100,14 @@ export default function InputAdornments(props) {
                 <SendIcon/>
                 </IconButton>
               </InputAdornment>
+              
             }
+           
           />
+        <FormHelperText id="standard-weight-helper-text">
+        {error === true ? 'Pendiente de enviar' : ''}
+        </FormHelperText>
+
         </FormControl>
       </div>
     </div>
