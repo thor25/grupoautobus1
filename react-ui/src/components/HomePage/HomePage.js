@@ -89,7 +89,7 @@ class HomePage extends Component {
 
       return (
         <>
-        <SeleccionParada setParadas={setParadas} refresh={refresh}></SeleccionParada>
+        <SeleccionParada setParadas={setParadas} grupos={user.grupos} refresh={refresh}></SeleccionParada>
         </>
       );
     }

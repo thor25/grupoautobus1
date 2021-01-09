@@ -66,17 +66,71 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SeleccionParadas(props) {
-  const [grupoParada,setgrupoParada] = useState('Mañana')
-  const { window } = props;
+  const [grupoParada,setgrupoParada] = useState('')
+ 
+  const { window, grupos } = props;
+  console.log(grupos)
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
   const [paradas, setparadas] = useState('')
+ const [arrayGrupos, setarrayGrupos] = useState([])
+  const [grupo, setgrupo] = useState('')
+  var grupo0 = []
+  useEffect(() => {
+    function getGrupos(grupos)
+    {
+      const arr = []
+      Object.keys(grupos).forEach(key => arr.push({name: key, value: grupos[key]}))
+      setarrayGrupos(arr)  
+      updateGrupo(0,arr)
+    } 
+    getGrupos(grupos)
+  }, [])
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+  const updateGrupo = (index,datos) =>
+  {
+    var g = datos[index]
 
+    console.log("update",index,arrayGrupos[index],datos,g, g.value.nombre)
+    setgrupoParada(g.value.nombre)
+    grupo0 = []
+    
+    ponerDatosRadio( g.value.Subgrupo1, grupo0)
+    ponerDatosRadio( g.value.Subgrupo2, grupo0)
+    ponerDatosRadio( g.value.Subgrupo3, grupo0)
+
+    setgrupo(JSON.stringify(grupo0))
+
+console.log("grupo", grupo,grupo0)
+
+   
+//    setgrupo(... [subgrupos],arrayGrupos[index].nombre)
+
+
+  }
+  function ponerDatosRadio(sg, subgrupos) {
+    console.log(sg);
+
+    if (sg!==undefined)
+      subgrupos.push({ nombre: sg['nombre'], paradas: sg['paradas'] });
+    else
+      subgrupos.push({ nombre: '', paradas:'' });
+
+    }
+  
+  const handleListItemClick = (event,text,index) =>
+  {
+    console.log('Click',index,arrayGrupos,arrayGrupos[index].value)
+    updateGrupo(index,arrayGrupos)
+    console.log("handle", grupo0)
+
+    setMobileOpen(!mobileOpen);
+  }
+ 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -85,10 +139,12 @@ export default function SeleccionParadas(props) {
     <div>
       <div className={classes.toolbar} />
       <Divider />
-      <List>
-        {['Mañana', 'Salida', 'Duque', 'Ponce de Leon'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
+      <List >
+        {arrayGrupos.map((dato, index) => (
+          <ListItem button key={dato.value.nombre} 
+           onClick={(event) => handleListItemClick(event, dato.value.nombre,index)}
+          >
+            <ListItemText primary={dato.value.nombre} />
           </ListItem>
         ))}
       </List>
@@ -103,6 +159,8 @@ export default function SeleccionParadas(props) {
     
     </div>
   );
+ 
+ 
   function setParadas(valor)
   {
     setparadas(valor)
@@ -148,7 +206,7 @@ export default function SeleccionParadas(props) {
       <CssBaseline />
       <Paper superficie={3} variant="outlined" square style={{paddingTop:5}}>
 
-      <AppBar className={classes.AppBar} position='reñative' color="transparent">
+      <AppBar className={classes.AppBar} position='relative' color="transparent">
         <Toolbar className={classes.toolbar}  >
           <IconButton
             color="inherit"
@@ -167,7 +225,7 @@ export default function SeleccionParadas(props) {
           </AppBar>
          </Paper>   
          <Paper superficie={3} variant="outlined" square style={{paddingTop:5}}>
-          <FormControlLabelPlacement setParadas = {setParadas}></FormControlLabelPlacement>
+          <FormControlLabelPlacement setParadas = {setParadas}   grupo= {grupo}></FormControlLabelPlacement>
         </Paper>
         <Paper  variant="outlined" square style={{paddingTop:5}}>
         <TextoParadas txtParadas = {paradas} setParadas = {setParadas}></TextoParadas>
@@ -185,20 +243,47 @@ export default function SeleccionParadas(props) {
 function FormControlLabelPlacement(props) {
  
   const [value, setValue] = React.useState('');
-  const {setParadas} = props
+  const {setParadas,grupo} = props
 
-  
+  console.log("Radios",grupo,setParadas) 
   const handleRadioChange = (event) => {
     console.log(event.target.value)
     setParadas (event.target.value)
   }
-
-
+ 
+ if (grupo!=='')
+  {
+    var grupoJSON = JSON.parse(grupo)
+    console.log('GrupoJSON',grupoJSON)
   return (
+    
     <FormControl component="fieldset">
       <FormLabel component="legend">Paradas</FormLabel>
-      <RadioGroup row aria-label="position" onChange={handleRadioChange} 
-       name="position" defaultValue="top" >
+      <RadioGroup row aria-label="Paradas" onChange={handleRadioChange} 
+       name="paradas" defaultValue="top" >
+         {      
+          grupoJSON.map((dato, index) => (
+          <FormControlLabel
+          value={dato.paradas}
+          control={<Radio color="primary" disabled={dato.nombre===''}   style = {{visibility:dato.nombre!==''?'visible':'hidden'}} />}
+          label={dato.nombre}
+          labelPlacement="end"
+        
+        />
+        ))}
+      
+      </RadioGroup>
+    </FormControl>
+  );
+          }
+  else
+  return (
+    
+    <FormControl component="fieldset">
+      <FormLabel component="legend">Paradas</FormLabel>
+      <RadioGroup row aria-label="Paradas" onChange={handleRadioChange} 
+       name="paradas" defaultValue="top" >
+       
         <FormControlLabel
           value="253,47"
           control={<Radio color="primary" />}
@@ -210,6 +295,8 @@ function FormControlLabelPlacement(props) {
           control={<Radio color="primary" />}
           label="Llegada a Prado"
           labelPlacement="end"
+          style={{visibility:'hidden'}}
+          
         />
         <FormControlLabel
           value="21"
