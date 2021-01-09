@@ -150,7 +150,7 @@ console.log("grupo", grupo,grupo0)
       </List>
       <Divider />
       <List>
-        {['Nuevo grupo ', 'Borrar'].map((text, index) => (
+        {['Nuevo grupo ','Editar grupo' , 'Borrar grupo'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemText primary={text} />
           </ListItem>
@@ -244,16 +244,30 @@ function FormControlLabelPlacement(props) {
  
   const [value, setValue] = React.useState('');
   const {setParadas,grupo} = props
-
+  
   console.log("Radios",grupo,setParadas) 
   const handleRadioChange = (event) => {
-    console.log(event.target.value)
     setParadas (event.target.value)
+    setValue(event.target.value)
   }
  
+  useEffect(() => {
+    function setDefecto(grupo)
+    {
+      let datos = JSON.parse(grupo)
+      setParadas(datos[0].paradas)
+      setValue(datos[0].paradas)
+    }
+    if (grupo!=='')
+      setDefecto(grupo);
+    
+  }, [grupo])
+
+
  if (grupo!=='')
   {
     var grupoJSON = JSON.parse(grupo)
+    
     console.log('GrupoJSON',grupoJSON)
   return (
     
@@ -265,7 +279,11 @@ function FormControlLabelPlacement(props) {
           grupoJSON.map((dato, index) => (
           <FormControlLabel
           value={dato.paradas}
-          control={<Radio color="primary" disabled={dato.nombre===''}   style = {{visibility:dato.nombre!==''?'visible':'hidden'}} />}
+          control={           
+          <Radio   
+          checked = {dato.paradas===value}        
+          color="primary" disabled={dato.nombre===''}   style = {{visibility:dato.nombre!==''?'visible':'hidden'}} />
+          }
           label={dato.nombre}
           labelPlacement="end"
         
