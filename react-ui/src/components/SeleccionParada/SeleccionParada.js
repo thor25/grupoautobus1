@@ -69,7 +69,7 @@ export default function SeleccionParadas(props) {
   const [grupoParada,setgrupoParada] = useState('')
  
   const { window, grupos } = props;
-  console.log(grupos)
+  // console.log(grupos)
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -95,7 +95,7 @@ export default function SeleccionParadas(props) {
   {
     var g = datos[index]
 
-    console.log("update",index,arrayGrupos[index],datos,g, g.value.nombre)
+    // console.log("update",index,arrayGrupos[index],datos,g, g.value.nombre)
     setgrupoParada(g.value.nombre)
     grupo0 = []
     
@@ -105,7 +105,7 @@ export default function SeleccionParadas(props) {
 
     setgrupo(JSON.stringify(grupo0))
 
-console.log("grupo", grupo,grupo0)
+// console.log("grupo", grupo,grupo0)
 
    
 //    setgrupo(... [subgrupos],arrayGrupos[index].nombre)
@@ -113,7 +113,7 @@ console.log("grupo", grupo,grupo0)
 
   }
   function ponerDatosRadio(sg, subgrupos) {
-    console.log(sg);
+    // console.log(sg);
 
     if (sg!==undefined)
       subgrupos.push({ nombre: sg['nombre'], paradas: sg['paradas'] });
@@ -124,9 +124,9 @@ console.log("grupo", grupo,grupo0)
   
   const handleListItemClick = (event,text,index) =>
   {
-    console.log('Click',index,arrayGrupos,arrayGrupos[index].value)
+    // console.log('Click',index,arrayGrupos,arrayGrupos[index].value)
     updateGrupo(index,arrayGrupos)
-    console.log("handle", grupo0)
+    // console.log("handle", grupo0)
 
     setMobileOpen(!mobileOpen);
   }
@@ -245,7 +245,7 @@ function FormControlLabelPlacement(props) {
   const [value, setValue] = React.useState('');
   const {setParadas,grupo} = props
   
-  console.log("Radios",grupo,setParadas) 
+  // console.log("Radios",grupo,setParadas) 
   const handleRadioChange = (event) => {
     setParadas (event.target.value)
     setValue(event.target.value)
@@ -268,7 +268,7 @@ function FormControlLabelPlacement(props) {
   {
     var grupoJSON = JSON.parse(grupo)
     
-    console.log('GrupoJSON',grupoJSON)
+    // console.log('GrupoJSON',grupoJSON)
   return (
     
     <FormControl component="fieldset">

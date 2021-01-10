@@ -13,8 +13,6 @@ import EmptyState from "../EmptyState";
 import { ReactComponent as CabinIllustration } from "../../illustrations/cabin.svg";
 import { ReactComponent as InsertBlockIllustration } from "../../illustrations/insert-block.svg";
 
-import Paradas from "../Paradas"
-import Lista from "../Lista"
 import SeleccionParada from "../SeleccionParada";
 
 class HomePage extends Component {

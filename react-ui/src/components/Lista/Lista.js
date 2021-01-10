@@ -18,13 +18,10 @@ import Typography from '@material-ui/core/Typography';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-
- 
-
 export default function Lista(props)
 {
  const {paradas} = props
- console.log(paradas)
+//  console.log(paradas)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     
@@ -61,7 +58,7 @@ export default function Lista(props)
           }
         
           try {
-            console.log("fetchdata", paradas,options)
+            // console.log("fetchdata", paradas,options)
 
             const res = await fetch(url, options);
             const json = await res.json();
@@ -88,7 +85,7 @@ export default function Lista(props)
       //   data.parada ="26"
       //   options.body=  JSON.stringify(data)      
         setRefresh(true) 
-        console.log("resultado-set url",result)   
+        // console.log("resultado-set url",result)   
   /*    if (error)
          enqueueSnackbar(error, { 
           variant: 'error',
@@ -99,7 +96,7 @@ export default function Lista(props)
            });
 */
      }
-     console.log("resultado",result)
+    //  console.log("resultado",result)
      if (result === null) {
       return (
         <div>
@@ -124,7 +121,7 @@ export default function Lista(props)
         <List dense={dense}>
         { result.map((value,index) =>(
                 
-                <ListItem key={index}>  
+                <ListItem key={index} divider>  
                 <ListItemAvatar>
                   <Avatar style={{backgroundColor:value.color,color:"white"}}>
                     {value.linea}

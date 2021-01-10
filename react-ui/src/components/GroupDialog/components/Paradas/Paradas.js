@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react"
-import firebase, { firestore } from "../../firebase"
+import firebase, { firestore } from "../../../../firebase"
 
 export default function Paradas () {
 
@@ -24,7 +24,7 @@ export default function Paradas () {
     });
   
 
-      console.log('datos')
+      // console.log('datos')
   }, [])
   
     return (

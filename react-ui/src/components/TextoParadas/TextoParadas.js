@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InputAdornments(props) {
   const {setParadas,txtParadas} = props
-  console.log("txt",props)
+  // console.log("txt",props)
   const classes = useStyles();
   const [values, setValues] = React.useState({
     amount: '',
@@ -49,7 +49,7 @@ export default function InputAdornments(props) {
   React.useEffect(() => {
     function fijarParadas()
     {
-      console.log("useEffect")
+      // console.log("useEffect")
       setparadas(txtParadas)
     }
     fijarParadas()
@@ -57,7 +57,7 @@ export default function InputAdornments(props) {
   
   const handleChange = () => (event) => {
    //  setValues({ ...values, [prop]: event.target.value });
-   console.log(event.target.value)
+  //  console.log(event.target.value)
    setError(true)
    setparadas(event.target.value)
 };

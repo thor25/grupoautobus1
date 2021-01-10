@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 
 import PropTypes from "prop-types";
 
-import { Card, CardHeader } from "@material-ui/core";
+import { Card, CardActions, CardContent, CardHeader } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -10,10 +10,15 @@ import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from '@material-ui/lab/TreeItem';
 
 import { v4 as uuid } from "uuid";
+import Button from '@material-ui/core/Button';
 
-
+import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+
+import GroupDialog from "../GroupDialog"
 
 export const seasons = [
   {
@@ -111,7 +116,10 @@ const useStyles = makeStyles((theme) => ({
 export default function UserCard(props) {
   const user = props.user;
   const [arbol, setArbol] = useState([])
-const classes = useStyles();
+  const [padre, setPadre] = useState(null)
+  const [open,setOpen]=useState(false)
+  const classes = useStyles();
+
 
   console.log(user)
   const grupos = user.grupos
@@ -119,25 +127,25 @@ const classes = useStyles();
   useEffect(() => {
     function SetTreeData() 
     {
-      console.log(grupos)
+      // console.log(grupos)
       var arr = [];
       Object.keys(grupos).forEach(function(key) {
         let subgrupos = grupos[key]
-        console.log("Grupo",subgrupos)
+        // console.log("Grupo",subgrupos)
         let datosNodo = {id:uuid(),name:subgrupos.nombre,children:[]}
         Object.keys(subgrupos).forEach(function(key0) {
-          console.log("subgrupo",subgrupos[key0])
+          // console.log("subgrupo",subgrupos[key0])
             if (subgrupos[key0].nombre!==undefined)
             datosNodo.children.push(
               { 
                 id:uuid(),
-                name:`${subgrupos[key0].nombre} : ${subgrupos[key0].paradas}` 
+                name:`${subgrupos[key0].nombre}.- ${subgrupos[key0].paradas}` 
               });
         }
         );
         arr.push(datosNodo);
       });
-      console.log(arr)
+      // console.log(arr)
      
       setArbol(arr)
      
@@ -148,8 +156,62 @@ const classes = useStyles();
       
     }
   }, [])
+  const handleTreeSelected =( event, value)=>
+  {
+  console.log("treeSelect",event.target, value)
+   var padre = 1
+   var valorBusqueda = {}
  
-   
+  arbol.map((dato)=>
+ 
+    {
+    if (dato.id===value)
+      {
+        valorBusqueda = {
+        'grupo' : padre,
+        'subgrupo' : 0,
+        'dato':dato
+        }
+      }
+    var hijo = 1
+    dato.children.map((child)=>{
+      if (child.id===value)
+      {
+        valorBusqueda = {
+        'grupo' : padre,
+        'subgrupo' : hijo,
+        'dato':dato
+        }
+      }
+      hijo ++
+
+    })  
+      padre++;
+    }
+    
+  )
+  setPadre(valorBusqueda)
+  console.log("valor", valorBusqueda.dato,padre)
+  
+  }
+
+  // Control Dialog
+  const handleClickEdit = () =>{
+    setOpen(true);
+
+  } 
+
+  const handleClose = () => {
+    console.log("Close Dialog")
+    setOpen(false);
+  };
+
+
+
+  const handleSelectNode = (event, nodeIds)=> 
+  {
+    console.log("Node", event.target.label, nodeIds)
+  }
   const getTreeItemsFromData = treeItems => {
     return treeItems.map(treeItemData => {
       let children = undefined;
@@ -158,11 +220,11 @@ const classes = useStyles();
       }
       return (
         <TreeItem
-          key={treeItemData.id}
+          key={treeItemData.name}
           nodeId={treeItemData.id}
           label={treeItemData.name}
           children={children}
-        />
+         />
       );
     });
   };
@@ -171,6 +233,7 @@ const classes = useStyles();
       <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
+        onNodeSelect={handleTreeSelected}
       >
         {getTreeItemsFromData(treeItems)}
       </TreeView>
@@ -184,11 +247,41 @@ const classes = useStyles();
         title={`${user.firstName} ${user.lastName}`}
         subheader={user.username}
       />
+      <CardContent>
+         <DataTreeView treeItems={arbol} />
+
+      </CardContent>
+      <CardActions>
+         <Button
+        variant="contained"
+        color="default"
+        className={classes.button}
+        startIcon={<AddIcon />}
+      >  Añadir
+      </Button> 
+      <Button
+        onClick={handleClickEdit}
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        startIcon={<EditIcon />}
+      >  Editar
+      </Button>
+         <Button
+        variant="contained"
+        color="secondary"
+        className={classes.button}
+        startIcon={<DeleteIcon />}
+      >  Borrar
+      </Button>
+      </CardActions>
+      
     </Card>
+    <GroupDialog open={open} handleClose={handleClose} grupo={padre} ></GroupDialog>
     </Grid>
     <Grid item xs={12} sm={6}>
     <Paper  className={classes.paper}>
-    <DataTreeView treeItems={arbol} />
+    <DataTreeView id="idArbol" treeItems={arbol} />
     </Paper>
      </Grid>
     <Grid item xs={12} sm={6}>
