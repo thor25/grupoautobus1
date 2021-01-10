@@ -7,7 +7,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import Chip from '@material-ui/core/Chip';
+
 import SubgrupoDlg from "./components/SubgruposDlg"
+
 
 export default function FormDialog(props) {
     const {open, handleClose, grupo} = props
@@ -42,6 +45,12 @@ useEffect(() => {
             value = {nombre}
           />
         <SubgrupoDlg grupo={grupo} index={0}></SubgrupoDlg>
+        <SubgrupoDlg grupo={grupo} index={1}></SubgrupoDlg>
+        <SubgrupoDlg grupo={grupo} index={2}></SubgrupoDlg>
+        { ["hola","adios"].map ((dato)=>
+            ( <Chip label={dato  } onDelete={() => {}} />))
+           
+           }
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

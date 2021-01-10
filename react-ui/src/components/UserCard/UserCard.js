@@ -265,6 +265,7 @@ export default function UserCard(props) {
         color="primary"
         className={classes.button}
         startIcon={<EditIcon />}
+        disabled = {padre===null}
       >  Editar
       </Button>
          <Button
@@ -272,6 +273,8 @@ export default function UserCard(props) {
         color="secondary"
         className={classes.button}
         startIcon={<DeleteIcon />}
+        disabled = {padre===null}
+
       >  Borrar
       </Button>
       </CardActions>
