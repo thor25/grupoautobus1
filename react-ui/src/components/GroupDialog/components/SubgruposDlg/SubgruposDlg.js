@@ -101,16 +101,7 @@ export default function SubgruposDlg(props) {
       
     }
  }, [grupo])
- function renderChips()
- {
-   console.log("chips", parada)
-   return 
-    { ["hola","adios"].map((datos)=>{
-       <Chip label={datos}></Chip>
-     })
-   
-    }
- }
+ 
 
  function handleClick(index)
  {
