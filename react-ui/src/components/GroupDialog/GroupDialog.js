@@ -47,10 +47,7 @@ useEffect(() => {
         <SubgrupoDlg grupo={grupo} index={0}></SubgrupoDlg>
         <SubgrupoDlg grupo={grupo} index={1}></SubgrupoDlg>
         <SubgrupoDlg grupo={grupo} index={2}></SubgrupoDlg>
-        { ["hola","adios"].map ((dato)=>
-            ( <Chip label={dato  } onDelete={() => {}} />))
-           
-           }
+      
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

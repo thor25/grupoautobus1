@@ -16,6 +16,12 @@ import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+
+
+import firebase, { firestore } from "../../../../firebase"
+import { deprecatedPropType } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,32 +65,85 @@ export default function SubgruposDlg(props) {
  const [paradas, setparadas] = useState('')
  const [parada, setparada] = useState([])
  const [chips,setchips] = useState([])
+ const [lista, setlista] = useState([])
+
+ const [checked, setChecked] = React.useState([0]);
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
 
 
+ const paradasRef =   firestore.collection("paradas")
+ 
+ const getData = async(array) => {
+  return Promise.all( array.map(async (dato)=>{
+    var jsonParada = {numero:dato, lineas:[], todo:[]}
+
+    var indice = dato.indexOf(':')
+    if (indice>-1)
+    {
+      jsonParada.numero=dato.substring(0,indice)
+      jsonParada.lineas = dato.substring(indice+1).split('-')
+    }
+    
+    let todo =await  paradasRef.where("NODO", "==", parseInt(jsonParada.numero)).get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        console.log('No matching documents.');
+        return [];
+      }
+   
+      var lineas = []
+    
+      snapshot.forEach(doc => {
+     //   console.log(doc.id, '=>', doc.data());
+       // jsonParada.todo.push(doc.data().LINEA)
+        lineas.push({
+          nombre:doc.data()['NOMBRE PARADA'],
+          linea: doc.data().LINEA})
+       });
+
+       return lineas
+      
+    })
+    .catch(err => {
+      console.log('Error getting documents', err);
+    });
+    jsonParada = 
+    {
+      numero : jsonParada.numero,
+      lineas : jsonParada.lineas,
+      todo : todo
+    }
+
+   return jsonParada
+  }))
+ }
  useEffect(() => {
-     function  formatText  (texto) {
+     async function  formatText  (texto) {
       var datosParada = []
 
         var valores=texto.split('.-')
         setnombre ( valores[0].trim())
         setparadas ( valores[1].trim())
         var array = valores[1].split(',')
-        var jsonParada = {}
-        array.map((dato)=>{
-          jsonParada = {numero:dato, lineas:[]}
-          var indice = dato.indexOf(':')
-          if (indice>-1)
-          {
-            jsonParada.numero=dato.substring(0,indice-1)
-            jsonParada.lineas = dato.substring(indice+1).split('-')
-          }
-         parada.push(jsonParada)
-        })
-        setchips(parada[0].lineas)
+        var jsonParada = await  getData( valores[1].split(','))
+        setparada(jsonParada)
+        console.log("parada",jsonParada,parada)
+        return jsonParada
+       }
 
-        console.log("parada:",parada)
 
-     }
      if (grupo!==null){
        {
          var sg = grupo.dato.children[index]
@@ -93,7 +152,7 @@ export default function SubgruposDlg(props) {
          {
           var s = sg.name
           if (s)
-            formatText(s)
+             formatText(s)
          }
        }
      }
@@ -105,8 +164,17 @@ export default function SubgruposDlg(props) {
 
  function handleClick(index)
  {
-   console.log( index) 
-   
+   console.log( index, parada[index]) 
+   setlista(parada[index].todo)
+   var array = []
+   parada[index].todo.map((dato)=>{
+   array.push(dato.linea)
+
+   }
+   );
+   setlista(array)
+   console.log( "lista" , lista) 
+
  }
  console.log("Subgrupo", grupo, index)
   return (
@@ -147,13 +215,25 @@ export default function SubgruposDlg(props) {
         }
           </div>
           <div className={classes.column}>
+         
           <List>
-          {chips.map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={`${index}.-${text}`} />
+          {lista.map((dato, value) => (
+           
+          <ListItem key={dato}>
+          <ListItemIcon>
+              <Checkbox
+                edge="start"
+                checked={checked.indexOf(value) !== -1}
+                tabIndex={-1}
+                disableRipple
+                inputProps={{ 'aria-labelledby': value }}
+              />
+            </ListItemIcon>
+            <ListItemText id={value} primary={`Linea ${dato}`} />
           </ListItem>
-        ))}
+          ))}
       </List>
+          
           </div>
           <div className={clsx(classes.column, classes.helper)}>
             <Typography variant="caption">
