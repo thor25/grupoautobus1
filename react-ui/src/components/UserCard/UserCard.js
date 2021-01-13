@@ -20,87 +20,6 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import GroupDialog from "../GroupDialog"
 
-export const seasons = [
-  {
-    id: uuid(),
-    name: "Seasons",
-    children: [
-      {
-        id: uuid(),
-        name: "Summer",
-        children: [
-          {
-            id: uuid(),
-            name: "June"
-          },
-          {
-            id: uuid(),
-            name: "July"
-          },
-          {
-            id: uuid(),
-            name: "August"
-          }
-        ]
-      },
-      {
-        id: uuid(),
-        name: "Fall",
-        children: [
-          {
-            id: uuid(),
-            name: "September"
-          },
-          {
-            id: uuid(),
-            name: "October"
-          },
-          {
-            id: uuid(),
-            name: "November"
-          }
-        ]
-      },
-      {
-        id: uuid(),
-        name: "Winter",
-        children: [
-          {
-            id: uuid(),
-            name: "December"
-          },
-          {
-            id: uuid(),
-            name: "January"
-          },
-          {
-            id: uuid(),
-            name: "February"
-          }
-        ]
-      },
-      {
-        id: uuid(),
-        name: "Spring",
-        children: [
-          {
-            id: uuid(),
-            name: "March"
-          },
-          {
-            id: uuid(),
-            name: "April"
-          },
-          {
-            id: uuid(),
-            name: "May"
-          }
-        ]
-      }
-    ]
-  }
-];
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -241,8 +160,14 @@ export default function UserCard(props) {
   };
   return (
     <Grid container spacing={3} className={classes.root}>
-    <Grid item xs={12}>
-    <Card  className={classes.paper}  xs={12}>
+    <Grid item xs={12}
+    direction="row"
+  justify="center"
+  alignItems="stretch">
+    <Card  className={classes.paper}   
+  direction="column"
+  justify="center"
+  alignItems="stretch">
       <CardHeader  className={classes.paper}
         title={`${user.firstName} ${user.lastName}`}
         subheader={user.username}
@@ -280,17 +205,13 @@ export default function UserCard(props) {
       </CardActions>
       
     </Card>
+    </Grid>
+
     <GroupDialog open={open} handleClose={handleClose} grupo={padre} ></GroupDialog>
+   
     </Grid>
-    <Grid item xs={12} sm={6}>
-    <Paper  className={classes.paper}>
-    <DataTreeView id="idArbol" treeItems={arbol} />
-    </Paper>
-     </Grid>
-    <Grid item xs={12} sm={6}>
-      <Paper className={classes.paper}>xs=12 sm=6</Paper>
-    </Grid>
-    </Grid>
+    
+    
   );
 }
 

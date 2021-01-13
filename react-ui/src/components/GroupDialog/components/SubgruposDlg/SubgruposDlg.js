@@ -66,6 +66,7 @@ export default function SubgruposDlg(props) {
  const [parada, setparada] = useState([])
  const [chips,setchips] = useState([])
  const [lista, setlista] = useState([])
+ const [nombreParada, setnombreParada] = useState('')
 
  const [checked, setChecked] = React.useState([0]);
 
@@ -169,12 +170,10 @@ export default function SubgruposDlg(props) {
    var array = []
    parada[index].todo.map((dato)=>{
    array.push(dato.linea)
-
    }
    );
+   setnombreParada(parada[index].todo[0].nombre)
    setlista(array)
-   console.log( "lista" , lista) 
-
  }
  console.log("Subgrupo", grupo, index)
   return (
@@ -210,12 +209,9 @@ export default function SubgruposDlg(props) {
           {
         parada.map((dato, index) => 
             ( <Chip label={dato.numero  } onClick={()=>{handleClick(index)}} onDelete={() => {}} />))
-           
-           
         }
           </div>
           <div className={classes.column}>
-         
           <List>
           {lista.map((dato, value) => (
            
@@ -237,19 +233,19 @@ export default function SubgruposDlg(props) {
           </div>
           <div className={clsx(classes.column, classes.helper)}>
             <Typography variant="caption">
-              Select your destination of choice
+             {nombreParada}
               <br />
               <a href="#secondary-heading-and-columns" className={classes.link}>
-                Learn more
+                Saber más
               </a>
             </Typography>
           </div>
         </AccordionDetails>
         <Divider />
         <AccordionActions>
-          <Button size="small">Cancel</Button>
+          <Button size="small">Cancelar</Button>
           <Button size="small" color="primary">
-            Save
+            Salvar
           </Button>
         </AccordionActions>
       </Accordion>

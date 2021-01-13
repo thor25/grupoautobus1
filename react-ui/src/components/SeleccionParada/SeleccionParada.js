@@ -148,14 +148,7 @@ export default function SeleccionParadas(props) {
           </ListItem>
         ))}
       </List>
-      <Divider />
-      <List>
-        {['Nuevo grupo ','Editar grupo' , 'Borrar grupo'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+    
     
     </div>
   );
