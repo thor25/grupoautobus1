@@ -179,7 +179,7 @@ export default function SubgruposDlg(props) {
  console.log("Subgrupo", grupo, index)
   return (
     <div className={classes.root}>
-      <Accordion defaultExpanded>
+      <Accordion defaultExpanded = {false}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1c-content"
