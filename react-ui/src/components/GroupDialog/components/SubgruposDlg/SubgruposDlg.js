@@ -334,7 +334,7 @@ export default function SubgruposDlg(props) {
           {
         parada.map((dato, index) => 
             ( <Chip label={dato.numero  } 
-            color='primarty'
+            color='primary'
             clickcable
             onClick={()=>{handleClick(index)}} onDelete={() => {handleDelete(index,dato.numero)}} />))
         }
