@@ -19,6 +19,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 
+import ParadasDialog from "../ParadasDialog"
 
 import firebase, { firestore } from "../../../../firebase"
 import { deprecatedPropType } from '@material-ui/core';
@@ -67,8 +68,11 @@ export default function SubgruposDlg(props) {
  const [chips,setchips] = useState([])
  const [lista, setlista] = useState([])
  const [nombreParada, setnombreParada] = useState('')
+ const [indice, setindice] = useState(0)
 
  const [checked, setChecked] = React.useState([0]);
+
+ const [open, setOpen] = useState(false)
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -79,8 +83,41 @@ export default function SubgruposDlg(props) {
     } else {
       newChecked.splice(currentIndex, 1);
     }
-
+    var lineas = parada[indice].todo
+    console.log("checked", indice, parada[indice], paradas)
     setChecked(newChecked);
+    var txtLineas = ""
+    console.log("txtParadas",txtLineas)
+
+    newChecked.map((nombre)=>{
+      var linea = lineas[nombre].linea
+      console.log("check",linea,txtLineas)
+      if (txtLineas.length>0)
+        txtLineas = txtLineas+"-"+linea
+      else
+        txtLineas = linea
+
+    })
+    txtLineas = ":"+txtLineas
+    console.log("txtParadas",txtLineas)
+   var txtParada=paradas.split(',')
+   txtParada[indice]= txtParada[indice]+txtLineas
+   var i = txtParada[indice].indexOf(':')
+   if (i!=-1)
+        txtParada[indice]=txtParada[indice].substring(0,i)
+   txtParada[indice]=txtParada[indice]+txtLineas
+   console.log(txtParada[indice],i)
+   var txtParadas = ""
+   txtParada.map((linea)=>{
+    if (txtParadas.length==0)
+        txtParadas = linea
+    else
+       txtParadas += ','+linea
+
+
+   })    
+   console.log("txtParadas", txtParadas)
+   setparadas(txtParadas)
   };
 
 
@@ -130,6 +167,7 @@ export default function SubgruposDlg(props) {
    return jsonParada
   }))
  }
+
  useEffect(() => {
      async function  formatText  (texto) {
       var datosParada = []
@@ -161,20 +199,106 @@ export default function SubgruposDlg(props) {
       
     }
  }, [grupo])
- 
+
 
  function handleClick(index)
- {
+ { 
+  
+  setindice(index)
+  var  newChecked = [];
    console.log( index, parada[index]) 
-   setlista(parada[index].todo)
+  //  setlista(parada[index].todo)
    var array = []
+   var valor = 0  
    parada[index].todo.map((dato)=>{
-   array.push(dato.linea)
+     var s=dato.linea;
+     if (!array.includes (s))
+     {
+          array.push(s)
+          newChecked.push(valor)
+          valor++;
+
+     }
    }
    );
+
+   var lineas0 = parada[index].lineas
+   if (lineas0.length!==0)
+   {
+     console.log("lineas",lineas0)
+   newChecked = []
+   lineas0.map((dato)=>{
+    
+    var i = array.indexOf (dato) 
+    console.log(i,dato)
+    if (i!==-1)
+         newChecked.push(i)
+
+ }
+  );
+   }  
+   setChecked(newChecked)
+
    setnombreParada(parada[index].todo[0].nombre)
    setlista(array)
  }
+ const handleDelete = (index,txtParada)=>
+ {
+   var valor = parada
+   valor.splice(index,1)
+   setparada(valor)
+
+   console.log("delete", txtParada,index,valor,parada)
+   var txtParadas = ''
+   var lineas = paradas.split(',')
+   lineas.map((linea)=>
+   {
+    var i = linea.indexOf(':')
+    var s
+    if (i!=-1)
+      s = linea.substring(0,i)
+    else
+      s = linea
+    if (s!==txtParada)
+      if (txtParadas.length===0)
+        txtParadas = s
+      else
+        txtParadas=txtParadas+','+s
+    console.log("linea",s,i,txtParadas)
+   })
+   if (parada.length>0)
+      handleClick(0)
+    else
+    if  (parada.length===0)
+    {
+      setlista([])
+       setnombreParada("")
+       txtParadas = ''
+    }
+    setparadas(txtParadas)
+ }
+ const handleClickAccept = ()=>
+ {
+   console.log("accept", parada,indice)
+ }
+
+ const handleClose = async  (valor) => {
+  console.log("Close Dialog")
+  setOpen(false);
+  console.log(valor)
+  var valor0 = []
+  valor0.push(valor)
+  var jsonParada = await  getData(valor0)
+  var newPar = parada
+  newPar.push(jsonParada[0])
+
+
+  console.log("jsonParada", jsonParada, newPar)
+  setparada(newPar)
+  console.log(parada[0])
+  handleClick(0)
+};
+
  console.log("Subgrupo", grupo, index)
   return (
     <div className={classes.root}>
@@ -196,7 +320,7 @@ export default function SubgruposDlg(props) {
           </div>
           <div className={classes.column}>
             <TextField className={classes.secondaryHeading}
-             value={paradas}
+            value={paradas}
             margin="dense"
             id={`paradas${index}`}
             label="Lista de paradas"
@@ -206,16 +330,21 @@ export default function SubgruposDlg(props) {
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
           <div className={classes.column} >
+          
           {
         parada.map((dato, index) => 
-            ( <Chip label={dato.numero  } onClick={()=>{handleClick(index)}} onDelete={() => {}} />))
+            ( <Chip label={dato.numero  } 
+            color='primarty'
+            clickcable
+            onClick={()=>{handleClick(index)}} onDelete={() => {handleDelete(index,dato.numero)}} />))
         }
+          <Chip label = 'Add' enable = {false} onClick={()=>{setOpen(true)}} ></Chip>
           </div>
           <div className={classes.column}>
           <List>
           {lista.map((dato, value) => (
            
-          <ListItem key={dato}>
+          <ListItem key={dato} onClick={handleToggle(value)}>
           <ListItemIcon>
               <Checkbox
                 edge="start"
@@ -225,7 +354,7 @@ export default function SubgruposDlg(props) {
                 inputProps={{ 'aria-labelledby': value }}
               />
             </ListItemIcon>
-            <ListItemText id={value} primary={`Linea ${dato}`} />
+            <ListItemText id={value} primary={dato} />
           </ListItem>
           ))}
       </List>
@@ -244,12 +373,12 @@ export default function SubgruposDlg(props) {
         <Divider />
         <AccordionActions>
           <Button size="small">Cancelar</Button>
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={handleClickAccept}>
             Salvar
           </Button>
         </AccordionActions>
       </Accordion>
-      
+      <ParadasDialog open={open} onClose={handleClose}></ParadasDialog>
     </div>
   );
 }
