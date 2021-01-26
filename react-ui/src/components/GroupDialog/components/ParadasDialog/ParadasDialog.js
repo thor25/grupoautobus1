@@ -7,9 +7,32 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import Paradas from "../Paradas"
+
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}));
+
+
+ 
+
+
 export default function ParadasDialog(props) {
   const {open,onClose} = props
   const [valor, setvalor] =React.useState('')
+  const classes = useStyles();
+
   const handleChange = (event) => {
     setvalor( event.target.value );
   };
@@ -34,6 +57,9 @@ export default function ParadasDialog(props) {
           <DialogContentText>
             Indique la parada a añadir
           </DialogContentText>
+        <Grid container spacing={3}>
+         <Grid item xs={12}>
+          <Paper className={classes.paper}>
           <TextField
             autoFocus
             margin="dense"
@@ -44,6 +70,14 @@ export default function ParadasDialog(props) {
             onChange={handleChange}
 
           />
+          
+          </Paper>
+          <Grid item xs={12}>
+            <Paradas></Paradas>
+          </Grid>
+         </Grid>
+        </Grid>  
+         
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

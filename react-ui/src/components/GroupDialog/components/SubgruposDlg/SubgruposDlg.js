@@ -286,6 +286,7 @@ export default function SubgruposDlg(props) {
   console.log("Close Dialog")
   setOpen(false);
   console.log(valor)
+  if (valor ==='') return
   var valor0 = []
   valor0.push(valor)
   var jsonParada = await  getData(valor0)
