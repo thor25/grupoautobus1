@@ -6,6 +6,16 @@ const numCPUs = require('os').cpus().length;
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
+const urlBase = "http://94.198.88.152:9005/INFOTUS/API/"
+
+const headers = {
+  
+  //headers.append('Content-Type', 'text/json');
+  'Authorization': 'Basic aW5mb3R1cy11c2VybW9iaWxlOmluZm90dXMtdXNlcm1vYmlsZQ==',
+  "content-type": "application/json",
+  "deviceid": "0b525b54-dcc5-11ea-87d0-0242ac130003",
+  "cache-control": "no-cache"
+  }
 
 const bodyParser = require('body-parser');
 
@@ -144,15 +154,7 @@ if (!isDev && cluster.isMaster) {
   {
     console.log('get datos', node)
     let url ="http://94.198.88.152:9005/INFOTUS/API/tiempos/" 
-    let headers = {
-  
-      //headers.append('Content-Type', 'text/json');
-      'Authorization': 'Basic aW5mb3R1cy11c2VybW9iaWxlOmluZm90dXMtdXNlcm1vYmlsZQ==',
-      "content-type": "application/json",
-      "deviceid": "0b525b54-dcc5-11ea-87d0-0242ac130003",
-      "cache-control": "no-cache"
-      }
-
+    
       await fetch(url+node, {
         method: 'get',
         headers: headers,
@@ -303,7 +305,7 @@ if (!isDev && cluster.isMaster) {
   async function post(request)
   {
     //  let url = "http://www.infobustussam.com:9005/InfoTusWS/services/InfoTus?WSDL";
-    let url ="http://94.198.88.152:9005/INFOTUS/API/tiempos/"
+    let url =urlBase+"tiempos/"
     
     jsParadas=[]       
     var valores  = request.body
@@ -393,6 +395,95 @@ const getItem =  (key) => {
     // CallTussam(); Se incorpora al final . Funciona fetch
     res.set('Content-Type', 'application/json');
     res.send('{"message":"Hola. Se ha accedido a times!"}');
+  });
+  app.get('/nodoslinea', async function (req,res)
+  {
+    console.log(req.query)
+    var linea = req.query.linea
+    var sentido = 1
+    var url = `${urlBase}nodosLinea/${linea}?sentido=${sentido}`
+    var valor  = {"linea":linea,"sentido":[]};
+
+    console.log(url)
+    await fetch( `${urlBase}nodosLinea/${linea}?sentido=${sentido}`, {
+      method: 'get',
+      headers: headers,
+      //   credentials: 'infotus-usermobile:2infotus0user1mobile2'
+    })      
+      .then(response => response.json())
+      .then(data => {
+       if (data!=null)
+       {
+         valor.sentido.push({"paradas":[]})
+        //console.log(data)
+         data.forEach(dato=>{
+           valor.sentido[0].paradas.push({'codigo':dato.codigo,'descripcion':dato.descripcion.texto})
+         })
+          
+       }
+      }
+      ).catch(function (e) {
+        //  alert("error en datos de tussam")
+         console.error(e);
+       });
+       sentido = 2
+       console.log( `${urlBase}nodosLinea/${linea}?sentido=${sentido}`)
+       await fetch( `${urlBase}nodosLinea/${linea}?sentido=${sentido}`, {
+         method: 'get',
+         headers: headers,
+         //   credentials: 'infotus-usermobile:2infotus0user1mobile2'
+       })      
+         .then(response => response.json())
+         .then(data => {
+          if (data!=null)
+          {
+            if (data!=null)
+       {
+         valor.sentido.push({"paradas":[]})
+        //console.log(data)
+         data.forEach(dato=>{
+           valor.sentido[1].paradas.push({'codigo':dato.codigo,'descripcion':dato.descripcion.texto})
+         })
+          
+       }
+             
+          }
+         }
+         ).catch(function (e) {
+           //  alert("error en datos de tussam")
+            console.error(e);
+          });
+    console.log("valor",valor)
+    res.set('Content-Type', 'application/json');
+    res.send(valor);
+  })
+
+  app.get('/lineas', async function  (req, res) {
+    // CallTussam(); Se incorpora al final . Funciona fetch
+    var valor  = [];
+    await fetch(urlBase+"lineas/todas", {
+      method: 'get',
+      headers: headers,
+      //   credentials: 'infotus-usermobile:2infotus0user1mobile2'
+    })      
+      .then(response => response.json())
+      .then(data => {
+       if (data!=null)
+       {
+       //  console.log(data)
+         //var valores = data.lineasDisponibles;
+         data.forEach(dato=>{
+           valor.push({'linea':dato.linea,'labelLinea':dato.labelLinea,'descripcion':dato.descripcion.texto})
+         })     
+       }
+      }
+      ).catch(function (e) {
+        //  alert("error en datos de tussam")
+         console.error(e);
+       });
+    console.log("valor",valor)
+    res.set('Content-Type', 'application/json');
+    res.send(valor);
   });
 
   app.get('/paradas', async (req, res) =>{
