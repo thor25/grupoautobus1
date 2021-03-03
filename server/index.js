@@ -140,7 +140,33 @@ if (!isDev && cluster.isMaster) {
     return JSON.stringify(datos);
     
   }
+  async function getDatosParadas(node)
+  {
+    console.log('get datos', node)
+    let url ="http://94.198.88.152:9005/INFOTUS/API/tiempos/" 
+    let headers = {
+  
+      //headers.append('Content-Type', 'text/json');
+      'Authorization': 'Basic aW5mb3R1cy11c2VybW9iaWxlOmluZm90dXMtdXNlcm1vYmlsZQ==',
+      "content-type": "application/json",
+      "deviceid": "0b525b54-dcc5-11ea-87d0-0242ac130003",
+      "cache-control": "no-cache"
+      }
 
+      await fetch(url+node, {
+        method: 'get',
+        headers: headers,
+      })      
+        .then(response => response.json())
+        .then(data => {
+         if (data!=null)
+         {
+        console.log (data)
+         }
+        }
+        )
+      }
+  
 
   async  function callTussam(idParadas, paradas, i, url,principal) {
     idParadas1 = paradas[i].split(':');
@@ -149,37 +175,49 @@ if (!isDev && cluster.isMaster) {
 
     let headers = {
   
-    //headers.append('Content-Type', 'text/json');
-    'Authorization': 'Basic aW5mb3R1cy11c2VybW9iaWxlOjJpbmZvdHVzMHVzZXIxbW9iaWxlMg==',
-    "content-type": "text/xml;charset=utf-8",
-    "deviceid": "0b525b54-dcc5-11ea-87d0-0242ac130003",
-    "cache-control": "no-cache"
-    }
-    var st = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://services.infotusws.tussam.com/">' +
-      '<soapenv:Header/>' +
-      '<soapenv:Body>' +
-      '<ser:getTiemposNodo>' +
-      '<codigo>' + idParadas + '</codigo>' +
-      '</ser:getTiemposNodo>' +
-      '</soapenv:Body>' +
-      '</soapenv:Envelope>';
+      //headers.append('Content-Type', 'text/json');
+      'Authorization': 'Basic aW5mb3R1cy11c2VybW9iaWxlOmluZm90dXMtdXNlcm1vYmlsZQ==',
+      "content-type": "application/json",
+      "deviceid": "0b525b54-dcc5-11ea-87d0-0242ac130003",
+      "cache-control": "no-cache"
+      }
 
-     await fetch(url, {
-      method: 'post',
+    // var st = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://services.infotusws.tussam.com/">' +
+    //   '<soapenv:Header/>' +
+    //   '<soapenv:Body>' +
+    //   '<ser:getTiemposNodo>' +
+    //   '<codigo>' + idParadas + '</codigo>' +
+    //   '</ser:getTiemposNodo>' +
+    //   '</soapenv:Body>' +
+    //   '</soapenv:Envelope>';
+    console.log("url",url+idParadas)
+     await fetch(url+idParadas, {
+      method: 'get',
       headers: headers,
       //   credentials: 'infotus-usermobile:2infotus0user1mobile2'
-      body: st
     })      
-      .then(response => response.text())
+      .then(response => response.json())
       .then(data => {
        if (data!=null)
-       
-        if (data.indexOf("faultcode")===-1)
-        {
-        var lineas = data.match(/<lineasCoincidentes>([^;]+)<\/lineasCoincidentes>/g)[0];
-        var lineas2 = lineas.split("<tiempoLinea>");
-        var codigo = data.match(/<codigo>([^;]+)<\/codigo>/)[1];
-        var descripcion = data.match(/<descripcion>([^;]+)<\/descripcion>/)[1];
+       {
+
+        console.log(data)
+        console.log("lineas", data.lineasCoincidentes)
+        var lineas = data.lineasCoincidentes;
+        lineas.forEach( linea=>{
+          console.log(linea.estimaciones[0],linea.estimaciones[1],linea.estimaciones[0].atributos)
+
+        })
+        
+        // var lineas = data.match(/<lineasCoincidentes>([^;]+)<\/lineasCoincidentes>/g)[0];
+        // var lineas2 = lineas.split("<tiempoLinea>");
+        // var codigo = data.match(/<codigo>([^;]+)<\/codigo>/)[1];
+        // var descripcion = data.match(/<descripcion>([^;]+)<\/descripcion>/)[1];
+        
+        var lineas = data.lineasCoincidentes
+        var codigo = data.codigo
+        var descripcion = data.descripcion.texto
+        console.log(codigo, descripcion, lineas)
         var js = {
           "id": codigo,
           "descripcion": descripcion,
@@ -189,15 +227,16 @@ if (!isDev && cluster.isMaster) {
         if (idParadas1.length>1)
        {
          lineasTiempo = idParadas1[1].split('-')
+         console.log("lineasTiempo",lineasTiempo)
        }
-        lineas2.forEach(function (linea) {
-          if (linea != "<lineasCoincidentes>") {
-            var label = linea.match(/<label>([^;]+)<\/label>/)[1];
-            var estimacion1 = linea.match(/<estimacion1>([^;]+)<\/estimacion1>/)[1];
-            var minutos1 = estimacion1.match(/<minutos>([^;]+)<\/minutos>/)[1];
-            var estimacion2 = linea.match(/<estimacion2>([^;]+)<\/estimacion2>/)[1];
-            var minutos2 = estimacion2.match(/<minutos>([^;]+)<\/minutos>/)[1];
-            var color = linea.match(/<color>([^;]+)<\/color>/)[1];
+        lineas.forEach(function (linea) {
+          
+            var label = linea.labelLinea;
+            var estimacion1 = linea.estimaciones[0];
+            var minutos1 = estimacion1.segundos!=undefined?parseInt(estimacion1.segundos/60):-100;
+            var estimacion2 = linea.estimaciones[1];
+            var minutos2 = estimacion2!=undefined?parseInt(estimacion2.segundos/60):-100;
+            var color = linea.color;
             var  i = parseInt(minutos1);
             if (isNaN(i)) { i = 1000; }
             if (i<0) i = 1000;
@@ -214,19 +253,22 @@ if (!isDev && cluster.isMaster) {
               "tiempo2": minutos2,
               "orden":i
             };
-            valor = lineasTiempo.includes(label) 
+          
             if (lineasTiempo.length===0)
             {
                js.lineas.push(js1);
                jsTotalLineas.push(js1)
             }
             else 
-               if (lineasTiempo.includes(label) ){
+            {
+            valor = lineasTiempo.includes(label) 
+            console.log(valor,label)
+               if (valor ){
                  js.lineas.push(js1);
                  jsTotalLineas.push(js1)
-           }
-
-          }
+                }
+              }
+          
          
         }
        );
@@ -260,7 +302,9 @@ if (!isDev && cluster.isMaster) {
 
   async function post(request)
   {
-    let url = "http://www.infobustussam.com:9005/InfoTusWS/services/InfoTus?WSDL";
+    //  let url = "http://www.infobustussam.com:9005/InfoTusWS/services/InfoTus?WSDL";
+    let url ="http://94.198.88.152:9005/INFOTUS/API/tiempos/"
+    
     jsParadas=[]       
     var valores  = request.body
     var paradas = valores.parada.split(',');
@@ -339,6 +383,7 @@ const getItem =  (key) => {
   });
 
   app.get('/users', function (req, res) {
+    console.log("get-users")
     res.set('Content-Type', 'application/json');
     res.send('{"message":"Hola. Se ha accedido a users"}');
    
@@ -363,13 +408,14 @@ const getItem =  (key) => {
   {
     console.log("users-post")
     var id = req.body.params
-    if (isDev===true)
+    if (isDev===false)
     {
       var valor=JSON.stringify(tiempo)
      
     }
     else
      var  valor =await  post(req)
+    
     console.log(valor)
     res.set('Content-Type', 'application/json');
    

@@ -80,3 +80,38 @@ export const getData = async(array) => {
   return jsonParada
  }))
 }
+
+export const  getParadas = async(linea)=>
+{
+    return Promise.all ( 
+    await paradasRef.where("LINEA", "==", linea).get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        console.log('No matching documents.');
+        return [];
+      }
+      var lineas = []
+   
+      snapshot.forEach(doc => {
+     //   console.log(doc.id, '=>', doc.data());
+       // jsonParada.todo.push(doc.data().LINEA)
+        let nombre = doc.data()['NOMBRE PARADA']
+        let key = doc.data()['NODO']
+        let destino = doc.data()['DESTINO SECCIÓN']
+        let dato = {
+            nombre:nombre,
+            key:key,
+            destino:destino
+         }
+        lineas.push(dato)});
+ 
+       return lineas
+      
+    })
+    .catch(err => {
+      console.log('Error getting documents', err);
+    })
+    
+  
+    )
+}

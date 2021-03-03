@@ -1,8 +1,6 @@
 import React, {useState,useEffect} from "react"
-import  { firestore } from "../../../../firebase"
 
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -11,8 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
-import {getData,getLineas } from "../../utils/utils"
-import { Modal, ModalManager } from "@material-ui/core";
+import {getParadas,getLineas } from "../../utils/utils"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -22,6 +19,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 export default function Paradas () {
@@ -29,18 +33,38 @@ export default function Paradas () {
 
   const classes = useStyles();
 
-  const [lineas, setLineas] = useState([{}])
-  const [linea, setlinea] = useState('01')
+  const [lineas, setLineas] = useState(null)
+  const [linea, setlinea] = useState('')
   
   const [age, setAge] = React.useState('');
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    console.log(event.target.value)
+    var newLinea = []
+    console.log(newLinea)
+
+    newLinea.push(event.target.value)
+    console.log(newLinea)
+    setlinea(event.target.value)
+
   };
 
   
 
   useEffect(() => {
+    async function formatParadas(linea)
+    {
+      var jsonParadas = await getParadas(linea)
+      console.log("Paradas",jsonParadas)
+      return jsonParadas;
+
+    }
+    console.log("linea",linea)
+    if (linea !== '')
+       formatParadas(linea).then((paradas)=>
+       {
+         console.log(paradas)
+       })
 
   
   }, [linea])
@@ -53,44 +77,42 @@ export default function Paradas () {
         setLineas(jsonLineas)
         return jsonLineas
        }
-       let jsonLineas = formatLineas()
+       formatLineas().then(jsonLineas =>{
        setLineas(jsonLineas)
        console.log("jsonlineas", jsonLineas, lineas)
-
+       }
+       )
       // console.log('datos')
   }, [])
   
     return(    
-      <div className={classes.root}>
+      <>
         
-      <Grid container spacing={3}>
+      <Grid>
 
-        <Grid item xs={12} sm={6}>
-          <Paper className={classes.paper}>
-           <FormControl >
+        <Grid>
+           <FormControl>
              <Select
                labelId="demo-simple-select-label"
                id="demo-simple-select"
-               value={age}
                onChange={handleChange}
+               value = {linea}
+
               >
-              <div>
               {
-                lineas ? lineas.map((dato,index)=>(
+                lineas!==null ? lineas.map((dato,index)=>(
                 <MenuItem value={dato.key}>{dato.nombre}</MenuItem>
-              )) : null
+              )) :  <MenuItem value=''>Sin lineas</MenuItem>
               }
-              </div>
               </Select>
             </FormControl>
 
-          </Paper>
           </Grid>
         <Grid item xs={12} sm={6}>
           <Paper className={classes.paper}>xs=12 sm=6</Paper>
         </Grid> 
      </Grid>
-     </div>
+     </>
       
     )
 }
