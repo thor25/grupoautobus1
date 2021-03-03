@@ -473,7 +473,7 @@ const getItem =  (key) => {
        //  console.log(data)
          //var valores = data.lineasDisponibles;
          data.forEach(dato=>{
-           valor.push({'linea':dato.linea,'labelLinea':dato.labelLinea,'descripcion':dato.descripcion.texto})
+           valor.push({'key':dato.linea,'nombre':dato.labelLinea + ".-"  + dato.descripcion.texto})
          })     
        }
       }

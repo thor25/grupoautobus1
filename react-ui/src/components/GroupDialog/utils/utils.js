@@ -1,6 +1,42 @@
 import { firestore } from "../../../firebase"
 
 const lineasRef  =  firestore.collection("lineas") 
+export const  getLineasTussam =  async () =>
+{
+        
+          try {
+             console.log("getlineastussam")
+
+            const res = await fetch('/lineas');
+            const json = await res.json();
+            console.log("getlineastussam", json)
+            return json
+
+       ;
+          } catch (err) {
+           console.log(err)
+            
+
+          }
+       } 
+       
+export async function   getParadasLinea  (linea) 
+{
+  try {
+    console.log("getParadasLinea", linea)
+
+   const res = await fetch(`/nodoslinea?linea=${linea}`);
+   const json = await res.json();
+   console.log("getParadasLinea", json)
+   return json
+
+;
+ } catch (err) {
+  console.log(err)
+   
+
+ }
+}
 
 export const  getLineas = async()=>
 {

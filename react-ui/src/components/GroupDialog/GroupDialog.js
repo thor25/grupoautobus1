@@ -13,7 +13,7 @@ import SubgrupoDlg from "./components/SubgruposDlg"
 
 
 export default function FormDialog(props) {
-    const {open, handleClose, grupo} = props
+    const {open, handleClose, grupo,add} = props
     console.log ("Dialog-grupo", grupo)
     const [nombre, setnombre] = useState('')
    
@@ -26,8 +26,8 @@ useEffect(() => {
     if (grupo.dato.name!= '')
       setText(grupo.dato.name)
 }, [grupo])
-
-  return (
+  if (add===false)
+   return (
     <div>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Edición</DialogTitle>
@@ -60,4 +60,35 @@ useEffect(() => {
       </Dialog>
     </div>
   );
+  else
+    return (
+     <div>
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Añadir</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Añada los distintos campos que componen el grupo de paradas
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Nombre de grupo"
+            type="text"
+            fullWidth
+            value = {nombre}
+          />
+       
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
+     </div>
+      );
 }

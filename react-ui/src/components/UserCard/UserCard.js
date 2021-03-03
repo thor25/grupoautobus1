@@ -37,6 +37,7 @@ export default function UserCard(props) {
   const [arbol, setArbol] = useState([])
   const [padre, setPadre] = useState(null)
   const [open,setOpen]=useState(false)
+  const [add, setAdd] = useState(false)
   const classes = useStyles();
 
 
@@ -116,8 +117,14 @@ export default function UserCard(props) {
 
   // Control Dialog
   const handleClickEdit = () =>{
+    setAdd(false)
     setOpen(true);
 
+  } 
+
+  const handleClickAdd = () =>{
+    setAdd(true)
+    setOpen(true);
   } 
 
   const handleClose = () => {
@@ -178,6 +185,7 @@ export default function UserCard(props) {
       </CardContent>
       <CardActions>
          <Button
+        onClick={handleClickAdd}
         variant="contained"
         color="default"
         className={classes.button}
@@ -207,7 +215,7 @@ export default function UserCard(props) {
     </Card>
     </Grid>
 
-    <GroupDialog open={open} handleClose={handleClose} grupo={padre} ></GroupDialog>
+    <GroupDialog open={open} handleClose={handleClose} grupo={padre} add={add}></GroupDialog>
    
     </Grid>
     

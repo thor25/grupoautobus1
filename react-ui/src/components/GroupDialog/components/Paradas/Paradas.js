@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
-import {getParadas,getLineas } from "../../utils/utils"
+import {getParadas,getLineas, getLineasTussam, getParadasLinea } from "../../utils/utils"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -38,10 +38,11 @@ export default function Paradas () {
   
   const [age, setAge] = React.useState('');
 
-  const handleChange = (event) => {
+  const handleChange = async  (event) => {
     console.log(event.target.value)
     var newLinea = []
     console.log(newLinea)
+    var paradas = await getParadasLinea(event.target.value)
 
     newLinea.push(event.target.value)
     console.log(newLinea)
@@ -72,8 +73,10 @@ export default function Paradas () {
   useEffect(() => {
   
     async function formatLineas() {
-
-        var jsonLineas = await  getLineas()
+        var jsonLineas =  await getLineasTussam()    
+        console.log("jsonlineas", jsonLineas)
+  
+       // var jsonLineas = await  getLineas()
         setLineas(jsonLineas)
         return jsonLineas
        }
