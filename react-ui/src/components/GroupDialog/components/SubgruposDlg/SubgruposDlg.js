@@ -285,19 +285,22 @@ export default function SubgruposDlg(props) {
  const handleClose = async  (valor) => {
   console.log("Close Dialog")
   setOpen(false);
-  console.log(valor)
   if (valor ==='') return
-  var valor0 = []
+  var valor1 = valor.split(',')  
+  console.log(valor1)
+  valor1.forEach(async (valor)=>{
+    var valor0 = []
   valor0.push(valor)
   var jsonParada = await  getData(valor0)
   var newPar = parada
   newPar.push(jsonParada[0])
-
-
   console.log("jsonParada", jsonParada, newPar)
   setparada(newPar)
-  console.log(parada[0])
-  handleClick(0)
+  if (valor===valor1[valor1.length-1])
+    handleClick(0)
+  
+  })
+
 };
 
  console.log("Subgrupo", grupo, index)
