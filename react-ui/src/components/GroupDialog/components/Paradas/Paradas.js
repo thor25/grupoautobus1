@@ -10,6 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
 import {getParadas,getLineas, getLineasTussam, getParadasLinea } from "../../utils/utils"
+
+import ListaParadas from "../ListaParadas"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -52,23 +54,7 @@ export default function Paradas () {
 
   
 
-  useEffect(() => {
-    async function formatParadas(linea)
-    {
-      var jsonParadas = await getParadas(linea)
-      console.log("Paradas",jsonParadas)
-      return jsonParadas;
 
-    }
-    console.log("linea",linea)
-    if (linea !== '')
-       formatParadas(linea).then((paradas)=>
-       {
-         console.log(paradas)
-       })
-
-  
-  }, [linea])
   
   useEffect(() => {
   
@@ -112,7 +98,10 @@ export default function Paradas () {
 
           </Grid>
         <Grid item xs={12} sm={6}>
-          <Paper className={classes.paper}>xs=12 sm=6</Paper>
+          <Paper className={classes.paper}>
+              <ListaParadas linea={linea}></ListaParadas>
+
+          </Paper>
         </Grid> 
      </Grid>
      </>

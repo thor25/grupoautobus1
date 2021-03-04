@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function ParadasDialog(props) {
-  const {open,onClose} = props
+  const {open,onClose, linea} = props
   const [valor, setvalor] =React.useState('')
   const classes = useStyles();
 
@@ -51,13 +51,18 @@ export default function ParadasDialog(props) {
   return (
     <div>
      
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog linea = {linea} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Nueva parada</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Indique la parada a añadir
           </DialogContentText>
-        <Grid container spacing={3}>
+          <Grid container spacing={3}>
+         
+          <Grid item xs={12}>
+            <Paradas></Paradas>
+          </Grid>
+
          <Grid item xs={12}>
           <Paper className={classes.paper}>
           <TextField
@@ -69,15 +74,10 @@ export default function ParadasDialog(props) {
             fullWidth
             onChange={handleChange}
 
-          />
-          
+          />          
           </Paper>
-          <Grid item xs={12}>
-            <Paradas></Paradas>
-          </Grid>
          </Grid>
-        </Grid>  
-         
+        </Grid>           
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

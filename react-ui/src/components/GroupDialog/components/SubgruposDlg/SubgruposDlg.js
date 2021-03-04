@@ -379,7 +379,7 @@ export default function SubgruposDlg(props) {
           </Button>
         </AccordionActions>
       </Accordion>
-      <ParadasDialog open={open} onClose={handleClose}></ParadasDialog>
+      <ParadasDialog  open={open} onClose={handleClose}></ParadasDialog>
     </div>
   );
 }
