@@ -20,6 +20,7 @@ import CommentIcon from '@material-ui/icons/Comment';
 import { getParadasLinea } from "../../utils/utils"
 
 function CheckboxList(paradas) {
+  console.log("List",paradas)
   const classes = useStyles();
   const [checked, setChecked] = React.useState([0]);
 
@@ -35,12 +36,14 @@ function CheckboxList(paradas) {
 
     setChecked(newChecked);
   };
-  if (paradas.length===0)
-   return (<></>)
+  if (paradas.sentido[0]===undefined)
+    return (<div>undefined</div>)
+  if ( paradas.sentido[0].length===0)
+   return (<div>longitud</div>)
    else 
    return (
     <List className={classes.root}>
-      {paradas[0].map((value) => {
+      {paradas.sentido[0].map((value) => {
         const labelId = `checkbox-list-label-${value}`;
 
         return (
