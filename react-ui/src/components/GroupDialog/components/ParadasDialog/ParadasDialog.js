@@ -33,10 +33,10 @@ export default function ParadasDialog(props) {
   const [valor, setvalor] =React.useState('')
   const classes = useStyles();
 
-  const handleChange = (event) => {
-    setvalor( event.target.value );
-  };
-
+  const handleValor = (valor) =>
+  {
+    setvalor(valor)
+  }
 
   const handleOk =() => 
   {
@@ -49,41 +49,22 @@ export default function ParadasDialog(props) {
     onClose('')
   }
   return (
-    <div>
-     
+    <div>     
       <Dialog linea = {linea} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Nueva parada</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Indique la parada a añadir
-          </DialogContentText>
-          <Grid container spacing={3}>
-         
+            Indique las paradas a añadir
+          </DialogContentText>   
           <Grid item xs={12}>
-            <Paradas></Paradas>
+            <Paradas handle={handleValor}></Paradas>
           </Grid>
-
-         <Grid item xs={12}>
-          <Paper className={classes.paper}>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Nueva Parada"
-            type="number"
-            fullWidth
-            onChange={handleChange}
-
-          />          
-          </Paper>
-         </Grid>
-        </Grid>           
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleOk} color="primary">
+          <Button onClick={handleOk} color="primary" disabled={valor===""}>
             Aceptar
           </Button>
         </DialogActions>

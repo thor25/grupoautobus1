@@ -30,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Paradas () {
+export default function Paradas (props) {
 
-
+  const {handle} = props
   const classes = useStyles();
 
   const [lineas, setLineas] = useState(null)
@@ -51,42 +51,28 @@ export default function Paradas () {
     setlinea(event.target.value)
 
   };
-
-  
-
-
-  
-  useEffect(() => {
-  
+  useEffect(() => {  
     async function formatLineas() {
-        var jsonLineas =  await getLineasTussam()    
-        console.log("jsonlineas", jsonLineas)
-  
-       // var jsonLineas = await  getLineas()
-        setLineas(jsonLineas)
+        var jsonLineas =  await getLineasTussam()  
+     //   setLineas(jsonLineas)
         return jsonLineas
        }
        formatLineas().then(jsonLineas =>{
        setLineas(jsonLineas)
-       console.log("jsonlineas", jsonLineas, lineas)
+  
        }
        )
-      // console.log('datos')
+    
   }, [])
   
     return(    
-      <>
-        
-      <Grid>
-
-        <Grid>
+      <>        
            <FormControl>
              <Select
                labelId="demo-simple-select-label"
                id="demo-simple-select"
                onChange={handleChange}
                value = {linea}
-
               >
               {
                 lineas!==null ? lineas.map((dato,index)=>(
@@ -95,15 +81,11 @@ export default function Paradas () {
               }
               </Select>
             </FormControl>
-
-          </Grid>
-        <Grid item xs={12} sm={6}>
           <Paper className={classes.paper}>
-              <ListaParadas linea={linea}></ListaParadas>
+              <ListaParadas handle={handle} linea={linea}></ListaParadas>
 
           </Paper>
-        </Grid> 
-     </Grid>
+         
      </>
       
     )
