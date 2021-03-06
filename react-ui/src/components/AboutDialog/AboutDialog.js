@@ -30,7 +30,7 @@ function AboutDialog(props) {
   const dialogProps = props.dialogProps;
   const user = props.user;
   const version = process.env.REACT_APP_VERSION;
-
+  console.log(user)
   if (!user && !version) {
     return null;
   }

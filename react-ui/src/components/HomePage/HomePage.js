@@ -80,7 +80,7 @@ class HomePage extends Component {
     function setParadas(valor)
     {
       // settxtParadas(valor)
-      paradas0 = valor  
+      var paradas = valor  
     }
     if (user) {
 

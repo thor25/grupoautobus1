@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from "react";
+import { useParams } from "react-router-dom";
+
 
 import PropTypes from "prop-types";
 
@@ -19,6 +21,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import GroupDialog from "../GroupDialog"
+import {AddGrupo} from "../../firebaseutils"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,9 +41,10 @@ export default function UserCard(props) {
   const [open,setOpen]=useState(false)
   const [add, setAdd] = useState(false)
   const classes = useStyles();
+  const { userId } = useParams();
 
 
-  console.log(user)
+  console.log("UserCard - inicio", userId)
   const grupos = user.datos
   
  //  const datos = user.datos
@@ -130,8 +134,13 @@ export default function UserCard(props) {
   } 
 
   const handleClose = (tipo) => {
-    console.log("Close Dialog - user card", tipo)
+    console.log("Close Dialog - user card", tipo, user)
+
     setOpen(false);
+
+    // Generamos base de datos
+    
+    AddGrupo(userId,tipo)
   };
 
 
