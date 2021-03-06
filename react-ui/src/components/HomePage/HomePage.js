@@ -76,7 +76,6 @@ class HomePage extends Component {
   
   render() {
     const { user } = this.props;
-    var paradas0 = "253,47"
     var refresh = false
     function setParadas(valor)
     {

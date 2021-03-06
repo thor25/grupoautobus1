@@ -7,21 +7,67 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import Chip from '@material-ui/core/Chip';
 
 import SubgrupoDlg from "./components/SubgruposDlg"
+import Paradas from './components/Paradas';
 
 
 export default function FormDialog(props) {
     const {open, handleClose, grupo,add} = props
     console.log ("Dialog-grupo", grupo)
     const [nombre, setnombre] = useState('')
-   
+    const [newGroup, setnewGroup] = useState(
+      {
+        'nombre':"",
+         'subgrupo1':{'nombre':'','paradas':''},
+         'subgrupo2':{'nombre':'','paradas':''},
+         'subgrupo3':{'nombre':'','paradas':''},       
+      }
+    )
+    const handleSubChange = (index, valor) =>
+    {
+      console.log("SubChange", index,valor)
+      setnewGroup({... newGroup, [`subgrupo${index+1}`]:valor})
+
+    }
+    const handleChange = (event) =>
+    {
+      setnombre(event.target.value)
+      setnewGroup({... newGroup, "nombre":nombre})
+    }
+
+    const handleOk =() => 
+  {
+    console.log('ok')
+    setnewGroup({... newGroup, 'nombre':nombre})
+     
+    handleClose(newGroup)
+  }
+
+  // const handleClose = () => 
+  // {
+  //   onClose('')
+  // }
+
+
+useEffect(() => {
+  if (add===true) 
+  setnombre('')
+  else
+  if (grupo!==null)
+   if (grupo.dato.name!= '')
+     setnombre(grupo.dato.name)
+}, [add])
 useEffect(() => {
    const setText = (texto)=>
    {
     setnombre(texto)
    }
+   if (add===true)
+   {
+     setText('')
+   }
+   else
    if (grupo!==null)
     if (grupo.dato.name!= '')
       setText(grupo.dato.name)
@@ -43,17 +89,18 @@ useEffect(() => {
             type="text"
             fullWidth
             value = {nombre}
+            onChange = {handleChange}
           />
-        <SubgrupoDlg grupo={grupo} index={0}></SubgrupoDlg>
-        <SubgrupoDlg grupo={grupo} index={1}></SubgrupoDlg>
-        <SubgrupoDlg grupo={grupo} index={2}></SubgrupoDlg>
+        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={0}></SubgrupoDlg>
+        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={1}></SubgrupoDlg>
+        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={2}></SubgrupoDlg>
       
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleOk} disabled = {nombre===''} color="primary">
             Aceptar
           </Button>
         </DialogActions>
@@ -77,14 +124,18 @@ useEffect(() => {
             type="text"
             fullWidth
             value = {nombre}
+            onChange = {handleChange}
           />
-       
+        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={null} index={0}></SubgrupoDlg>
+        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={null} index={1}></SubgrupoDlg>
+        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={null} index={2}></SubgrupoDlg>
+     
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleOk} disabled = {nombre===''} color="primary">
             Aceptar
           </Button>
         </DialogActions>

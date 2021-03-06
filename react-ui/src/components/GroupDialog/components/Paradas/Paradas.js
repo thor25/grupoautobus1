@@ -45,12 +45,12 @@ export default function Paradas (props) {
     var newLinea = []
     console.log(newLinea)
     var paradas = await getParadasLinea(event.target.value)
-
     newLinea.push(event.target.value)
     console.log(newLinea)
     setlinea(event.target.value)
-
   };
+
+  
   useEffect(() => {  
     async function formatLineas() {
         var jsonLineas =  await getLineasTussam()  

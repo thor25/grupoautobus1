@@ -20,7 +20,6 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import GroupDialog from "../GroupDialog"
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -42,19 +41,22 @@ export default function UserCard(props) {
 
 
   console.log(user)
-  const grupos = user.grupos
+  const grupos = user.datos
+  
+ //  const datos = user.datos
+  console.log(grupos)
 
   useEffect(() => {
     function SetTreeData() 
     {
-      // console.log(grupos)
+       console.log(grupos)
       var arr = [];
-      Object.keys(grupos).forEach(function(key) {
-        let subgrupos = grupos[key]
-        // console.log("Grupo",subgrupos)
+      grupos.forEach(function(subgrupos) {
+       // let subgrupos = grupos[key]
+        console.log("Grupo",subgrupos)
         let datosNodo = {id:uuid(),name:subgrupos.nombre,children:[]}
         Object.keys(subgrupos).forEach(function(key0) {
-          // console.log("subgrupo",subgrupos[key0])
+          console.log("subgrupo",subgrupos[key0])
             if (subgrupos[key0].nombre!==undefined)
             datosNodo.children.push(
               { 
@@ -127,8 +129,8 @@ export default function UserCard(props) {
     setOpen(true);
   } 
 
-  const handleClose = () => {
-    console.log("Close Dialog")
+  const handleClose = (tipo) => {
+    console.log("Close Dialog - user card", tipo)
     setOpen(false);
   };
 
@@ -213,15 +215,15 @@ export default function UserCard(props) {
       </CardActions>
       
     </Card>
-    </Grid>
 
     <GroupDialog open={open} handleClose={handleClose} grupo={padre} add={add}></GroupDialog>
-   
-    </Grid>
+   </Grid>
+  </Grid> 
     
     
   );
 }
+
 
 UserCard.propTypes = {
   user: PropTypes.object.isRequired,
