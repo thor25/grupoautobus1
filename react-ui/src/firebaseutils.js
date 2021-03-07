@@ -10,11 +10,22 @@ export const  AddGrupo =async  (id, valor) =>
 {
   console.log("field", FieldValue)
 
-const user = usersRef.doc('CyeUsqDYiqZqc3Rex83NseHsJli2')
-console.log ("firestore - user", usersRef, user, id, valor) 
-console.log(FieldValue)
+const user = usersRef.doc(id)
+console.log ("firestore - add", usersRef, user, id, valor) 
 const unionRes = await user.update({
     datos: firebase.firestore.FieldValue.arrayUnion(valor)
   });
-  console.log(unionRes)
+  console.log("resultado add", unionRes)
+}
+
+export const  DeleteGrupo =async  (id, valor) =>
+{
+  console.log("field", FieldValue)
+
+const user = usersRef.doc(id)
+console.log ("firestore - delete", usersRef, user, id, valor) 
+const unionRes = await user.update({
+    datos: firebase.firestore.FieldValue.arrayRemove(valor)
+  });
+  console.log("resultado delete", unionRes)
 }

@@ -21,7 +21,9 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import GroupDialog from "../GroupDialog"
-import {AddGrupo} from "../../firebaseutils"
+import ConfirmationDialog from "../ConfirmationDialog"
+
+import {AddGrupo,DeleteGrupo} from "../../firebaseutils"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,12 +42,14 @@ export default function UserCard(props) {
   const [padre, setPadre] = useState(null)
   const [open,setOpen]=useState(false)
   const [add, setAdd] = useState(false)
+  const [openDelete, setopenDelete] = useState(false)
   const classes = useStyles();
   const { userId } = useParams();
 
 
   console.log("UserCard - inicio", userId)
   const grupos = user.datos
+  const datos = user.datos
   
  //  const datos = user.datos
   console.log(grupos)
@@ -58,7 +62,7 @@ export default function UserCard(props) {
       grupos.forEach(function(subgrupos) {
        // let subgrupos = grupos[key]
         console.log("Grupo",subgrupos)
-        let datosNodo = {id:uuid(),name:subgrupos.nombre,children:[]}
+        let datosNodo = {id:uuid(),name:subgrupos.nombre,children:[],datos:subgrupos}
         Object.keys(subgrupos).forEach(function(key0) {
           console.log("subgrupo",subgrupos[key0])
             if (subgrupos[key0].nombre!==undefined)
@@ -133,6 +137,23 @@ export default function UserCard(props) {
     setOpen(true);
   } 
 
+  const handleClickDelete = () =>{
+    console.log('Button Delete')
+    setopenDelete(true);
+  } 
+
+   const handleCloseDelete = ()=>
+  {
+    console.log("Cierra delete")
+    setopenDelete(false)
+  }
+  const handleCloseDeleteOk = ()=>
+  {
+    console.log("Cierra delete - Accept", padre)
+    setopenDelete(false)
+   
+    DeleteGrupo(userId,padre.dato.datos)
+  }
   const handleClose = (tipo) => {
     console.log("Close Dialog - user card", tipo, user)
 
@@ -218,7 +239,7 @@ export default function UserCard(props) {
         className={classes.button}
         startIcon={<DeleteIcon />}
         disabled = {padre===null}
-
+        onClick = {handleClickDelete}
       >  Borrar
       </Button>
       </CardActions>
@@ -226,6 +247,16 @@ export default function UserCard(props) {
     </Card>
 
     <GroupDialog open={open} handleClose={handleClose} grupo={padre} add={add}></GroupDialog>
+    <ConfirmationDialog  dialogProps={{
+        open: openDelete,
+
+        onClose: handleCloseDelete,
+      }}
+    title="Borrar parada" 
+    content="   Con esta acción, borrará la parada elegida.   "
+    dismissiveAction = {<Button color="primary" onClick = {handleCloseDelete}>Cancelar</Button>}
+    confirmingAction  =  {<Button color="primary" onClick = {handleCloseDeleteOk}>Aceptar</Button>}
+    ></ConfirmationDialog>
    </Grid>
   </Grid> 
     

@@ -17,8 +17,8 @@ it("renders without crashing", () => {
         onClose: () => {},
       }}
       content={<div></div>}
-      dismissiveAction={<Button color="primary">Cancel</Button>}
-      confirmingAction={<Button color="primary">OK</Button>}
+      dismissiveAction={<Button color="primary" onClick={onClose}>Cancel</Button>}
+      confirmingAction={<Button color="primary" onClick={onClose}>OK</Button>}
     />,
     div
   );
