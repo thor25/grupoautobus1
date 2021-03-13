@@ -203,7 +203,7 @@ if (!isDev && cluster.isMaster) {
        if (data!=null)
        {
 
-        console.log(data)
+        console.log(data, "principal:", principal)
         console.log("lineas", data.lineasCoincidentes)
         var lineas = data.lineasCoincidentes;
         lineas.forEach( linea=>{
@@ -499,12 +499,12 @@ const getItem =  (key) => {
   {
     console.log("users-post")
     var id = req.body.params
-    if (isDev===true)
-    {
-      var valor=JSON.stringify(tiempo)
+    // if (isDev===true)
+    // {
+    //   var valor=JSON.stringify(tiempo)
      
-    }
-    else
+    // }
+    // else
      var  valor =await  post(req)
     
     console.log(valor)

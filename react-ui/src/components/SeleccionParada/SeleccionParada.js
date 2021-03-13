@@ -69,7 +69,6 @@ export default function SeleccionParadas(props) {
   const [grupoParada,setgrupoParada] = useState('')
  
   const { window, grupos } = props;
-  // console.log(grupos)
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -82,7 +81,7 @@ export default function SeleccionParadas(props) {
     function getGrupos(grupos)
     {
       const arr = []
-      Object.keys(grupos).forEach(key => arr.push({name: key, value: grupos[key]}))
+      grupos.forEach(key => arr.push({name: key.nombre, value: key}))
       setarrayGrupos(arr)  
       updateGrupo(0,arr)
     } 
@@ -95,17 +94,15 @@ export default function SeleccionParadas(props) {
   {
     var g = datos[index]
 
-    // console.log("update",index,arrayGrupos[index],datos,g, g.value.nombre)
     setgrupoParada(g.value.nombre)
     grupo0 = []
     
-    ponerDatosRadio( g.value.Subgrupo1, grupo0)
-    ponerDatosRadio( g.value.Subgrupo2, grupo0)
-    ponerDatosRadio( g.value.Subgrupo3, grupo0)
+    ponerDatosRadio( g.value.subgrupo1, grupo0)
+    ponerDatosRadio( g.value.subgrupo2, grupo0)
+    ponerDatosRadio( g.value.subgrupo3, grupo0)
 
     setgrupo(JSON.stringify(grupo0))
 
-// console.log("grupo", grupo,grupo0)
 
    
 //    setgrupo(... [subgrupos],arrayGrupos[index].nombre)
@@ -113,7 +110,6 @@ export default function SeleccionParadas(props) {
 
   }
   function ponerDatosRadio(sg, subgrupos) {
-    // console.log(sg);
 
     if (sg!==undefined)
       subgrupos.push({ nombre: sg['nombre'], paradas: sg['paradas'] });
@@ -124,9 +120,7 @@ export default function SeleccionParadas(props) {
   
   const handleListItemClick = (event,text,index) =>
   {
-    // console.log('Click',index,arrayGrupos,arrayGrupos[index].value)
     updateGrupo(index,arrayGrupos)
-    // console.log("handle", grupo0)
 
     setMobileOpen(!mobileOpen);
   }
@@ -238,7 +232,6 @@ function FormControlLabelPlacement(props) {
   const [value, setValue] = React.useState('');
   const {setParadas,grupo} = props
   
-  // console.log("Radios",grupo,setParadas) 
   const handleRadioChange = (event) => {
     setParadas (event.target.value)
     setValue(event.target.value)
@@ -261,7 +254,6 @@ function FormControlLabelPlacement(props) {
   {
     var grupoJSON = JSON.parse(grupo)
     
-    // console.log('GrupoJSON',grupoJSON)
   return (
     
     <FormControl component="fieldset">
