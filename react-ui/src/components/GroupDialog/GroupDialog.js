@@ -26,8 +26,10 @@ export default function FormDialog(props) {
     )
     const handleSubChange = (index, valor) =>
     {
-      console.log("SubChange", index,valor)
-      setnewGroup({... newGroup, [`subgrupo${index+1}`]:valor})
+    
+      var indice = `subgrupo${index+1}`
+      console.log("SubChange", index,indice,valor)
+      setnewGroup({... newGroup, [indice]:valor})
 
     }
     const handleChange = (event) =>
@@ -49,7 +51,9 @@ export default function FormDialog(props) {
   //   onClose('')
   // }
 
-
+useEffect(() => {
+  setnewGroup({... newGroup, "nombre":nombre})
+}, [nombre])
 useEffect(() => {
   if (add===true) 
   setnombre('')
