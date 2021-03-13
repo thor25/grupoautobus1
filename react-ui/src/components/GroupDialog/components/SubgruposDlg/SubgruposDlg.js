@@ -180,6 +180,8 @@ useEffect(() => {
   }))
  }
 
+ 
+
  useEffect(() => {
      async function  formatText  (texto) {
       var datosParada = []
@@ -347,6 +349,7 @@ useEffect(() => {
             label="Lista de paradas"
             type="text"
             fullWidth
+            autoComplete='off'
             InputProps={{
             readOnly: true,
           }}
