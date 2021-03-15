@@ -46,10 +46,11 @@ export default function FormDialog(props) {
     handleClose(newGroup)
   }
 
-  // const handleClose = () => 
-  // {
-  //   onClose('')
-  // }
+  const handleCancel = () => 
+  {
+    console.log('cancel')
+    handleClose(null)
+  }
 
 useEffect(() => {
   setnewGroup({... newGroup, "nombre":nombre})
@@ -67,6 +68,7 @@ useEffect(() => {
    {
     setnombre(texto)
    }
+   console.log('UseEffect-grupo', grupo)
    if (add===true)
    {
      setText('')
@@ -86,14 +88,14 @@ useEffect(() => {
             Edite los distintos campos que componen el grupo de paradas
           </DialogContentText>
           <TextField
-            autoFocus
             margin="dense"
-            id="name"
+            id="nameGrupo"
             label="Nombre de grupo"
             type="text"
             fullWidth
             value = {nombre}
             onChange = {handleChange}
+          
           />
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={0}></SubgrupoDlg>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={1}></SubgrupoDlg>
@@ -101,7 +103,7 @@ useEffect(() => {
       
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCancel} color="primary">
             Cancelar
           </Button>
           <Button onClick={handleOk} disabled = {nombre===''} color="primary">

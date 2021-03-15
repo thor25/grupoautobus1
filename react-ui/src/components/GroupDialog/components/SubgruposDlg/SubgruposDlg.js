@@ -332,10 +332,12 @@ useEffect(() => {
         >
           <div className={classes.column}>
           <TextField className={classes.primaryHeading}
+                      autoComplete='off'
+
              value={nombre}
             margin="dense"
             id={`name${index}`}
-            label="Nombre subgrupo"
+            label={`subgrupo ${index+1}`}
             type="text"
             fullWidth
             onChange = {handleChange('nombre')}
@@ -361,7 +363,7 @@ useEffect(() => {
           
           {
         parada.map((dato, index) => 
-            ( <Chip label={dato.numero  } 
+            ( <Chip key = {index} label={dato.numero  } 
             color='primary'
             clickcable
             onClick={()=>{handleClick(index)}} onDelete={() => {handleDelete(index,dato.numero)}} />))

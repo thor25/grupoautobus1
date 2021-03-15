@@ -11,7 +11,7 @@ export const  AddGrupo =async  (id, valor) =>
   console.log("field", FieldValue)
 
 const user = usersRef.doc(id)
-console.log ("firestore - add", usersRef, user, id, valor) 
+console.log ("firestore - add : valor",  valor) 
 const unionRes = await user.update({
     datos: firebase.firestore.FieldValue.arrayUnion(valor)
   });

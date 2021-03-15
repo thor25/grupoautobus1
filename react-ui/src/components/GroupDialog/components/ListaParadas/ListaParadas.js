@@ -153,7 +153,7 @@ export default function ListaParadas(props) {
         <CheckboxList paradas = {paradas.sentido[1]} checked = {checked} sentido={'1'} valor={cambioValor}></CheckboxList>
       </TabPanel>  
       <TextField
-          id="standard-read-only-input"
+       //   id="standard-read-only-input"
           label="Paradas seleccionadas"
           defaultValue="Sin paradas"
           value={newParadas}

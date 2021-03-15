@@ -103,11 +103,6 @@ export default function SeleccionParadas(props) {
 
     setgrupo(JSON.stringify(grupo0))
 
-
-   
-//    setgrupo(... [subgrupos],arrayGrupos[index].nombre)
-
-
   }
   function ponerDatosRadio(sg, subgrupos) {
 
@@ -115,13 +110,11 @@ export default function SeleccionParadas(props) {
       subgrupos.push({ nombre: sg['nombre'], paradas: sg['paradas'] });
     else
       subgrupos.push({ nombre: '', paradas:'' });
-
     }
   
   const handleListItemClick = (event,text,index) =>
   {
     updateGrupo(index,arrayGrupos)
-
     setMobileOpen(!mobileOpen);
   }
  
@@ -142,16 +135,14 @@ export default function SeleccionParadas(props) {
           </ListItem>
         ))}
       </List>
-    
-    
     </div>
   );
- 
  
   function setParadas(valor)
   {
     setparadas(valor)
   }
+ 
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (

@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
-import { Card, CardActions, CardContent, CardHeader } from "@material-ui/core";
+import { Box, Card, CardActions, CardContent, CardHeader } from "@material-ui/core";
+
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -154,14 +155,18 @@ export default function UserCard(props) {
    
     DeleteGrupo(userId,padre.dato.datos)
   }
-  const handleClose = (tipo) => {
+  const handleClose = (tipo = null) => {
     console.log("Close Dialog - user card", tipo, user)
 
     setOpen(false);
 
     // Generamos base de datos
-    
-    AddGrupo(userId,tipo)
+    if (tipo!==null)
+    {
+   
+      if (tipo.nombre!==undefined)
+           AddGrupo(userId,tipo)
+    }
   };
 
 
@@ -198,15 +203,10 @@ export default function UserCard(props) {
     );
   };
   return (
-    <Grid container spacing={3} className={classes.root}>
-    <Grid item xs={12}
-    direction="row"
-  justify="center"
-  alignItems="stretch">
-    <Card  className={classes.paper}   
-  direction="column"
-  justify="center"
-  alignItems="stretch">
+    <Grid container spacing={3} className={classes.root} justify="flex-start"
+      direction="row"  >
+    <Grid item >
+    <Card  className={classes.paper} >
       <CardHeader  className={classes.paper}
         title={`${user.firstName} ${user.lastName}`}
         subheader={user.username}
@@ -249,11 +249,10 @@ export default function UserCard(props) {
     <GroupDialog open={open} handleClose={handleClose} grupo={padre} add={add}></GroupDialog>
     <ConfirmationDialog  dialogProps={{
         open: openDelete,
-
         onClose: handleCloseDelete,
       }}
     title="Borrar parada" 
-    content="   Con esta acción, borrará la parada elegida.   "
+    content={<Box> Con esta acción, borrará la parada elegida.  </Box> }
     dismissiveAction = {<Button color="primary" onClick = {handleCloseDelete}>Cancelar</Button>}
     confirmingAction  =  {<Button color="primary" onClick = {handleCloseDeleteOk}>Aceptar</Button>}
     ></ConfirmationDialog>
