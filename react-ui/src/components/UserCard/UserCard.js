@@ -203,9 +203,9 @@ export default function UserCard(props) {
     );
   };
   return (
-    <Grid container spacing={3} className={classes.root} justify="flex-start"
+    <Grid container  className={classes.root} justify="flex-start"
       direction="row"  >
-    <Grid item >
+    <Grid item xs={6}>
     <Card  className={classes.paper} >
       <CardHeader  className={classes.paper}
         title={`${user.firstName} ${user.lastName}`}
