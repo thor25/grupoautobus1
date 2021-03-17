@@ -98,7 +98,7 @@ function UserPage() {
   if (hasProfile) {
     return (
       <Grid className={classes.grid} container justify="flex-start" spacing={1}>
-        <Grid item xs={4}>
+        <Grid item xs={12}>
           <UserCard user={user} />
         </Grid>
       </Grid>
