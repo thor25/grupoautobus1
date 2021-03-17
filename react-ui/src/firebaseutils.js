@@ -6,6 +6,14 @@ export const Firestore = firebase.firestore();
 const FieldValue = firebase.firestore.FieldValue
 
 const usersRef = firestore.collection('users')
+
+export const EditGrupo = async(id,valorInicial,valorFinal) =>
+  {
+    console.log("Edit - BD". valorInicial,valorFinal)
+    DeleteGrupo(id, valorInicial)
+    AddGrupo(id,valorFinal)
+  }
+
 export const  AddGrupo =async  (id, valor) =>
 {
   console.log("field", FieldValue)

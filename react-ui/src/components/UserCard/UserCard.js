@@ -24,7 +24,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import GroupDialog from "../GroupDialog"
 import ConfirmationDialog from "../ConfirmationDialog"
 
-import {AddGrupo,DeleteGrupo} from "../../firebaseutils"
+import {AddGrupo,DeleteGrupo, EditGrupo} from "../../firebaseutils"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +46,7 @@ export default function UserCard(props) {
   const [openDelete, setopenDelete] = useState(false)
   const classes = useStyles();
   const { userId } = useParams();
-
+  const [valorInicial, setvalorInicial] = useState(null)
 
   console.log("UserCard - inicio", userId)
   const grupos = user.datos
@@ -128,12 +128,14 @@ export default function UserCard(props) {
 
   // Control Dialog
   const handleClickEdit = () =>{
+    setvalorInicial(padre.dato.datos)
     setAdd(false)
     setOpen(true);
 
   } 
 
   const handleClickAdd = () =>{
+    setvalorInicial(null)
     setAdd(true)
     setOpen(true);
   } 
@@ -156,7 +158,7 @@ export default function UserCard(props) {
     DeleteGrupo(userId,padre.dato.datos)
   }
   const handleClose = (tipo = null) => {
-    console.log("Close Dialog - user card", tipo, user)
+    console.log("Close Dialog - user card", tipo, user,valorInicial)
 
     setOpen(false);
 
@@ -165,7 +167,10 @@ export default function UserCard(props) {
     {
    
       if (tipo.nombre!==undefined)
+        if (valorInicial===null)
            AddGrupo(userId,tipo)
+        else
+           EditGrupo(userId,valorInicial,tipo)
     }
   };
 
@@ -203,9 +208,9 @@ export default function UserCard(props) {
     );
   };
   return (
-    <Grid container  className={classes.root} justify="flex-start"
+    <Grid container  className={classes.root} justify="center"
       direction="row"  >
-    <Grid item xs={6}>
+    <Grid item xs={6} md={12}>
     <Card  className={classes.paper} >
       <CardHeader  className={classes.paper}
         title={`${user.firstName} ${user.lastName}`}

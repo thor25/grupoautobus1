@@ -200,7 +200,7 @@ useEffect(() => {
      if (grupo!==null){
        {
          var sg = grupo.dato.children[index]
-        //  console.log(sg);
+         console.log("sg", sg);
          if (sg !==undefined )
          {
           var s = sg.name
