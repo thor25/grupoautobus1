@@ -7,6 +7,20 @@ const FieldValue = firebase.firestore.FieldValue
 
 const usersRef = firestore.collection('users')
 
+export const ListGroup = async(id) =>
+{
+  console.log("List - BD",id)
+  const user = usersRef.doc(id)
+  const doc = await user.get();
+  if (!doc.exists) {
+    console.log('No such document!');
+    return null;
+  } else {
+    console.log('Document data:', doc.data());
+    return doc.data();
+  }
+
+}
 export const EditGrupo = async(id,valorInicial,valorFinal) =>
   {
     console.log("Edit - BD". valorInicial,valorFinal)

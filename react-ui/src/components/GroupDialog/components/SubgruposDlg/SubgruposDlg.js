@@ -183,29 +183,33 @@ useEffect(() => {
  
 
  useEffect(() => {
-     async function  formatText  (texto) {
-      var datosParada = []
+     async function  formatText  (sg) {
 
-        var valores=texto.split('.-')
-        setnombre ( valores[0].trim())
-        setparadas ( valores[1].trim())
-        var array = valores[1].split(',')
-        var jsonParada = await  getData( valores[1].split(','))
+      if (sg!==undefined)
+      {
+      
+        setnombre ( sg.nombre )
+        setparadas ( sg.paradas)
+        var jsonParada = await  getData( sg.paradas.split(','))
         setparada(jsonParada)
+      
         // console.log("parada",jsonParada,parada)
         return jsonParada
+      }
+      else
+        return null
        }
 
 
      if (grupo!==null){
        {
-         var sg = grupo.dato.children[index]
+        var indice = `subgrupo${index+1}`
+         var sg = grupo.dato.datos[indice]
          console.log("sg", sg);
          if (sg !==undefined )
          {
-          var s = sg.name
-          if (s)
-             formatText(s)
+         
+             formatText(sg)
          }
        }
      }

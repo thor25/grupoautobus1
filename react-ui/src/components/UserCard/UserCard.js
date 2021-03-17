@@ -24,7 +24,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import GroupDialog from "../GroupDialog"
 import ConfirmationDialog from "../ConfirmationDialog"
 
-import {AddGrupo,DeleteGrupo, EditGrupo} from "../../firebaseutils"
+import {AddGrupo,DeleteGrupo, EditGrupo, ListGroup} from "../../firebaseutils"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,20 +47,25 @@ export default function UserCard(props) {
   const classes = useStyles();
   const { userId } = useParams();
   const [valorInicial, setvalorInicial] = useState(null)
-
+  const [grupos, setgrupos] = useState(null)
+  const [loading, setloading] = useState(false)
   console.log("UserCard - inicio", userId)
-  const grupos = user.datos
-  const datos = user.datos
+ 
   
  //  const datos = user.datos
   console.log(grupos)
 
   useEffect(() => {
-    function SetTreeData() 
+    
+
+    async function  SetTreeData() 
     {
-       console.log(grupos)
+      var  datos =  await  ListGroup(userId)
+      console.log("UserCard - Datos",datos)
+      setgrupos(datos)
+      console.log(grupos)
       var arr = [];
-      grupos.forEach(function(subgrupos) {
+      datos.datos.forEach(function(subgrupos) {
        // let subgrupos = grupos[key]
         console.log("Grupo",subgrupos)
         let datosNodo = {id:uuid(),name:subgrupos.nombre,children:[],datos:subgrupos}
@@ -82,11 +87,12 @@ export default function UserCard(props) {
      
   
     }
-    SetTreeData();
+     SetTreeData();
+     setloading(false)
     return () => {
       
     }
-  }, [])
+  }, [loading])
   const handleTreeSelected =( event, value)=>
   {
   console.log("treeSelect",event.target, value)
@@ -172,6 +178,7 @@ export default function UserCard(props) {
         else
            EditGrupo(userId,valorInicial,tipo)
     }
+    setloading(true)
   };
 
 

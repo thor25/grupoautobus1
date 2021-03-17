@@ -7,7 +7,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-
 import SubgrupoDlg from "./components/SubgruposDlg"
 import Paradas from './components/Paradas';
 
@@ -64,6 +63,7 @@ useEffect(() => {
      setnombre(grupo.dato.name)
 }, [add])
 useEffect(() => {
+
    const setText = (texto)=>
    {
     setnombre(texto)
