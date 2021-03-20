@@ -30,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  tree:{
+    textAlign: 'left',
+  color: theme.palette.red
+  },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
@@ -50,10 +54,19 @@ export default function UserCard(props) {
   const [grupos, setgrupos] = useState(null)
   const [loading, setloading] = useState(false)
   console.log("UserCard - inicio", userId)
- 
+  const [expanded, setExpanded] = React.useState([]);
+  const [selected, setSelected] = React.useState(null);
+
+  const handleToggle = (event, nodeIds) => {
+    setExpanded(nodeIds);
+  };
+
+  const handleSelect = (event, nodeIds) => {
+    setSelected(nodeIds);
+  };
   
  //  const datos = user.datos
-  console.log(grupos)
+  // console.log(grupos)
 
   useEffect(() => {
     
@@ -61,16 +74,16 @@ export default function UserCard(props) {
     async function  SetTreeData() 
     {
       var  datos =  await  ListGroup(userId)
-      console.log("UserCard - Datos",datos)
+      // console.log("UserCard - Datos",datos)
       setgrupos(datos)
-      console.log(grupos)
+      // console.log(grupos)
       var arr = [];
       datos.datos.forEach(function(subgrupos) {
        // let subgrupos = grupos[key]
-        console.log("Grupo",subgrupos)
+        // console.log("Grupo",subgrupos)
         let datosNodo = {id:uuid(),name:subgrupos.nombre,children:[],datos:subgrupos}
         Object.keys(subgrupos).forEach(function(key0) {
-          console.log("subgrupo",subgrupos[key0])
+          // console.log("subgrupo",subgrupos[key0])
             if (subgrupos[key0].nombre!==undefined)
             datosNodo.children.push(
               { 
@@ -88,6 +101,7 @@ export default function UserCard(props) {
   
     }
      SetTreeData();
+     console.log("selected",selected)
      setloading(false)
     return () => {
       
@@ -95,7 +109,7 @@ export default function UserCard(props) {
   }, [loading])
   const handleTreeSelected =( event, value)=>
   {
-  console.log("treeSelect",event.target, value)
+  // console.log("treeSelect",event.target, value)
    var padre = 1
    var valorBusqueda = {}
  
@@ -129,7 +143,7 @@ export default function UserCard(props) {
   )
   setPadre(valorBusqueda)
   console.log("valor", valorBusqueda.dato,padre)
-  
+  setSelected(value)
   }
 
   // Control Dialog
@@ -147,24 +161,24 @@ export default function UserCard(props) {
   } 
 
   const handleClickDelete = () =>{
-    console.log('Button Delete')
+   // console.log('Button Delete')
     setopenDelete(true);
   } 
 
    const handleCloseDelete = ()=>
   {
-    console.log("Cierra delete")
+    // console.log("Cierra delete")
     setopenDelete(false)
   }
   const handleCloseDeleteOk = ()=>
   {
-    console.log("Cierra delete - Accept", padre)
+    // console.log("Cierra delete - Accept", padre)
     setopenDelete(false)
    
     DeleteGrupo(userId,padre.dato.datos)
   }
   const handleClose = (tipo = null) => {
-    console.log("Close Dialog - user card", tipo, user,valorInicial)
+    // console.log("Close Dialog - user card", tipo, user,valorInicial)
 
     setOpen(false);
 
@@ -179,6 +193,8 @@ export default function UserCard(props) {
            EditGrupo(userId,valorInicial,tipo)
     }
     setloading(true)
+    setSelected(null)
+
   };
 
 
@@ -188,8 +204,9 @@ export default function UserCard(props) {
     console.log("Node", event.target.label, nodeIds)
   }
   const getTreeItemsFromData = treeItems => {
-    return treeItems.map(treeItemData => {
+  return treeItems.map(treeItemData => {
       let children = undefined;
+      // console.log("Tree", treeItemData)
       if (treeItemData.children && treeItemData.children.length > 0) {
         children = getTreeItemsFromData(treeItemData.children);
       }
@@ -206,9 +223,13 @@ export default function UserCard(props) {
   const DataTreeView = ({ treeItems }) => {
     return (
       <TreeView
+        className={classes.tree}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
         onNodeSelect={handleTreeSelected}
+        expanded={expanded}
+        selected={selected}
+        onNodeToggle={handleToggle}   
       >
         {getTreeItemsFromData(treeItems)}
       </TreeView>
@@ -224,7 +245,7 @@ export default function UserCard(props) {
         subheader={user.username}
       />
       <CardContent>
-         <DataTreeView treeItems={arbol} />
+         <DataTreeView className={classes.tree} treeItems={arbol} />
 
       </CardContent>
       <CardActions>
@@ -242,7 +263,7 @@ export default function UserCard(props) {
         color="primary"
         className={classes.button}
         startIcon={<EditIcon />}
-        disabled = {padre===null}
+        disabled = {selected===null}
       >  Editar
       </Button>
          <Button
@@ -250,7 +271,7 @@ export default function UserCard(props) {
         color="secondary"
         className={classes.button}
         startIcon={<DeleteIcon />}
-        disabled = {padre===null}
+        disabled = {selected===null}
         onClick = {handleClickDelete}
       >  Borrar
       </Button>

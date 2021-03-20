@@ -254,6 +254,7 @@ function FormControlLabelPlacement(props) {
          {      
           grupoJSON.map((dato, index) => (
           <FormControlLabel
+          id = {`radio${index}`}
           value={dato.paradas}
           control={           
           <Radio   
