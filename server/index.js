@@ -81,13 +81,14 @@ if (!isDev && cluster.isMaster) {
   var borrar = true
   async function GestorLlamadasParadas(request)
   {
-    if (true)
+    if (1!==1)
     { 
      var datos0 = []
      datos0.push(datosPrueba[0])
      datos0.push(datosPrueba[1]) 
      datos0.push(datosPrueba[2])            
-     setItem("datos",JSON.stringify(datos0))    
+     setItem("datos",JSON.stringify(datos0))   
+     console.log("Rellena datos") 
     borrar = false;
    }
      console.log("GestorLlamadas")
@@ -95,7 +96,6 @@ if (!isDev && cluster.isMaster) {
     var postData;   
     var ids = request.url.split('/');
     var s = getItem("datos")
-    console.log(s)
     //// var  datos0 = await store.get('datos')
     const datos = JSON.parse(s );    
     switch(tipo)
