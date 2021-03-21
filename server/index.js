@@ -192,7 +192,7 @@ if (!isDev && cluster.isMaster) {
     //   '</ser:getTiemposNodo>' +
     //   '</soapenv:Body>' +
     //   '</soapenv:Envelope>';
-    console.log("url",url+idParadas)
+   // console.log("url",url+idParadas)
      await fetch(url+idParadas, {
       method: 'get',
       headers: headers,
@@ -203,13 +203,13 @@ if (!isDev && cluster.isMaster) {
        if (data!=null)
        {
 
-        console.log(data, "principal:", principal)
-        console.log("lineas", data.lineasCoincidentes)
-        var lineas = data.lineasCoincidentes;
-        lineas.forEach( linea=>{
-          console.log(linea.estimaciones[0],linea.estimaciones[1],linea.estimaciones[0].atributos)
+        console.log("principal:", principal)
+        // console.log("lineas", data.lineasCoincidentes)
+        // var lineas = data.lineasCoincidentes;
+        // lineas.forEach( linea=>{
+        //   console.log(linea.estimaciones[0],linea.estimaciones[1],linea.estimaciones[0].atributos)
 
-        })
+        // })
         
         // var lineas = data.match(/<lineasCoincidentes>([^;]+)<\/lineasCoincidentes>/g)[0];
         // var lineas2 = lineas.split("<tiempoLinea>");
@@ -219,7 +219,7 @@ if (!isDev && cluster.isMaster) {
         var lineas = data.lineasCoincidentes
         var codigo = data.codigo
         var descripcion = data.descripcion.texto
-        console.log(codigo, descripcion, lineas)
+   //     console.log(codigo, descripcion, lineas)
         var js = {
           "id": codigo,
           "descripcion": descripcion,
@@ -242,10 +242,12 @@ if (!isDev && cluster.isMaster) {
             var  i = parseInt(minutos1);
             if (isNaN(i)) { i = 1000; }
             if (i<0) i = 1000;
+           
             if (codigo===principal)
             {
                i= i - 2000
             }
+            console.log("codigo:principal",codigo,principal,i)
             js1 = {
               "codigo":codigo,
               "descripcion":descripcion,
@@ -328,7 +330,7 @@ if (!isDev && cluster.isMaster) {
   var idParadas ;
   jsTotalLineas = []
   for (var i = 0; i < paradas.length;i++)          
-          idParadas = await callTussam(idParadas, paradas, i, url,principal);
+          idParadas = await callTussam(idParadas, paradas, i, url,parseInt(principal));
         
   jsTotalLineas.sort(function (a, b) {
         if (a.orden > b.orden) {
@@ -507,7 +509,7 @@ const getItem =  (key) => {
     // else
      var  valor =await  post(req)
     
-    console.log(valor)
+    // console.log(valor)
     res.set('Content-Type', 'application/json');
    
     res.send(JSON.parse(valor));
