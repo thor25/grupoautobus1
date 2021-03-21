@@ -38,22 +38,31 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AdminCard(props) {
     const classes = useStyles();
-   
+    const  url = "/paradas"     
     const {user} = props
     const [checked, setChecked] = React.useState([0]);
-    const [grupos, setgrupos] = useState([{name:''}])
-    const handleToggle = (value) => () => {
-      const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
-  
-      if (currentIndex === -1) {
-        newChecked.push(value);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
-  
-      setChecked(newChecked);
-    };
+   
+    useEffect(() => {
+        async function fetchData() 
+        {
+        
+           try {
+              console.log("fetchdata")
+ 
+             const res = await fetch(url);
+             const json = await res.json();
+             console.log(res, json) 
+             var newRight = []
+             json.forEach(dato => {
+                 newRight.push(dato.nombreGeneral)
+             });
+             setRight(newRight)
+           } catch (err) {
+                console.log(err)           }
+        } 
+      
+          fetchData();
+         },[]);
 
     useEffect(() => {
     
@@ -64,10 +73,11 @@ export default function AdminCard(props) {
           // console.log("UserCard - Datos",datos)
           // console.log(grupos)
           console.log("SetData", datos.datos)
-          setgrupos(datos.datos)
-          
-          // console.log(arr)
-         
+          var newLeft = []
+          datos.datos.forEach(dato => {
+              newLeft.push(dato.nombre)
+          });
+          setLeft(newLeft)
          
       
         }
@@ -82,8 +92,81 @@ export default function AdminCard(props) {
     {
 
     }
-
-   
+    function not(a, b) {
+        return a.filter((value) => b.indexOf(value) === -1);
+      }
+      
+      function intersection(a, b) {
+        return a.filter((value) => b.indexOf(value) !== -1);
+      }
+      
+        const [left, setLeft] = React.useState([]);
+        const [right, setRight] = React.useState([]);
+      
+        const leftChecked = intersection(checked, left);
+        const rightChecked = intersection(checked, right);
+      
+        const handleToggle = (value) => () => {
+          const currentIndex = checked.indexOf(value);
+          const newChecked = [...checked];
+      
+          if (currentIndex === -1) {
+            newChecked.push(value);
+          } else {
+            newChecked.splice(currentIndex, 1);
+          }
+      
+          setChecked(newChecked);
+        };
+      
+        const handleAllRight = () => {
+          setRight(right.concat(left));
+          setLeft([]);
+        };
+      
+        const handleCheckedRight = () => {
+          setRight(right.concat(leftChecked));
+          setLeft(not(left, leftChecked));
+          setChecked(not(checked, leftChecked));
+        };
+      
+        const handleCheckedLeft = () => {
+          setLeft(left.concat(rightChecked));
+          setRight(not(right, rightChecked));
+          setChecked(not(checked, rightChecked));
+        };
+      
+        const handleAllLeft = () => {
+          setLeft(left.concat(right));
+          setRight([]);
+        };
+      
+        const customList = (items) => (
+          <Paper className={classes.paper}>
+            <List dense component="div" role="list">
+              {items.map((value) => {
+                const labelId = `transfer-list-item-${value}-label`;
+      
+                return (
+                  <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+                    <ListItemIcon>
+                      <Checkbox
+                        checked={checked.indexOf(value) !== -1}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{ 'aria-labelledby': labelId }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText id={labelId} primary={`Gr. ${value}`} />
+                  </ListItem>
+                );
+              })}
+              <ListItem />
+            </List>
+          </Paper>
+        );
+      
+       
     return (
         <>
         <Grid container  className={classes.root} justify="center"
@@ -95,27 +178,54 @@ export default function AdminCard(props) {
             subheader={user.username}
           />
           <CardContent>
-          <List className={classes.root}>
-      {grupos.map((value) => {
-        const labelId = `checkbox-list-label-${value}`;
-
-        return (
-          <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
-            <ListItemIcon>
-              <Checkbox
-                edge="start"
-                checked={checked.indexOf(value) !== -1}
-                tabIndex={-1}
-                disableRipple
-                inputProps={{ 'aria-labelledby': labelId }}
-              />
-            </ListItemIcon>
-            <ListItemText id={labelId} primary={`Grupo ${value.nombre}`} />
-           
-          </ListItem>
-        );
-      })}
-    </List>
+          <Grid container spacing={2} justify="center" alignItems="center" className={classes.root}>
+            <Grid item>{customList(left)}</Grid>
+            <Grid item>
+              <Grid container direction="column" alignItems="center">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  className={classes.button}
+                  onClick={handleAllRight}
+                  disabled={left.length === 0}
+                  aria-label="move all right"
+                >
+                  ≫
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  className={classes.button}
+                  onClick={handleCheckedRight}
+                  disabled={leftChecked.length === 0}
+                  aria-label="move selected right"
+                >
+                  &gt;
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  className={classes.button}
+                  onClick={handleCheckedLeft}
+                  disabled={rightChecked.length === 0}
+                  aria-label="move selected left"
+                >
+                  &lt;
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  className={classes.button}
+                  onClick={handleAllLeft}
+                  disabled={right.length === 0}
+                  aria-label="move all left"
+                >
+                  ≪
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid item>{customList(right)}</Grid>
+          </Grid>
           </CardContent>
           <CardActions>
      
