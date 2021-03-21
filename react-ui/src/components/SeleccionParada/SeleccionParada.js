@@ -76,17 +76,22 @@ export default function SeleccionParadas(props) {
   const [paradas, setparadas] = useState('')
  const [arrayGrupos, setarrayGrupos] = useState([])
   const [grupo, setgrupo] = useState('')
+  
   var grupo0 = []
+
   useEffect(() => {
     function getGrupos(grupos)
     {
-      const arr = []
+           const arr = []
+
       grupos.forEach(key => arr.push({name: key.nombre, value: key}))
       setarrayGrupos(arr)  
       updateGrupo(0,arr)
+     
     } 
+    if (grupos.length!==0)
     getGrupos(grupos)
-  }, [])
+  }, [grupos])
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -143,8 +148,49 @@ export default function SeleccionParadas(props) {
     setparadas(valor)
   }
  
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const paneles =  (
+    <>
+    <div style={grupoParada===""?{visibility:'hidden'}:{visibility:'visible'}}>
+    <Paper superficie={3} variant="outlined" square style={{paddingTop:5}}>
 
+    <AppBar className={classes.AppBar} position='relative' color="transparent">
+    
+      <Toolbar className={classes.toolbar}  >
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          className={classes.menuButton}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" noWrap>
+          {grupoParada}
+        </Typography>
+        <Divider />
+        </Toolbar>
+        </AppBar>
+       </Paper>   
+       <Paper superficie={3} variant="outlined" square style={{paddingTop:5}}>
+        <FormControlLabelPlacement setParadas = {setParadas}   grupo= {grupo}></FormControlLabelPlacement>
+      </Paper>
+      <Paper  variant="outlined" square style={{paddingTop:5}}>
+      <TextoParadas txtParadas = {paradas} setParadas = {setParadas}></TextoParadas>
+      </Paper>
+      <Paper  variant="outlined" square style={{paddingTop:5}}>
+      <Lista refresh={true} paradas={paradas} style={{top:120}}></Lista>
+      </Paper>
+      </div>
+      <div style={grupoParada!==""?{visibility:'hidden'}:{visibility:'visible'}}>
+      <h2>No hay grupos de paradas</h2>
+      </div>
+      </>
+  )
+  
+    
+  const container = window !== undefined ? () => window().document.body : undefined;
+  
   return (
     <div className={classes.root}>
     
@@ -182,35 +228,7 @@ export default function SeleccionParadas(props) {
       </nav>
       <main className={classes.content}>
       <CssBaseline />
-      <Paper superficie={3} variant="outlined" square style={{paddingTop:5}}>
-
-      <AppBar className={classes.AppBar} position='relative' color="transparent">
-        <Toolbar className={classes.toolbar}  >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            {grupoParada}
-          </Typography>
-          <Divider />
-          </Toolbar>
-          </AppBar>
-         </Paper>   
-         <Paper superficie={3} variant="outlined" square style={{paddingTop:5}}>
-          <FormControlLabelPlacement setParadas = {setParadas}   grupo= {grupo}></FormControlLabelPlacement>
-        </Paper>
-        <Paper  variant="outlined" square style={{paddingTop:5}}>
-        <TextoParadas txtParadas = {paradas} setParadas = {setParadas}></TextoParadas>
-        </Paper>
-        <Paper  variant="outlined" square style={{paddingTop:5}}>
-        <Lista refresh={true} paradas={paradas} style={{top:120}}></Lista>
-        </Paper>
+     {paneles}
            </main>
      
     </div>
@@ -282,13 +300,14 @@ function FormControlLabelPlacement(props) {
         <FormControlLabel
           value="253,47"
           control={<Radio color="primary" />}
-          label="Salida de casa"
+          label=""
           labelPlacement="end"
+          style={{visibility:'hidden'}}
         />
         <FormControlLabel
           value="918"
           control={<Radio color="primary" />}
-          label="Llegada a Prado"
+          label=""
           labelPlacement="end"
           style={{visibility:'hidden'}}
           
@@ -296,8 +315,9 @@ function FormControlLabelPlacement(props) {
         <FormControlLabel
           value="21"
           control={<Radio color="primary" />}
-          label="Trinidad"
+          label=""
           labelPlacement="end"
+          style={{visibility:'hidden'}}
         />
       </RadioGroup>
     </FormControl>

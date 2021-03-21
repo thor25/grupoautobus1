@@ -49,7 +49,7 @@ paradasSubGrupo3:"21,786:C3"
  {
   id : "3",
   nombreGeneral:"Trinidad",
-  nombreSubGrupo1: "San Trinidad",
+  nombreSubGrupo1: "Trinidad",
   paradasSubGrupo1:"21,786", 
   nombreSubGrupo2: "",
   paradasSubGrupo2:"",
@@ -90,7 +90,7 @@ if (!isDev && cluster.isMaster) {
      setItem("datos",JSON.stringify(datos0))    
     borrar = false;
    }
-    // console.log("GestorLlamadas")
+     console.log("GestorLlamadas")
     var tipo = request.method;
     var postData;   
     var ids = request.url.split('/');
@@ -489,7 +489,7 @@ const getItem =  (key) => {
   app.get('/paradas', async (req, res) =>{
     // CallTussam(); Se incorpora al final . Funciona fetch
     dp = await GestorLlamadasParadas(req)      
-    console.log(dp)   
+    console.log("paradas", dp)   
     res.set('Content-Type', 'application/json');
     res.send(dp)   
     // res.send('{"message":"Hola. Se ha accedido a times!"}');

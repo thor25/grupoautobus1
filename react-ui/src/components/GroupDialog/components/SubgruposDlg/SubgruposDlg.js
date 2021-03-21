@@ -76,7 +76,7 @@ export default function SubgruposDlg(props) {
 
  const handleChange = (valor) => (event) =>
  {
-   console.log("handleChange",valor,event.target.value)
+  //  console.log("handleChange",valor,event.target.value)
    if (valor==='nombre')
     setnombre(event.target.value)
    if (valor==='paradas')
@@ -352,7 +352,7 @@ useEffect(() => {
             value={paradas}
             margin="dense"
             id={`paradas${index}`}
-            label="Lista de paradas"
+            label="Paradas"
             type="text"
             fullWidth
             autoComplete='off'
@@ -396,21 +396,13 @@ useEffect(() => {
           </div>
           <div className={clsx(classes.column, classes.helper)}>
             <Typography variant="caption">
-             {nombreParada}
-              <br />
-              <a href="#secondary-heading-and-columns" className={classes.link}>
-                Saber más
-              </a>
+             {nombreParada}    
+             
             </Typography>
           </div>
         </AccordionDetails>
         <Divider />
-        <AccordionActions>
-          <Button size="small">Cancelar</Button>
-          <Button size="small" color="primary" onClick={handleClickAccept}>
-            Salvar
-          </Button>
-        </AccordionActions>
+      
       </Accordion>
       <ParadasDialog  open={open} onClose={handleClose}></ParadasDialog>
     </div>

@@ -27,7 +27,7 @@ export default function FormDialog(props) {
     {
     
       var indice = `subgrupo${index+1}`
-      console.log("SubChange", index,indice,valor)
+    //  console.log("SubChange", index,indice,valor)
       setnewGroup({... newGroup, [indice]:valor})
 
     }
