@@ -13,10 +13,10 @@ export const ListGroup = async(id) =>
   const user = usersRef.doc(id)
   const doc = await user.get();
   if (!doc.exists) {
-    console.log('No such document!');
+    // console.log('No such document!');
     return null;
   } else {
-    console.log('Document data:', doc.data());
+    // console.log('Document data:', doc.data());
     return doc.data();
   }
 
@@ -30,7 +30,6 @@ export const EditGrupo = async(id,valorInicial,valorFinal) =>
 
 export const  AddGrupo =async  (id, valor) =>
 {
-  console.log("field", FieldValue)
 
 const user = usersRef.doc(id)
 console.log ("firestore - add : valor",  valor) 

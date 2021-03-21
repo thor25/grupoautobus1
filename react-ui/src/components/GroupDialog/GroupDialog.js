@@ -13,7 +13,7 @@ import Paradas from './components/Paradas';
 
 export default function FormDialog(props) {
     const {open, handleClose, grupo,add} = props
-    console.log ("Dialog-grupo", grupo)
+    // console.log ("Dialog-grupo", grupo)
     const [nombre, setnombre] = useState('')
     const [newGroup, setnewGroup] = useState(
       {
@@ -68,7 +68,7 @@ useEffect(() => {
    {
     setnombre(texto)
    }
-   console.log('UseEffect-grupo', grupo)
+  //  console.log('UseEffect-grupo', grupo)
    if (add===true)
    {
      setText('')

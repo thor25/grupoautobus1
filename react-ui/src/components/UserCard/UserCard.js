@@ -53,7 +53,6 @@ export default function UserCard(props) {
   const [valorInicial, setvalorInicial] = useState(null)
   const [grupos, setgrupos] = useState(null)
   const [loading, setloading] = useState(false)
-  console.log("UserCard - inicio", userId)
   const [expanded, setExpanded] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
 
@@ -83,8 +82,9 @@ export default function UserCard(props) {
         // console.log("Grupo",subgrupos)
         let datosNodo = {id:uuid(),name:subgrupos.nombre,children:[],datos:subgrupos}
         Object.keys(subgrupos).forEach(function(key0) {
-          // console.log("subgrupo",subgrupos[key0])
+          //  console.log("subgrupo",subgrupos[key0],key0,subgrupos[key0].nombre)
             if (subgrupos[key0].nombre!==undefined)
+            if (subgrupos[key0].nombre!=="")
             datosNodo.children.push(
               { 
                 id:uuid(),
@@ -101,7 +101,7 @@ export default function UserCard(props) {
   
     }
      SetTreeData();
-     console.log("selected",selected)
+    //  console.log("selected",selected)
      setloading(false)
     return () => {
       
@@ -142,7 +142,7 @@ export default function UserCard(props) {
     
   )
   setPadre(valorBusqueda)
-  console.log("valor", valorBusqueda.dato,padre)
+  // console.log("valor", valorBusqueda,padre)
   setSelected(value)
   }
 
@@ -176,6 +176,7 @@ export default function UserCard(props) {
     setopenDelete(false)
    
     DeleteGrupo(userId,padre.dato.datos)
+    setloading(true)
   }
   const handleClose = (tipo = null) => {
     // console.log("Close Dialog - user card", tipo, user,valorInicial)
@@ -201,7 +202,7 @@ export default function UserCard(props) {
 
   const handleSelectNode = (event, nodeIds)=> 
   {
-    console.log("Node", event.target.label, nodeIds)
+    // console.log("Node", event.target.label, nodeIds)
   }
   const getTreeItemsFromData = treeItems => {
   return treeItems.map(treeItemData => {
@@ -216,6 +217,7 @@ export default function UserCard(props) {
           nodeId={treeItemData.id}
           label={treeItemData.name}
           children={children}
+          key={treeItemData.id}
          />
       );
     });
@@ -285,7 +287,8 @@ export default function UserCard(props) {
         onClose: handleCloseDelete,
       }}
     title="Borrar parada" 
-    content={<Box> Con esta acción, borrará la parada elegida.  </Box> }
+    content={selected!==null?<Box> Con esta acción, borrará la parada {padre.dato.datos.nombre} </Box> 
+    :<Box></Box>}
     dismissiveAction = {<Button color="primary" onClick = {handleCloseDelete}>Cancelar</Button>}
     confirmingAction  =  {<Button color="primary" onClick = {handleCloseDeleteOk}>Aceptar</Button>}
     ></ConfirmationDialog>

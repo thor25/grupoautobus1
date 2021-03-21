@@ -66,20 +66,21 @@ class Bar extends Component {
    // <Button onClick={onSignUpClick}>Sign up</Button>
 
     const menuItems = [
+      
       {
-        name: "About",
-        onClick: onAboutClick,
-      },
-      {
-        name: "Profile",
+        name: "Perfil",
         to: user ? `/user/${user.uid}` : null,
       },
       {
-        name: "Settings",
+        name: "Ajustes",
         onClick: onSettingsClick,
       },
       {
-        name: "Sign out",
+        name: "Acerca de",
+        onClick: onAboutClick,
+      },
+      {
+        name: "Salir",
         divide: true,
         onClick: onSignOutClick,
       },
