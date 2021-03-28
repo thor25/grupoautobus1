@@ -105,9 +105,9 @@ if (!isDev && cluster.isMaster) {
           break;
         case 'PUT':
         case 'POST':
-          // console.log("post-bridge")
-          var postData = JSON.parse(request.body) ; 
-     //     console.log(postData)     
+          console.log("post-bridge")
+          //var postData = JSON.parse(request.body) ; 
+          var postData = request.body
           if (ids.length>2)
             {
             // console.log("post-put-bridge")
@@ -123,17 +123,20 @@ if (!isDev && cluster.isMaster) {
           }
           else
           {
-             const { nombreGeneral, nombreSubGrupo1, paradasSubGrupo1,nombreSubGrupo2, paradasSubGrupo2,nombreSubGrupo3, paradasSubGrupo3 } = postData;
-             const cliente = { nombreGeneral, nombreSubGrupo1, paradasSubGrupo1,nombreSubGrupo2, paradasSubGrupo2, nombreSubGrupo3, paradasSubGrupo3 }
+            console.log("post-post-bridge")
+            const {datos} = postData
+            console.log(postData,"datos", datos)
+            
+            //  const { id, nombreGeneral, nombreSubGrupo1, paradasSubGrupo1,nombreSubGrupo2, paradasSubGrupo2,nombreSubGrupo3, paradasSubGrupo3 } = postData;
+            //  const cliente = {id, nombreGeneral, nombreSubGrupo1, paradasSubGrupo1,nombreSubGrupo2, paradasSubGrupo2, nombreSubGrupo3, paradasSubGrupo3 }
    
-            // console.log("post-post-bridge")
-            var datos0 = datos[datos.length-1]
-            var id0 = parseInt( datos0.id,10)+1;
-            var s = id0.toString();
-            cliente.id = s;
-            datos.push(cliente)        
+            // var datos0 = datos[datos.length-1]
+            // var id0 = parseInt( datos0.id,10)+1;
+            // var s = id0.toString();
+            // cliente.id = s;
+            // datos.push(cliente)        
           }
-           setItem("datos",JSON.stringify(datos))
+           setItem("datos",JSON.stringify(postData))
           break;
         case 'DELETE':
           // console.log("del-bridge");
@@ -490,8 +493,18 @@ const getItem =  (key) => {
 
   app.get('/paradas', async (req, res) =>{
     // CallTussam(); Se incorpora al final . Funciona fetch
+    console.log("paradas-get")   
+
     dp = await GestorLlamadasParadas(req)      
-    console.log("paradas", dp)   
+    res.set('Content-Type', 'application/json');
+    res.send(dp)   
+    // res.send('{"message":"Hola. Se ha accedido a times!"}');
+  });
+  app.post('/paradas', async (req, res) =>{
+    // CallTussam(); Se incorpora al final . Funciona fetch
+    console.log("post-paradas")   
+
+    dp = await GestorLlamadasParadas(req)      
     res.set('Content-Type', 'application/json');
     res.send(dp)   
     // res.send('{"message":"Hola. Se ha accedido a times!"}');

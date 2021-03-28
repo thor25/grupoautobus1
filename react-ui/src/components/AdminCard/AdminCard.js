@@ -107,13 +107,21 @@ export default function AdminCard(props) {
     console.log(conversion)
     return conversion
     }
-    const handleClickEdit = ()=>
+    const handleClickEdit =async  ()=>
     {
       console.log("Edit")
       right.forEach((dato=>{
         console.log(dato)
 
       }))
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(right)
+    };
+    const response = await fetch(url, requestOptions);
+    const data = await response.json();
+    console.log("post", data)
     }
     function not(a, b) {
         return a.filter((value) => b.indexOf(value) === -1);
