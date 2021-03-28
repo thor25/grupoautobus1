@@ -54,7 +54,7 @@ export default function AdminCard(props) {
              console.log(res, json) 
              var newRight = []
              json.forEach(dato => {
-                 newRight.push(dato.nombreGeneral)
+                 newRight.push(dato)
              });
              setRight(newRight)
            } catch (err) {
@@ -75,7 +75,8 @@ export default function AdminCard(props) {
           console.log("SetData", datos.datos)
           var newLeft = []
           datos.datos.forEach(dato => {
-              newLeft.push(dato.nombre)
+           var dato0 = convert(dato)
+              newLeft.push(dato0)
           });
           setLeft(newLeft)
          
@@ -88,9 +89,31 @@ export default function AdminCard(props) {
         }
       }, [])
 
+    const convert= (valor)=>
+    {
+      console.log("convert", valor)
+      var conversion=
+    {
+      id:valor.id,
+      nombreGeneral:valor.nombre,
+      nombreSubGrupo1:valor.subgrupo1.nombre,
+      paradasSubGrupo1:valor.subgrupo1.paradas,
+      nombreSubGrupo2:valor.subgrupo2.nombre,
+      paradasSubGrupo2:valor.subgrupo2.paradas,
+      nombreSubGrupo3:valor.subgrupo3.nombre,
+      paradasSubGrupo3:valor.subgrupo3.paradas,
+      
+    }
+    console.log(conversion)
+    return conversion
+    }
     const handleClickEdit = ()=>
     {
+      console.log("Edit")
+      right.forEach((dato=>{
+        console.log(dato)
 
+      }))
     }
     function not(a, b) {
         return a.filter((value) => b.indexOf(value) === -1);
@@ -145,10 +168,10 @@ export default function AdminCard(props) {
           <Paper className={classes.paper}>
             <List dense component="div" role="list">
               {items.map((value) => {
-                const labelId = `transfer-list-item-${value}-label`;
+                const labelId = `transfer-list-item-${value.id}-label`;
       
                 return (
-                  <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+                  <ListItem key={value.id} role="listitem" button onClick={handleToggle(value)}>
                     <ListItemIcon>
                       <Checkbox
                         checked={checked.indexOf(value) !== -1}
@@ -157,7 +180,7 @@ export default function AdminCard(props) {
                         inputProps={{ 'aria-labelledby': labelId }}
                       />
                     </ListItemIcon>
-                    <ListItemText id={labelId} primary={`Gr. ${value}`} />
+                    <ListItemText id={labelId} primary={`Gr. ${value.nombreGeneral}`} />
                   </ListItem>
                 );
               })}
@@ -236,7 +259,7 @@ export default function AdminCard(props) {
             className={classes.button}
             startIcon={<EditIcon />}
             disabled = {false}
-          >  Editar
+          >  Actualizar
           </Button>
           
           </CardActions>

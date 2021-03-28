@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import SubgrupoDlg from "./components/SubgruposDlg"
 import Paradas from './components/Paradas';
-
+import { v4 as uuid } from "uuid";
 
 export default function FormDialog(props) {
     const {open, handleClose, grupo,add} = props
@@ -34,7 +34,7 @@ export default function FormDialog(props) {
     const handleChange = (event) =>
     {
       setnombre(event.target.value)
-      setnewGroup({... newGroup, "nombre":nombre})
+      setnewGroup({... newGroup, "nombre":nombre,id:uuid()})
     }
 
     const handleOk =() => 
