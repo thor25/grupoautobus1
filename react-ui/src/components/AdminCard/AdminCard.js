@@ -19,7 +19,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import {AddGrupo,DeleteGrupo, EditGrupo, ListGroup} from "../../firebaseutils"
+import {ListGroup} from "../../firebaseutils"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,6 +43,7 @@ export default function AdminCard(props) {
     const [checked, setChecked] = React.useState([0]);
    
     useEffect(() => {
+      var newLeft0 = []
         async function fetchData() 
         {
         
@@ -56,12 +57,31 @@ export default function AdminCard(props) {
              json.forEach(dato => {
                  newRight.push(dato)
              });
+             console.log("newLeft0",newLeft0)
+
              setRight(newRight)
+             setLeft(newLeft0)
+             var  leftChecked0 = intersection(newRight, newLeft0);
+             console.log("inter", leftChecked0, newRight, newLeft0)
            } catch (err) {
-                console.log(err)           }
+                console.error(err)           }
         } 
-      
+        async function  SetTreeData() 
+        {
+          var  datos =  await  ListGroup(user.uid)
+          // console.log("UserCard - Datos",datos)
+          // console.log(grupos)
+          console.log("SetData en unico", datos.datos)
+          datos.datos.forEach(dato => {
+           var dato0 = convert(dato)
+              newLeft0.push(dato0)
+          });
+        
+        }
+          SetTreeData()
           fetchData();
+          
+
          },[]);
 
     useEffect(() => {
@@ -73,16 +93,16 @@ export default function AdminCard(props) {
           // console.log("UserCard - Datos",datos)
           // console.log(grupos)
           console.log("SetData", datos.datos)
-          var newLeft = []
+          var newLeft0 = []
           datos.datos.forEach(dato => {
            var dato0 = convert(dato)
-              newLeft.push(dato0)
+              newLeft0.push(dato0)
           });
-          setLeft(newLeft)
+          console.log("newLeft0",newLeft0)
          
       
         }
-         SetTreeData();
+       //  SetTreeData();
         //  console.log("selected",selected)
         return () => {
           
@@ -91,7 +111,6 @@ export default function AdminCard(props) {
 
     const convert= (valor)=>
     {
-      console.log("convert", valor)
       var conversion=
     {
       id:valor.id,
@@ -104,7 +123,6 @@ export default function AdminCard(props) {
       paradasSubGrupo3:valor.subgrupo3.paradas,
       
     }
-    console.log(conversion)
     return conversion
     }
     const handleClickEdit =async  ()=>
@@ -128,6 +146,7 @@ export default function AdminCard(props) {
       }
       
       function intersection(a, b) {
+        console.log("a,b", a,b)
         return a.filter((value) => b.indexOf(value) !== -1);
       }
       
