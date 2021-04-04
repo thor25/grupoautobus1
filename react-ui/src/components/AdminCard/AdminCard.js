@@ -52,26 +52,24 @@ export default function AdminCard(props) {
  
              const res = await fetch(url);
              const json = await res.json();
-             console.log(res, json) 
              var newRight = []
              json.forEach(dato => {
                  newRight.push(dato)
              });
-             console.log("newLeft0",newLeft0)
 
              setRight(newRight)
              setLeft(newLeft0)
-             var  leftChecked0 = intersection(newRight, newLeft0);
-             console.log("inter", leftChecked0, newRight, newLeft0)
+
+             const s =  pruebaNot(newLeft0,newRight);
+             setLeft(s)
+
+             console.log(`inter 2: ${s}`)
            } catch (err) {
                 console.error(err)           }
         } 
         async function  SetTreeData() 
         {
           var  datos =  await  ListGroup(user.uid)
-          // console.log("UserCard - Datos",datos)
-          // console.log(grupos)
-          console.log("SetData en unico", datos.datos)
           datos.datos.forEach(dato => {
            var dato0 = convert(dato)
               newLeft0.push(dato0)
@@ -80,35 +78,9 @@ export default function AdminCard(props) {
         }
           SetTreeData()
           fetchData();
-          
-
          },[]);
 
-    useEffect(() => {
-    
-
-        async function  SetTreeData() 
-        {
-          var  datos =  await  ListGroup(user.uid)
-          // console.log("UserCard - Datos",datos)
-          // console.log(grupos)
-          console.log("SetData", datos.datos)
-          var newLeft0 = []
-          datos.datos.forEach(dato => {
-           var dato0 = convert(dato)
-              newLeft0.push(dato0)
-          });
-          console.log("newLeft0",newLeft0)
-         
-      
-        }
-       //  SetTreeData();
-        //  console.log("selected",selected)
-        return () => {
-          
-        }
-      }, [])
-
+   
     const convert= (valor)=>
     {
       var conversion=
@@ -121,8 +93,7 @@ export default function AdminCard(props) {
       paradasSubGrupo2:valor.subgrupo2.paradas,
       nombreSubGrupo3:valor.subgrupo3.nombre,
       paradasSubGrupo3:valor.subgrupo3.paradas,
-      
-    }
+     }
     return conversion
     }
     const handleClickEdit =async  ()=>
@@ -141,12 +112,51 @@ export default function AdminCard(props) {
     const data = await response.json();
     console.log("post", data)
     }
+
+    function filtrarPorID(obj,b) {
+    console.log(`obj:${obj},b:${b}`)
+    return true;
+    }
+    function pruebaIntersection(a,b)
+    {
+      console.log("pruebaint",a,b)
+      return a.filter( (el) =>
+      {
+        let retorno = false
+        b.forEach(valor=>{
+          if (el.id===valor.id) 
+          {           
+            retorno = true
+           }
+        })
+        return retorno;
+      }
+      );
+     
+    }
+
+    function pruebaNot(a,b)
+    {
+      console.log("pruebaNot",a,b)
+      return a.filter( (el) =>
+      {
+        let retorno = true
+        b.forEach(valor=>{
+          if (el.id===valor.id) 
+          {           
+            retorno = false
+           }
+        })
+        return retorno;
+      }
+      );
+     
+    }
     function not(a, b) {
         return a.filter((value) => b.indexOf(value) === -1);
       }
       
       function intersection(a, b) {
-        console.log("a,b", a,b)
         return a.filter((value) => b.indexOf(value) !== -1);
       }
       
