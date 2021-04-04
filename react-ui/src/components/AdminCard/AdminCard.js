@@ -75,7 +75,7 @@ export default function AdminCard(props) {
           datos.datos.forEach(dato => {
            var dato0 = convert(dato)
               newLeft0.push(dato0)
-          });
+          }); 
         
         }
           SetTreeData()
