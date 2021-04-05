@@ -15,9 +15,11 @@ export default function FormDialog(props) {
     const {open, handleClose, grupo,add} = props
     // console.log ("Dialog-grupo", grupo)
     const [nombre, setnombre] = useState('')
+    const [id,setId] = useState('')
     const [newGroup, setnewGroup] = useState(
       {
         'nombre':"",
+        'id':"",
          'subgrupo1':{'nombre':'','paradas':''},
          'subgrupo2':{'nombre':'','paradas':''},
          'subgrupo3':{'nombre':'','paradas':''},       
@@ -34,13 +36,14 @@ export default function FormDialog(props) {
     const handleChange = (event) =>
     {
       setnombre(event.target.value)
-      setnewGroup({... newGroup, "nombre":nombre,id:uuid()})
+      setnewGroup({... newGroup, "nombre":nombre,"id":id})
     }
 
     const handleOk =() => 
   {
-    console.log('ok')
-    setnewGroup({... newGroup, 'nombre':nombre})
+   console.log(`Ok - id:${id}`)
+
+    setnewGroup({... newGroup, 'nombre':nombre,'id':id})
      
     handleClose(newGroup)
   }
@@ -52,15 +55,26 @@ export default function FormDialog(props) {
   }
 
 useEffect(() => {
+
+
   setnewGroup({... newGroup, "nombre":nombre})
+
 }, [nombre])
 useEffect(() => {
-  if (add===true) 
+  if (add===true)
+  {   
   setnombre('')
+  setId(uuid())
+  }
+  
   else
   if (grupo!==null)
-   if (grupo.dato.name!= '')
+   if (grupo.dato.name!= ''){
+    console.log(`Edit - id:${id},dato:${grupo.dato.id}`)
+
      setnombre(grupo.dato.name)
+     setId(grupo.dato.id)
+   }
 }, [add])
 useEffect(() => {
 

@@ -153,24 +153,24 @@ if (!isDev && cluster.isMaster) {
     return JSON.stringify(datos);
     
   }
-  async function getDatosParadas(node)
-  {
-    console.log('get datos', node)
-    let url ="http://94.198.88.152:9005/INFOTUS/API/tiempos/" 
+  // async function getDatosParadas(node)
+  // {
+  //   console.log('get datos', node)
+  //   let url ="http://94.198.88.152:9005/INFOTUS/API/tiempos/" 
     
-      await fetch(url+node, {
-        method: 'get',
-        headers: headers,
-      })      
-        .then(response => response.json())
-        .then(data => {
-         if (data!=null)
-         {
-        console.log (data)
-         }
-        }
-        )
-      }
+  //     await fetch(url+node, {
+  //       method: 'get',
+  //       headers: headers,
+  //     })      
+  //       .then(response => response.json())
+  //       .then(data => {
+  //        if (data!=null)
+  //        {
+  //       console.log (data)
+  //        }
+  //       }
+  //       )
+  //     }
   
 
   async  function callTussam(idParadas, paradas, i, url,principal) {
