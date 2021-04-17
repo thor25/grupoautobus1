@@ -149,7 +149,7 @@ if (!isDev && cluster.isMaster) {
           setItem("datos",JSON.stringify(datos))
           break;
     };
-    console.log(datos)
+   // console.log(datos)
     return JSON.stringify(datos);
     
   }
