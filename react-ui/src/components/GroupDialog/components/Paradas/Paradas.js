@@ -41,12 +41,12 @@ export default function Paradas (props) {
   const [age, setAge] = React.useState('');
 
   const handleChange = async  (event) => {
-    console.log(event.target.value)
+   // console.log(event.target.value)
     var newLinea = []
-    console.log(newLinea)
+  //  console.log(newLinea)
     var paradas = await getParadasLinea(event.target.value)
     newLinea.push(event.target.value)
-    console.log(newLinea)
+  //  console.log(newLinea)
     setlinea(event.target.value)
   };
 

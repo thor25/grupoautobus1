@@ -179,7 +179,7 @@ export default function UserCard(props) {
     setloading(true)
   }
   const handleClose = (tipo = null) => {
-    // console.log("Close Dialog - user card", tipo, user,valorInicial)
+    console.log("Close Dialog - user card", tipo, user,valorInicial)
 
     setOpen(false);
 
