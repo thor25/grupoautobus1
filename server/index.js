@@ -56,7 +56,7 @@ paradasSubGrupo3:"21,786:C3"
   nombreSubGrupo3: "",
   paradasSubGrupo3:""
   }
-]
+] 
 var tiempo =[
   {"codigo":"47","descripcion":"Madreselva","linea":"01","color":"#f54129","tiempo1":"4","tiempo2":"20","orden":-1996},
   {"codigo":"47","descripcion":"Madreselva","linea":"11","color":"#000d6f","tiempo1":"5","tiempo2":"25","orden":-1995},
