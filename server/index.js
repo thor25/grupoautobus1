@@ -6,6 +6,17 @@ const numCPUs = require('os').cpus().length;
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
+// Require and initialize outside of your main handler
+const mysql = require('serverless-mysql')({
+  config: {
+    host     : process.env.ENDPOINT,
+    database : process.env.DATABASE,
+    user     : process.env.USERNAME,
+    password : process.env.PASSWORD
+  }
+})
+ 
+
 const urlBase = "http://94.198.88.152:9005/INFOTUS/API/"
 
 const headers = {
