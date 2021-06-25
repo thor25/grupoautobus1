@@ -6,15 +6,8 @@ const numCPUs = require('os').cpus().length;
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
-// Require and initialize outside of your main handler
-const mysql = require('serverless-mysql')({
-  config: {
-    host     : process.env.ENDPOINT,
-    database : process.env.DATABASE,
-    user     : process.env.USERNAME,
-    password : process.env.PASSWORD
-  }
-})
+import { firebaseInit } from "../db/firestore.init";
+
  
 
 const urlBase = "http://94.198.88.152:9005/INFOTUS/API/"
@@ -560,3 +553,18 @@ const getItem =  (key) => {
     console.error(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port ${PORT}`);
   });
 }
+Home.getInitialProps = async function(router) {
+  console.log(router.query.name);
+  const queryText = router.query.name;
+  const db = await firebaseInit();
+  let data = [];
+  const querySnapshot = await db
+    .firestore()
+    .collection("user")
+    .where("name", "==", queryText)
+    .get();
+  querySnapshot.forEach(doc => {
+    data.push(doc.data());
+  });
+  return { user: data.length ? data[0] : {} };
+};
