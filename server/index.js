@@ -96,6 +96,7 @@ if (!isDev && cluster.isMaster) {
     var postData;   
     var ids = request.url.split('/');
     var s = getItem("datos")
+    
     //// var  datos0 = await store.get('datos')
     const datos = JSON.parse(s );    
     switch(tipo)

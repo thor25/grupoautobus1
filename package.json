@@ -17,7 +17,8 @@
     "express": "^4.16.4",
     "express-async-await": "^1.1.0",
     "node-fetch": "^2.6.1",
-    "node-localstorage": "^2.1.6"
+    "node-localstorage": "^2.1.6",
+    "serverless-mysql": "^1.5.4"
   },
   "repository": {
     "type": "git",
