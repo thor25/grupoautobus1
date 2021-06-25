@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
-export function firebaseInit() {
+var firebase = require("firebase/app");
+require ("firebase/firestore");
+exports.firebaseInit = ()=> {
   try {
     var config = {
       apiKey: "AIzaSyBFwlVDLGxpIX_i8ChQd0cKiL5m-bFlyug",
