@@ -6,7 +6,6 @@ const numCPUs = require('os').cpus().length;
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
-import { firebaseInit } from "../db/firestore.init";
 
  
 
@@ -26,6 +25,8 @@ const bodyParser = require('body-parser');
 var async  = require('express-async-await')
 var fetch = require('node-fetch')
 var {LocalStorage} = require('node-localstorage')
+
+var  { firebaseInit } = require('../server/db/firestore.init')
 localStorage = new LocalStorage('./paradas')
 var paradas = []
 var datosPrueba = [
