@@ -556,8 +556,13 @@ const getItem =  (key) => {
 
 
  async function prueba() {
-   console.log("prueba")
+ console.log("prueba")
  var db = firebaseInit();
+ const username = process.env.NEXT_PUBLIC_DB_USERNAME
+ console.log(process.env)
+ console.log("🚀 ~ file: index.js ~ line 562 ~ prueba ~ username", username)
+ const password = process.env.DB_PASSWORD
+ console.log("🚀 ~ file: index.js ~ line 564 ~ prueba ~ process.env.DB_USERNAME", process.env.DB_USERNAME)
  await authentication
  .signIn(process.env.DB_USERNAME, process.env.DB_PASSWORD)
  .then((user) => {
