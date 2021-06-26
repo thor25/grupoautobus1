@@ -6,9 +6,6 @@ const numCPUs = require('os').cpus().length;
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
 
-
- 
-
 const urlBase = "http://94.198.88.152:9005/INFOTUS/API/"
 
 const headers = {
@@ -26,7 +23,8 @@ var async  = require('express-async-await')
 var fetch = require('node-fetch')
 var {LocalStorage} = require('node-localstorage')
 
-var  { firebaseInit } = require('../server/db/firestore.init')
+var  { firebaseInit, authentication } = require('../server/db/firestore.init')
+
 localStorage = new LocalStorage('./paradas')
 var paradas = []
 var datosPrueba = [
@@ -500,7 +498,7 @@ const getItem =  (key) => {
   app.get('/paradas', async (req, res) =>{
     // CallTussam(); Se incorpora al final . Funciona fetch
     console.log("paradas-get")   
-    prueba()
+   await prueba()
 
    // dp = await GestorLlamadasParadas(req)      
   //  res.set('Content-Type', 'application/json');
@@ -558,8 +556,30 @@ const getItem =  (key) => {
 
 
  async function prueba() {
- 
-}
+   console.log("prueba")
+ var db = firebaseInit();
+ console.log(db, authentication)
+ await authentication
+ .signIn("trainero2001@yahoo.es", "donblake")
+ .then((user) => {
+ console.log("🚀 ~ file: index.js ~ line 563 ~ .then ~ user", user)
+  
+    
+  
+ })
+ .catch((reason) => {
+   const code = reason.code;
+   console.log("🚀 ~ file: index.js ~ line 570 ~ prueba ~ code", code)
+   const message = reason.message;
+   console.log("🚀 ~ file: index.js ~ line 570 ~ prueba ~ message", message)
+
+  
+     
+    
+ })
+ .finally(() => {
+  
+})
 
  
-  
+}
