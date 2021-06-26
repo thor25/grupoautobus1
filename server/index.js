@@ -558,27 +558,18 @@ const getItem =  (key) => {
  async function prueba() {
    console.log("prueba")
  var db = firebaseInit();
- console.log(db, authentication)
  await authentication
- .signIn("trainero2001@yahoo.es", "donblake")
+ .signIn(process.env.DB_USERNAME, process.env.DB_PASSWORD)
  .then((user) => {
  console.log("🚀 ~ file: index.js ~ line 563 ~ .then ~ user", user)
-  
-    
-  
- })
- .catch((reason) => {
+ }).catch((reason) => {
    const code = reason.code;
    console.log("🚀 ~ file: index.js ~ line 570 ~ prueba ~ code", code)
    const message = reason.message;
    console.log("🚀 ~ file: index.js ~ line 570 ~ prueba ~ message", message)
-
-  
-     
-    
- })
+})
  .finally(() => {
-  
+  console.log('finally')
 })
 
  

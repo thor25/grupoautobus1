@@ -12,19 +12,17 @@ var auth;
 exports.firebaseInit = ()=> {
   try {
     var config = {
-      apiKey: "AIzaSyBFwlVDLGxpIX_i8ChQd0cKiL5m-bFlyug",
-      authDomain: "grupoautobus-e87e3.firebaseapp.com",
-      databaseURL: "https://grupoautobus-e87e3-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "grupoautobus-e87e3",
-      storageBucket: "grupoautobus-e87e3.appspot.com",
-      messagingSenderId: "673256947330",
-      appId: "1:673256947330:web:352d247bb0f8145e253e9b",
-      measurementId: "G-ED482GRJH8"
+      apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+      authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+      databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+      projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+      storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.REACT_APP_FIREBASE_APP_ID,
+      measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
     };
     firebase.initializeApp(config);
-   
-    
-    
+ 
   } catch (err) {
     // we skip the "already exists" message which is    
     // not an actual error when we're hot-reloading
@@ -40,14 +38,13 @@ const authentication = {};
 
 
 authentication.signIn = (emailAddress, password) => {
+console.log("🚀 ~ file: firestore.init.js ~ line 41 ~ password", password)
+console.log("🚀 ~ file: firestore.init.js ~ line 41 ~ emailAddress", emailAddress)
   var firestore = firebase.firestore()
   auth  = firebase.auth()
-console.log("🚀 ~ file: firestore.init.js ~ line 172 ~ password", password)
-console.log("🚀 ~ file: firestore.init.js ~ line 172 ~ emailAddress", emailAddress)
   return new Promise((resolve, reject) => {
      
     if (!emailAddress || !password) {
-      console.log("🚀 ~ file: firestore.init.js ~ line 176 ~ reject ~ password", password)
       reject(new Error("No e-mail address or password"));
 
       return;
@@ -55,7 +52,6 @@ console.log("🚀 ~ file: firestore.init.js ~ line 172 ~ emailAddress", emailAdd
     console.log(auth)
 
     if (auth.currentUser) {
-      console.log("🚀 ~ file: firestore.init.js ~ line 182 ~ returnnewPromise ~ auth", auth)
       reject(new Error("No current user"));
 
       return;
@@ -65,7 +61,6 @@ console.log("🚀 ~ file: firestore.init.js ~ line 172 ~ emailAddress", emailAdd
       .signInWithEmailAndPassword(emailAddress, password)
       .then((value) => {
         const user = value.user;
-        console.log("🚀 ~ file: firestore.init.js ~ line 192 ~ .then ~ user", user)
 
         if (!user) {
           reject(new Error("No user"));
@@ -74,7 +69,6 @@ console.log("🚀 ~ file: firestore.init.js ~ line 172 ~ emailAddress", emailAdd
         }
 
         const uid = user.uid;
-        console.log("🚀 ~ file: firestore.init.js ~ line 205 ~ .then ~ uid", uid)
 
         if (!uid) {
           reject(new Error("No UID"));
@@ -83,16 +77,13 @@ console.log("🚀 ~ file: firestore.init.js ~ line 172 ~ emailAddress", emailAdd
         }
 
         const userDocumentReference = firestore.collection("users").doc(uid);
-        console.log("🚀 ~ file: firestore.init.js ~ line 214 ~ .then ~ userDocumentReference", userDocumentReference)
 
         
       })
       .catch((reason) => {
-      console.log("🚀 ~ file: firestore.init.js ~ line 245 ~ returnnewPromise ~ reason", reason)
         
         reject(reason);
       });
   });
-    console.log("🚀 ~ file: firestore.init.js ~ line 123 ~ returnnewPromise ~ auth", auth)
 };
 exports.authentication = authentication;
