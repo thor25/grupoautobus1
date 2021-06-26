@@ -556,28 +556,9 @@ const getItem =  (key) => {
   });
 }
 
-function prueba({data})
-{
-  console.log('prueba')
-  console.log(data)
-}
 
  async function prueba() {
-  console.log('init firebase');
-  const db = await firebaseInit();
-  console.log(db)
-  let data = [];
-  const querySnapshot = await db
-    .firestore()
-    .collection("user")
-    .where("name", "==", 'fitbit')
-    .get();
-  querySnapshot.forEach(doc => {
-    data.push(doc.data());
-  });
-  return {
-    props: {data}, // will be passed to the page component as props
-  }
+ 
 }
 
  
