@@ -1,5 +1,6 @@
 var firebase = require("firebase/app");
 require ("firebase/firestore");
+exports.firestore = () => firebase.firestore();
 exports.firebaseInit = ()=> {
   try {
     var config = {

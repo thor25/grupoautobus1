@@ -500,10 +500,11 @@ const getItem =  (key) => {
   app.get('/paradas', async (req, res) =>{
     // CallTussam(); Se incorpora al final . Funciona fetch
     console.log("paradas-get")   
+    prueba()
 
-    dp = await GestorLlamadasParadas(req)      
-    res.set('Content-Type', 'application/json');
-    res.send(dp)   
+   // dp = await GestorLlamadasParadas(req)      
+  //  res.set('Content-Type', 'application/json');
+  //  res.send(dp)   
     // res.send('{"message":"Hola. Se ha accedido a times!"}');
   });
   app.post('/paradas', async (req, res) =>{
@@ -554,18 +555,30 @@ const getItem =  (key) => {
     console.error(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port ${PORT}`);
   });
 }
-Home.getInitialProps = async function(router) {
-  console.log(router.query.name);
-  const queryText = router.query.name;
+
+function prueba({data})
+{
+  console.log('prueba')
+  console.log(data)
+}
+
+ async function prueba() {
+  console.log('init firebase');
   const db = await firebaseInit();
+  console.log(db)
   let data = [];
   const querySnapshot = await db
     .firestore()
     .collection("user")
-    .where("name", "==", queryText)
+    .where("name", "==", 'fitbit')
     .get();
   querySnapshot.forEach(doc => {
     data.push(doc.data());
   });
-  return { user: data.length ? data[0] : {} };
-};
+  return {
+    props: {data}, // will be passed to the page component as props
+  }
+}
+
+ 
+  
