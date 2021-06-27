@@ -26,7 +26,8 @@ export default function Lista(props)
 
     
       
-      const  url = "/users"     
+      const  url = "api/users"     
+      
       const [refresh, setRefresh] = useState(true) 
     
       const [loading, setLoading] = useState(true);
