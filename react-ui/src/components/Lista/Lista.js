@@ -26,8 +26,8 @@ export default function Lista(props)
 
     
       
-      const  url = "api/users"     
-      
+// const  url = "http://localhost:5000/api/users"     
+const  url = "https://servidorbus.herokuapp.com/api/users"  
       const [refresh, setRefresh] = useState(true) 
     
       const [loading, setLoading] = useState(true);
