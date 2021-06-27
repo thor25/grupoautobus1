@@ -1,21 +1,45 @@
-{
-  "name": "server",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev -p 5000",
-    "build": "next build",
-    "start": "next start -p 5000",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "firebase": "^8.6.8",
-    "next": "11.0.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
-  },
-  "devDependencies": {
-    "eslint": "7.29.0",
-    "eslint-config-next": "11.0.1"
+
+  {
+    "name": "heroku-cra-node",
+    "version": "3.0.0",
+    "description": "How to use create-react-app with a custom Node API on Heroku",
+    "engines": {
+      "node": ">10.x"
+    },
+    "scripts": {
+      "build": "cd react-ui/ && npm install && npm run build",
+      "dev": "next dev -p 5000",
+      "start": "next start -p 5000",
+      "lint": "next lint"
+    },
+    "cacheDirectories": [
+      "server/node_modules",
+      "react-ui/node_modules"
+    ],
+    "dependencies": {
+      
+        "firebase": "^8.6.8",
+        "next": "11.0.1",
+        "react": "17.0.2",
+        "react-dom": "17.0.2"
+      },
+      "devDependencies": {
+        "eslint": "7.29.0",
+        "eslint-config-next": "11.0.1"
+      },
+     
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/thor25/grupoautobus.git"
+    },
+    "keywords": [
+      "node",
+      "heroku",
+      "create-react-app",
+      "react"
+    ]
+   
   }
-}
+  
+
+
