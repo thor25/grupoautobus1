@@ -24,10 +24,8 @@ export default function Lista(props)
 //  console.log(paradas)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-    
-      
-// const  url = "http://localhost:5000/api/users"     
-const  url = "https://servidorbus.herokuapp.com/api/users"  
+const  url = "http://localhost:5000/api/users"     
+// const  url = "https://servidorbus.herokuapp.com/api/users"  
       const [refresh, setRefresh] = useState(true) 
     
       const [loading, setLoading] = useState(true);
@@ -38,6 +36,8 @@ const  url = "https://servidorbus.herokuapp.com/api/users"
 
      
       useEffect(() => {
+        console.log("🚀 ~ file: Lista.js ~ line 148 ~ process.env.NODE_ENV", process.env.NODE_ENV)
+
        async function fetchData(paradas) 
        {
          var options = 
