@@ -18,13 +18,14 @@ import Typography from '@material-ui/core/Typography';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import {url}  from "../GroupDialog/utils/utils"
 export default function Lista(props)
 {
  const {paradas} = props
 //  console.log(paradas)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-const  url = "http://localhost:5000/api/users"     
+// const  url = "http://localhost:5000/api/users"     
 // const  url = "https://servidorbus.herokuapp.com/api/users"  
       const [refresh, setRefresh] = useState(true) 
     

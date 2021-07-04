@@ -1,5 +1,5 @@
 import { firestore } from "../../../firebase"
-
+const url = "http:localhost:5000/"
 const lineasRef  =  firestore.collection("lineas") 
 const usersRef = firestore.collection('users')
 export const  getLineasTussam =  async () =>
@@ -8,7 +8,7 @@ export const  getLineasTussam =  async () =>
           try {
              console.log("getlineastussam")
 
-            const res = await fetch('/lineas');
+            const res = await fetch(`${url}/lineas`);
             const json = await res.json();
             console.log("getlineastussam", json)
             return json
@@ -26,7 +26,7 @@ export async function   getParadasLinea  (linea)
   try {
     console.log("getParadasLinea", linea)
 
-   const res = await fetch(`/nodoslinea?linea=${linea}`);
+   const res = await fetch(`${url}/nodoslinea?linea=${linea}`);
    const json = await res.json();
    console.log("getParadasLinea", json)
    return json
