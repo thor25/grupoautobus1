@@ -56,9 +56,11 @@ export default function Paradas (props) {
         var jsonLineas =  await getLineasTussam()  
         console.log("🚀 ~ file: Paradas.js ~ line 57 ~ formatLineas ~ jsonLineas", jsonLineas)
      //   setLineas(jsonLineas)
-        return jsonLineas
+        return jsonLineas.datos
        }
        formatLineas().then(jsonLineas =>{
+       console.log("🚀 ~ file: Paradas.js ~ line 63 ~ formatLineas ~ jsonLineas", jsonLineas.datos)
+
        setLineas(jsonLineas)
   
        }

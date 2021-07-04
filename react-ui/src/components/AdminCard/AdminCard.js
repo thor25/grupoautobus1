@@ -20,6 +20,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import {ListGroup} from "../../firebaseutils"
+import {url, getFitbit} from "../GroupDialog/utils/utils"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AdminCard(props) {
     const classes = useStyles();
-    const  url = "/paradas"     
+         
     const {user} = props
     const [checked, setChecked] = React.useState([0]);
    
@@ -49,13 +50,17 @@ export default function AdminCard(props) {
         
            try {
               console.log("fetchdata")
- 
-             const res = await fetch(url);
-             const json = await res.json();
-             var newRight = []
-             json.forEach(dato => {
-                 newRight.push(dato)
-             });
+              var newRight = []
+              var listaFitbit = await getFitbit()
+              console.log("🚀 ~ file: AdminCard.js ~ line 55 ~ useEffect ~ listaFitbit", listaFitbit)
+              newRight = listaFitbit.grupos.split(',')
+              console.log("🚀 ~ file: AdminCard.js ~ line 57 ~ useEffect ~ newRight", newRight)
+              // const res = await fetch(`${url}\paradas`);
+              // const json = await res.json();
+           
+              // json.forEach(dato => {
+              //     newRight.push(dato)
+              // });
 
              setRight(newRight)
              setLeft(newLeft0)
@@ -70,7 +75,9 @@ export default function AdminCard(props) {
         async function  SetTreeData() 
         {
           var  datos =  await  ListGroup(user.uid)
+          console.log("🚀 ~ file: AdminCard.js ~ line 78 ~ useEffect ~ datos", datos)
           datos.datos.forEach(dato => {
+          console.log("🚀 ~ file: AdminCard.js ~ line 79 ~ useEffect ~ dato", dato)
            var dato0 = convert(dato)
               newLeft0.push(dato0)
           }); 

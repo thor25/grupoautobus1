@@ -25,8 +25,7 @@ export default function Lista(props)
 //  console.log(paradas)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-// const  url = "http://localhost:5000/api/users"     
-// const  url = "https://servidorbus.herokuapp.com/api/users"  
+
       const [refresh, setRefresh] = useState(true) 
     
       const [loading, setLoading] = useState(true);
@@ -62,7 +61,7 @@ export default function Lista(props)
           try {
             // console.log("fetchdata", paradas,options)
 
-            const res = await fetch(url, options);
+            const res = await fetch(`${url}/users`, options);
             const json = await res.json();
 
             setResult(json);

@@ -1,10 +1,12 @@
 import { firestore } from "../../../firebase"
-export const url = "http://localhost:5000/api"
+export const  url =process.env.NODE_ENV==='development' ? "http://localhost:5000/api" : "https://servidorbus.herokuapp.com/api/users"
 const lineasRef  =  firestore.collection("lineas") 
 const usersRef = firestore.collection('users')
+const fitbitRef = firestore.collection('fitbit').doc('datos')
 export const  getLineasTussam =  async () =>
 {
-        
+// const  url = "http://localhost:5000/api/users"     
+// const  url = "https://servidorbus.herokuapp.com/api/users"  
           try {
              console.log("getlineastussam")
 
@@ -152,6 +154,48 @@ export const  getParadas = async(linea)=>
   
     )
 }
+export const  getFitbit = async()=>
+{
+  const doc = await fitbitRef.get();
+  if (!doc.exists) {
+    console.log('No such document!');
+  } else {
+    console.log('Document data:', doc.data());
+    return doc.data();
+  }
+
+    // return Promise.all ( 
+    // await fitbitRef.get()
+    // .then(snapshot => {
+    //   if (snapshot.empty) {
+    //     console.log('No matching documents.');
+    //     return [];
+    //   }
+    //   var lineas = []
+   
+    //   snapshot.forEach(doc => {
+    //  //   console.log(doc.id, '=>', doc.data());
+    //    // jsonParada.todo.push(doc.data().LINEA)
+    //     let nombre = doc.data()['valor']
+    //     let key = nombre.substring(0,nombre.indexOf('.-'))
+    //     let dato = {
+    //         nombre:nombre,
+    //         key:key
+    //      }
+    //     lineas.push(dato)});
+ 
+    //    return lineas
+      
+    // })
+    // .catch(err => {
+    //   console.log('Error getting documents', err);
+    // })
+    
+  
+    // )
+}
+
+
 // export const  getDatosUser = async(user)=>
 // {
   

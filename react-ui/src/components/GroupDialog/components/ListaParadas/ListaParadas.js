@@ -87,7 +87,8 @@ export default function ListaParadas(props) {
     async function formatParadas(linea)
     {
       var jsonParadas = await getParadasLinea(linea)
-      return jsonParadas;
+      console.log("🚀 ~ file: ListaParadas.js ~ line 90 ~ useEffect ~ jsonParadas", jsonParadas)
+      return jsonParadas.datos;
 
     }
     setChecked([])
