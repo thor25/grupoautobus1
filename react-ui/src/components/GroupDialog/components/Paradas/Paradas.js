@@ -54,6 +54,7 @@ export default function Paradas (props) {
   useEffect(() => {  
     async function formatLineas() {
         var jsonLineas =  await getLineasTussam()  
+        console.log("🚀 ~ file: Paradas.js ~ line 57 ~ formatLineas ~ jsonLineas", jsonLineas)
      //   setLineas(jsonLineas)
         return jsonLineas
        }
