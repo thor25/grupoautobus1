@@ -44,46 +44,36 @@ export default function AdminCard(props) {
     const [checked, setChecked] = React.useState([0]);
    
     useEffect(() => {
-      var newLeft0 = []
+    
         async function fetchData() 
         {
-        
-           try {
+          var newLeft0 = []
+          var newRight = []
               console.log("fetchdata")
-              var newRight = []
+              console.log("🚀 ~ file: AdminCard.js ~ line 77 ~ useEffect ~ newLeft0", newLeft0)
+              console.log("🚀 ~ file: AdminCard.js ~ line 77 ~ useEffect ~ newRight", newRight)
+              console.log("SetTreeData")
               var listaFitbit = await getFitbit()
-              console.log("🚀 ~ file: AdminCard.js ~ line 55 ~ useEffect ~ listaFitbit", listaFitbit)
-              newRight = listaFitbit.grupos.split(',')
-              console.log("🚀 ~ file: AdminCard.js ~ line 57 ~ useEffect ~ newRight", newRight)
-              // const res = await fetch(`${url}\paradas`);
-              // const json = await res.json();
-           
-              // json.forEach(dato => {
-              //     newRight.push(dato)
-              // });
-
+              var grupoFitbit = listaFitbit.grupos.toUpperCase().split(',')
+    
+              var  datos =  await  ListGroup(user.uid)
+              datos.datos.forEach(dato => {
+               
+               var dato0 = convert(dato)
+                  if (grupoFitbit.find(grupo=>dato.nombre.toUpperCase()===grupo))
+                  {
+                     newRight.push(dato0)
+                  }
+                  else
+                  newLeft0.push(dato0)
+    
+              });    
              setRight(newRight)
              setLeft(newLeft0)
-
-             const s =  pruebaNot(newLeft0,newRight);
-             setLeft(s)
-
-             console.log(`inter 2: ${s}`)
-           } catch (err) {
-                console.error(err)           }
+            //  const s =  pruebaNot(newLeft0,newRight);
+            
         } 
-        async function  SetTreeData() 
-        {
-          var  datos =  await  ListGroup(user.uid)
-          console.log("🚀 ~ file: AdminCard.js ~ line 78 ~ useEffect ~ datos", datos)
-          datos.datos.forEach(dato => {
-          console.log("🚀 ~ file: AdminCard.js ~ line 79 ~ useEffect ~ dato", dato)
-           var dato0 = convert(dato)
-              newLeft0.push(dato0)
-          }); 
-        
-        }
-          SetTreeData()
+       
           fetchData();
          },[]);
 
@@ -92,7 +82,7 @@ export default function AdminCard(props) {
     {
       var conversion=
     {
-      id:valor.id,
+      id:valor.nombre,
       nombreGeneral:valor.nombre,
       nombreSubGrupo1:valor.subgrupo1.nombre,
       paradasSubGrupo1:valor.subgrupo1.paradas,
@@ -120,45 +110,45 @@ export default function AdminCard(props) {
     console.log("post", data)
     }
 
-    function filtrarPorID(obj,b) {
-    console.log(`obj:${obj},b:${b}`)
-    return true;
-    }
-    function pruebaIntersection(a,b)
-    {
-      console.log("pruebaint",a,b)
-      return a.filter( (el) =>
-      {
-        let retorno = false
-        b.forEach(valor=>{
-          if (el.id===valor.id) 
-          {           
-            retorno = true
-           }
-        })
-        return retorno;
-      }
-      );
+    // function filtrarPorID(obj,b) {
+    // console.log(`obj:${obj},b:${b}`)
+    // return true;
+    // }
+    // function pruebaIntersection(a,b)
+    // {
+    //   console.log("pruebaint",a,b)
+    //   return a.filter( (el) =>
+    //   {
+    //     let retorno = false
+    //     b.forEach(valor=>{
+    //       if (el.id===valor.id) 
+    //       {           
+    //            retorno = true
+    //        }
+    //     })
+    //     return retorno;
+    //   }
+    //   );
      
-    }
+    // }
 
-    function pruebaNot(a,b)
-    {
-      console.log("pruebaNot",a,b)
-      return a.filter( (el) =>
-      {
-        let retorno = true
-        b.forEach(valor=>{
-          if (el.id===valor.id) 
-          {           
-            retorno = false
-           }
-        })
-        return retorno;
-      }
-      );
+    // function pruebaNot(a,b)
+    // {
+    //   console.log("pruebaNot",a,b)
+    //   return a.filter( (el) =>
+    //   {
+    //     let retorno = true
+    //     b.forEach(valor=>{
+    //       if (el.id===valor.id) 
+    //       {           
+    //         retorno = false
+    //        }
+    //     })
+    //     return retorno;
+    //   }
+    //   );
      
-    }
+    // }
     function not(a, b) {
         return a.filter((value) => b.indexOf(value) === -1);
       }
