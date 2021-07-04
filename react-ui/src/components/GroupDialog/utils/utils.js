@@ -1,5 +1,5 @@
 import { firestore } from "../../../firebase"
-const url = "http:localhost:5000/"
+export const url = "http:localhost:5000/"
 const lineasRef  =  firestore.collection("lineas") 
 const usersRef = firestore.collection('users')
 export const  getLineasTussam =  async () =>
