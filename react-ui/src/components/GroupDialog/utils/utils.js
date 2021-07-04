@@ -1,5 +1,5 @@
 import { firestore } from "../../../firebase"
-export const  url =process.env.NODE_ENV==='development' ? "http://localhost:5000/api" : "https://servidorbus.herokuapp.com/api/users"
+export const  url =process.env.NODE_ENV==='development' ? "http://localhost:5000/api" : "api"
 const lineasRef  =  firestore.collection("lineas") 
 const usersRef = firestore.collection('users')
 const fitbitRef = firestore.collection('fitbit').doc('datos')
