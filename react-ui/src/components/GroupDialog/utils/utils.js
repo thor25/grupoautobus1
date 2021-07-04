@@ -163,6 +163,11 @@ export const  getFitbit = async()=>
     console.log('Document data:', doc.data());
     return doc.data();
   }
+}
+  export const  setFitbit = async(valor)=>
+{
+  const doc = await fitbitRef.set({grupos:valor});
+}
 
     // return Promise.all ( 
     // await fitbitRef.get()
@@ -193,7 +198,7 @@ export const  getFitbit = async()=>
     
   
     // )
-}
+// }
 
 
 // export const  getDatosUser = async(user)=>

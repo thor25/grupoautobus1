@@ -20,7 +20,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import {ListGroup} from "../../firebaseutils"
-import {url, getFitbit} from "../GroupDialog/utils/utils"
+import {url, getFitbit,setFitbit} from "../GroupDialog/utils/utils"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -95,19 +95,17 @@ export default function AdminCard(props) {
     }
     const handleClickEdit =async  ()=>
     {
+      var cadena = ""
       console.log("Edit")
-      right.forEach((dato=>{
-        console.log(dato)
+      right.forEach(dato=>{
+        if (cadena!=="")
+         cadena = cadena + ","
+        cadena = cadena + dato.nombreGeneral
 
-      }))
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(right)
-    };
-    const response = await fetch(url, requestOptions);
-    const data = await response.json();
-    console.log("post", data)
+      })
+      console.log("🚀 ~ file: AdminCard.js ~ line 99 ~ AdminCard ~ cadena", cadena)
+
+     await setFitbit(cadena)
     }
 
     // function filtrarPorID(obj,b) {
