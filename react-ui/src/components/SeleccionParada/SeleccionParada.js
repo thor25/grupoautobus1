@@ -100,7 +100,7 @@ export default function SeleccionParadas(props) {
           console.log("🚀 ~ file: SeleccionParada.js ~ line 101 ~ useEffect ~ dateInicial", dateInicial)
           var dateFinal= new Date(hoy)
           dateFinal.setHours(parseInt(periodo[1].substring(0,3)),parseInt(periodo[1].substring(3)),0)
-                 console.log("🚀 ~ file: SeleccionParada.js ~ line 116 ~ useEffect ~ dateFinal", dateFinal)
+           console.log("🚀 ~ file: SeleccionParada.js ~ line 116 ~ useEffect ~ dateFinal", dateFinal)
           if (hoy>=dateInicial && hoy<dateFinal)
             arr.unshift({name: key.nombre, value: key})
           else
