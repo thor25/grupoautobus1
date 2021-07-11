@@ -80,7 +80,9 @@ export default function UserCard(props) {
       datos.datos.forEach(function(subgrupos) {
        console.log("🚀 ~ file: UserCard.js ~ line 81 ~ datos.datos.forEach ~ subgrupos", subgrupos)
          let datosNodo = {id:uuid(),
-          name:subgrupos.hora===undefined ? subgrupos.nombre : `${subgrupos.nombre} (${subgrupos.hora})`,
+          name : subgrupos.nombre, 
+          nameTree : subgrupos.hora===undefined ? subgrupos.nombre : `${subgrupos.nombre} (${subgrupos.hora})`,
+        
           children:[],datos:subgrupos}
           
         Object.keys(subgrupos).forEach(function(key0) {
@@ -217,7 +219,7 @@ export default function UserCard(props) {
         <TreeItem
           key={treeItemData.name}
           nodeId={treeItemData.id}
-          label={treeItemData.name}
+          label={treeItemData.nameTree}
           children={children}
           key={treeItemData.id}
          />

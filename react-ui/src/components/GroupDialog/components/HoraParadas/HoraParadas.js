@@ -1,18 +1,25 @@
+import 'date-fns';
 import React, {useState,useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
-  },
-}));
+
+  // The first commit of Material-UI
+  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  
+
+
+
 
 export default function HoraParadas(props) {
   const classes = useStyles();
@@ -21,43 +28,52 @@ export default function HoraParadas(props) {
   const [horaFinal,setHoraFinal] = useState('00:00')
 
   useEffect(() => {  
-   const formatHoras = (horas)=>{
+   
+   const horas = grupo.dato.datos.hora
+   if (horas!==undefined)
+   {
    console.log("🚀 ~ file: HoraParadas.js ~ line 24 ~ formatHoras ~ horas", horas)
 
+     setHoraInicial(horas.substring(0,5))
+     console.log("🚀 ~ file: HoraParadas.js ~ line 31 ~ formatHoras ~ horas.substring(0,6)", horas.substring(0,5))
+     setHoraFinal(horas.substring(6))
+     console.log("🚀 ~ file: HoraParadas.js ~ line 33 ~ formatHoras ~ horas.substring(6)", horas.substring(6))
    }
-    formatHoras(grupo.datos)
+  console.log("🚀 ~ file: HoraParadas.js ~ line 21 ~ HoraParadas ~ horaInicial", horaInicial)
+  console.log("🚀 ~ file: HoraParadas.js ~ line 23 ~ HoraParadas ~ horaFinal", horaFinal)
+
+   
+  
   }, [])
   return (
-    <form className={classes.container} noValidate>
-      <TextField
-        id="time"
-        label="Hora inicial"
-        type="time"
-        value = {horaInicial}
-        defaultValue="00:00"
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        inputProps={{
-          step: 300, // 5 min
-        }}
-      />
-       <TextField
-        id="time end"
-        label="Hora final"
-        type="time"
-        value = {horaFinal}
-
-        defaultValue="00:00"
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        inputProps={{
-          step: 300, // 5 min
-        }}
-      />
-    </form>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Grid container justifyContent="space-around">
+        
+      
+       
+        <KeyboardTimePicker
+          margin="normal"
+          id="time-picker"
+          label="HoraInicial"
+          value={horaInicial}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change time',
+          }}
+        />
+        
+       
+        <KeyboardTimePicker
+          margin="normal"
+          id="time-picker-end"
+          label="Hora final"
+          value={horaFinal}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change time',
+          }}
+        />
+      </Grid>
+    </MuiPickersUtilsProvider>
   );
-}
+        }
