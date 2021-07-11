@@ -112,7 +112,7 @@ useEffect(() => {
             onChange = {handleChange}
           
           />
-          <HoraParadas></HoraParadas>
+          <HoraParadas grupo={grupo}></HoraParadas>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={0}></SubgrupoDlg>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={1}></SubgrupoDlg>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={2}></SubgrupoDlg>

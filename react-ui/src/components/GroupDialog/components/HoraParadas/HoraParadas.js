@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
@@ -14,16 +14,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function HoraParadas() {
+export default function HoraParadas(props) {
   const classes = useStyles();
+  const {grupo} = props
+  const [horaInicial,setHoraInicial] = useState('00:00')
+  const [horaFinal,setHoraFinal] = useState('00:00')
 
+  useEffect(() => {  
+   const formatHoras = (horas)=>{
+   console.log("🚀 ~ file: HoraParadas.js ~ line 24 ~ formatHoras ~ horas", horas)
+
+   }
+    formatHoras(grupo.datos)
+  }, [])
   return (
     <form className={classes.container} noValidate>
       <TextField
         id="time"
         label="Hora inicial"
         type="time"
-        defaultValue="07:30"
+        value = {horaInicial}
+        defaultValue="00:00"
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
@@ -36,7 +47,9 @@ export default function HoraParadas() {
         id="time end"
         label="Hora final"
         type="time"
-        defaultValue="08:30"
+        value = {horaFinal}
+
+        defaultValue="00:00"
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
