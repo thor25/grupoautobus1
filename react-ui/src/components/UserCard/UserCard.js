@@ -78,9 +78,11 @@ export default function UserCard(props) {
       // console.log(grupos)
       var arr = [];
       datos.datos.forEach(function(subgrupos) {
-       // let subgrupos = grupos[key]
-        // console.log("Grupo",subgrupos)
-        let datosNodo = {id:uuid(),name:subgrupos.nombre,children:[],datos:subgrupos}
+       console.log("🚀 ~ file: UserCard.js ~ line 81 ~ datos.datos.forEach ~ subgrupos", subgrupos)
+         let datosNodo = {id:uuid(),
+          name:subgrupos.hora===undefined ? subgrupos.nombre : `${subgrupos.nombre} (${subgrupos.hora})`,
+          children:[],datos:subgrupos}
+          
         Object.keys(subgrupos).forEach(function(key0) {
           //  console.log("subgrupo",subgrupos[key0],key0,subgrupos[key0].nombre)
             if (subgrupos[key0].nombre!==undefined)

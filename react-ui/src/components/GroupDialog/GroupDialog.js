@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import SubgrupoDlg from "./components/SubgruposDlg"
+import HoraParadas from "./components/HoraParadas"
 import Paradas from './components/Paradas';
 import { v4 as uuid } from "uuid";
 
@@ -111,6 +112,7 @@ useEffect(() => {
             onChange = {handleChange}
           
           />
+          <HoraParadas></HoraParadas>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={0}></SubgrupoDlg>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={1}></SubgrupoDlg>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={2}></SubgrupoDlg>
