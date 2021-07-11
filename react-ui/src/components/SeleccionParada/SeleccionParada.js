@@ -80,11 +80,33 @@ export default function SeleccionParadas(props) {
   var grupo0 = []
 
   useEffect(() => {
+   
     function getGrupos(grupos)
     {
            const arr = []
 
-      grupos.forEach(key => arr.push({name: key.nombre, value: key}))
+      grupos.forEach(key => {
+      console.log("🚀 ~ file: SeleccionParada.js ~ line 88 ~ useEffect ~ key", key)
+      var hora = key.hora;      
+      if (hora===undefined)  
+        arr.push({name: key.nombre, value: key})
+      else
+        {
+          var periodo = hora.split('-')
+
+          var hoy = new Date()
+           var dateInicial= new Date(hoy)
+          dateInicial.setHours(parseInt(periodo[0].substring(0,3)),parseInt(periodo[0].substring(3)),0)
+          console.log("🚀 ~ file: SeleccionParada.js ~ line 101 ~ useEffect ~ dateInicial", dateInicial)
+          var dateFinal= new Date(hoy)
+          dateFinal.setHours(parseInt(periodo[1].substring(0,3)),parseInt(periodo[1].substring(3)),0)
+                 console.log("🚀 ~ file: SeleccionParada.js ~ line 116 ~ useEffect ~ dateFinal", dateFinal)
+          if (hoy>=dateInicial && hoy<dateFinal)
+            arr.unshift({name: key.nombre, value: key})
+          else
+            arr.push({name: key.nombre, value: key})
+        }
+      })
       setarrayGrupos(arr)  
       updateGrupo(0,arr)
      
