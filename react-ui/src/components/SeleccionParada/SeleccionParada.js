@@ -107,7 +107,7 @@ export default function SeleccionParadas(props) {
             arr.push({name: key.nombre, value: key}) 
         }
       })
-      setarrayGrupos(arr)     
+      setarrayGrupos(arr)      
       updateGrupo(0,arr)
      
     } 
