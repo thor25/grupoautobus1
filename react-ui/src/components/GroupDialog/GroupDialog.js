@@ -16,6 +16,7 @@ export default function FormDialog(props) {
     const {open, handleClose, grupo,add} = props
     // console.log ("Dialog-grupo", grupo)
     const [nombre, setnombre] = useState('')
+    const [hora, setHora] = useState('00:00-00:00')
     const [id,setId] = useState('')
     const [newGroup, setnewGroup] = useState(
       {
@@ -54,6 +55,17 @@ export default function FormDialog(props) {
     console.log('cancel')
     handleClose(null)
   }
+
+  const handleHora = (horaInicial, horaFinal)=>
+  {
+  console.log("🚀 ~ file: GroupDialog.js ~ line 60 ~ FormDialog ~ horaFinal", horaFinal)
+  console.log("🚀 ~ file: GroupDialog.js ~ line 60 ~ FormDialog ~ horaInicial", horaInicial)
+  var horaI = `${horaInicial.getHours()}:${horaInicial.getMinutes()}`
+  console.log("🚀 ~ file: GroupDialog.js ~ line 64 ~ FormDialog ~ horaI", horaI)
+  var horaF = `${horaFinal.getHours()}:${horaFinal.getMinutes()}` 
+  console.log("🚀 ~ file: GroupDialog.js ~ line 66 ~ FormDialog ~ horaF", horaF)
+  setHora(horaI+"-"+horaF)
+}
 
 useEffect(() => {
 
@@ -112,7 +124,7 @@ useEffect(() => {
             onChange = {handleChange}
           
           />
-          <HoraParadas grupo={grupo}></HoraParadas>
+          <HoraParadas grupo={grupo} handleHora = {handleHora}></HoraParadas>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={0}></SubgrupoDlg>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={1}></SubgrupoDlg>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={2}></SubgrupoDlg>

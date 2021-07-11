@@ -5,28 +5,27 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
-  KeyboardDatePicker,
 } from '@material-ui/pickers';
 
 
   // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
-  
-
-
-
 
 export default function HoraParadas(props) {
-  const classes = useStyles();
-  const {grupo} = props
-  const [horaInicial,setHoraInicial] = useState('00:00')
-  const [horaFinal,setHoraFinal] = useState('00:00')
+  const {grupo,handleHora} = props
+  const [horaInicial,setHoraInicial] = useState(new Date('2021-07-08T00:00:00'))
+  const [horaFinal,setHoraFinal] = useState(new Date('2021-07-08T00:00:00'))
 
+
+  const handleDateChangeInicial = (date) => {
+    setHoraInicial(date);
+    handleHora(horaInicial,horaFinal)
+     };
+
+     const handleDateChangeFinal = (date) => {
+       setHoraFinal(date);
+       handleHora(horaInicial,horaFinal)
+     };
+      
   useEffect(() => {  
    
    const horas = grupo.dato.datos.hora
@@ -34,9 +33,9 @@ export default function HoraParadas(props) {
    {
    console.log("🚀 ~ file: HoraParadas.js ~ line 24 ~ formatHoras ~ horas", horas)
 
-     setHoraInicial(horas.substring(0,5))
-     console.log("🚀 ~ file: HoraParadas.js ~ line 31 ~ formatHoras ~ horas.substring(0,6)", horas.substring(0,5))
-     setHoraFinal(horas.substring(6))
+     setHoraInicial(new Date(`2021-08-07T${horas.substring(0,5)}:00`))
+     console.log("🚀 ~ file: HoraParadas.js ~ line 31 ~ formatHoras ~ horas.substring(0,6)", `2021-08-07T${horas.substring(0,5)}:00`)
+     setHoraFinal(new Date(`2021-08-07T${horas.substring(6)}:00`))
      console.log("🚀 ~ file: HoraParadas.js ~ line 33 ~ formatHoras ~ horas.substring(6)", horas.substring(6))
    }
   console.log("🚀 ~ file: HoraParadas.js ~ line 21 ~ HoraParadas ~ horaInicial", horaInicial)
@@ -56,7 +55,7 @@ export default function HoraParadas(props) {
           id="time-picker"
           label="HoraInicial"
           value={horaInicial}
-          onChange={handleDateChange}
+          onChange={handleDateChangeInicial}
           KeyboardButtonProps={{
             'aria-label': 'change time',
           }}
@@ -68,7 +67,7 @@ export default function HoraParadas(props) {
           id="time-picker-end"
           label="Hora final"
           value={horaFinal}
-          onChange={handleDateChange}
+          onChange={handleDateChangeFinal}
           KeyboardButtonProps={{
             'aria-label': 'change time',
           }}
