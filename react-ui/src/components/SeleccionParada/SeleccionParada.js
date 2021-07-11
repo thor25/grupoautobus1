@@ -102,12 +102,12 @@ export default function SeleccionParadas(props) {
           dateFinal.setHours(parseInt(periodo[1].substring(0,3)),parseInt(periodo[1].substring(3)),0)
            console.log("🚀 ~ file: SeleccionParada.js ~ line 116 ~ useEffect ~ dateFinal", dateFinal)
           if (hoy>=dateInicial && hoy<dateFinal)
-            arr.unshift({name: key.nombre, value: key})
+            arr.unshift({name: key.nombre, value: key}) 
           else
             arr.push({name: key.nombre, value: key}) 
         }
       })
-      setarrayGrupos(arr)  
+      setarrayGrupos(arr)     
       updateGrupo(0,arr)
      
     } 
