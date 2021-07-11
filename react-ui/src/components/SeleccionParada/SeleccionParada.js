@@ -104,7 +104,7 @@ export default function SeleccionParadas(props) {
           if (hoy>=dateInicial && hoy<dateFinal)
             arr.unshift({name: key.nombre, value: key})
           else
-            arr.push({name: key.nombre, value: key})
+            arr.push({name: key.nombre, value: key}) 
         }
       })
       setarrayGrupos(arr)  
