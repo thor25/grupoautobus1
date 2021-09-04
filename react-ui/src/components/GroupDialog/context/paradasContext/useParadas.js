@@ -9,11 +9,10 @@ const useParadas = () => {
 function toggleUpdate() {
     setState(state => ({ ...state, isPlaying: !state.isPlaying }));
   }
-return 
-(
+return {
     updateGrupo,
     toggleUpdate
-)
+}
 
 
 };
