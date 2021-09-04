@@ -11,10 +11,10 @@ import SubgrupoDlg from "./components/SubgruposDlg"
 import HoraParadas from "./components/HoraParadas"
 import Paradas from './components/Paradas';
 import { v4 as uuid } from "uuid";
-import { ParadasContext } from './context/paradasContext/ParadasContext';
+import { ParadasContext } from './context/ParadasContext/ParadasContext';
 
 export default function FormDialog(props) {
-  const [state, setState] = useContext(ParadasContext);
+  const [state, setState, updateGrupo] = useContext(ParadasContext);
     const {open, handleClose, grupo,add} = props
     // console.log ("Dialog-grupo", grupo)
     const [nombre, setnombre] = useState('')
@@ -45,7 +45,7 @@ export default function FormDialog(props) {
 
     const handleOk =() => 
   {
-    
+    updateGrupo()
    console.log(`Ok - id:${id}`)
 
     setnewGroup({... newGroup, 'nombre':nombre,'id':id})
