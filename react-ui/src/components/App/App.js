@@ -15,6 +15,7 @@ import LaunchScreen from "../LaunchScreen";
 import Bar from "../Bar";
 import Router from "../Router";
 import DialogHost from "../DialogHost";
+import {ParadasProvider} from "../GroupDialog/context/paradasContext"
 
 const initialState = {
   ready: false,
@@ -266,6 +267,7 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
        <SnackbarProvider maxSnack={3}>
+         <ParadasProvider paradas={}>
         <CssBaseline />
 
         <ErrorBoundary>
@@ -404,6 +406,7 @@ class App extends Component {
             </>
           )}
         </ErrorBoundary>
+        </ParadasProvider>  
        </SnackbarProvider>
       </MuiThemeProvider>
     );

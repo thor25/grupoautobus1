@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 
 const ParadasContext = React.createContext([{}, () => {}]);
 
@@ -6,7 +6,7 @@ const ParadasContext = React.createContext([{}, () => {}]);
 const ParadasProvider = (props) => {
     const [state, setState] = useState({});
   return (
-    <ParadasContext.Provider value={}>
+    <ParadasContext.Provider value={[state, setState]}>
       {props.children}
     </ParadasContext.Provider>
   );

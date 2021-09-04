@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect,useContext} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,6 +14,7 @@ import { v4 as uuid } from "uuid";
 import { ParadasContext } from './context/paradasContext/ParadasContext';
 
 export default function FormDialog(props) {
+  const [state, setState] = useContext(ParadasContext);
     const {open, handleClose, grupo,add} = props
     // console.log ("Dialog-grupo", grupo)
     const [nombre, setnombre] = useState('')
@@ -44,7 +45,7 @@ export default function FormDialog(props) {
 
     const handleOk =() => 
   {
-    const [state, setState] = useContext(ParadasContext);
+    
    console.log(`Ok - id:${id}`)
 
     setnewGroup({... newGroup, 'nombre':nombre,'id':id})
