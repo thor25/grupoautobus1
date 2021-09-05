@@ -23,7 +23,7 @@ import ParadasDialog from "../ParadasDialog"
 
 import firebase, { firestore } from "../../../../firebase"
 import { deprecatedPropType } from '@material-ui/core';
-
+import useParadas from '../../context/ParadasContext/useParadas';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -73,6 +73,7 @@ export default function SubgruposDlg(props) {
  const [checked, setChecked] = React.useState([0]);
 
  const [open, setOpen] = useState(false)
+ const {state,setState,getGrupo,setGrupo} = useParadas()
 
  const handleChange = (valor) => (event) =>
  {
@@ -133,6 +134,9 @@ export default function SubgruposDlg(props) {
 useEffect(() => {
  handleSubChange(index,{'nombre':nombre,'paradas':paradas})
 }, [paradas,nombre])
+useEffect(()=>{
+console.log ("SubGrupoDlg context",getGrupo(index))
+},[])
  const paradasRef =   firestore.collection("paradas")
  
  const getData = async(array) => {

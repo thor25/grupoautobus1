@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 
-
 import PropTypes from "prop-types";
 
 import { Box, Card, CardActions, CardContent, CardHeader } from "@material-ui/core";
@@ -25,6 +24,8 @@ import GroupDialog from "../GroupDialog"
 import ConfirmationDialog from "../ConfirmationDialog"
 
 import {AddGrupo,DeleteGrupo, EditGrupo, ListGroup} from "../../firebaseutils"
+
+import useParadas from "../GroupDialog/context/ParadasContext/useParadas"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,7 +56,7 @@ export default function UserCard(props) {
   const [loading, setloading] = useState(false)
   const [expanded, setExpanded] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
-
+  const {state,setState,setGrupo,setHora,setNombre,init,edit} = useParadas()
   const handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds);
   };
@@ -78,7 +79,6 @@ export default function UserCard(props) {
       // console.log(grupos)
       var arr = [];
       datos.datos.forEach(function(subgrupos) {
-       console.log("🚀 ~ file: UserCard.js ~ line 81 ~ datos.datos.forEach ~ subgrupos", subgrupos)
          let datosNodo = {id:uuid(),
           name : subgrupos.nombre, 
           nameTree : subgrupos.hora===undefined ? subgrupos.nombre : `${subgrupos.nombre} (${subgrupos.hora})`,
@@ -152,13 +152,19 @@ export default function UserCard(props) {
 
   // Control Dialog
   const handleClickEdit = () =>{
+    
     setvalorInicial(padre.dato.datos)
+    console.log(padre.dato.datos)
+    console.log("🚀 ~ file: UserCard.js ~ line 159 ~ handleClickEdit ~ padre.dato.datos", padre.dato.datos)
+    var hora = padre.dato.datos.hora===undefined?"00:00-00:00":padre.dato.datos.hora
+    edit(padre.dato.datos.nombre,hora,padre.dato.datos.subgrupo1,padre.dato.datos.subgrupo2,padre.dato.datos.subgrupo3 )
     setAdd(false)
     setOpen(true);
 
   } 
 
   const handleClickAdd = () =>{
+    init()
     setvalorInicial(null)
     setAdd(true)
     setOpen(true);

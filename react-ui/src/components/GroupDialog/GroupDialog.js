@@ -14,7 +14,7 @@ import { v4 as uuid } from "uuid";
 import useParadas from './context/ParadasContext/useParadas';
 
 export default function FormDialog(props) {
-  const [state, setState, updateGrupo] = useParadas();
+  const {state, setState, updateGrupo} = useParadas();
     const {open, handleClose, grupo,add} = props
     // console.log ("Dialog-grupo", grupo)
     const [nombre, setnombre] = useState('')
@@ -71,7 +71,6 @@ export default function FormDialog(props) {
 }
 
 useEffect(() => {
-
 
   setnewGroup({... newGroup, "nombre":nombre})
 
