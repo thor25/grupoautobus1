@@ -1,4 +1,6 @@
 import React, {useState,useEffect,useContext} from 'react';
+import { useParams } from "react-router-dom";
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,10 +13,13 @@ import SubgrupoDlg from "./components/SubgruposDlg"
 import HoraParadas from "./components/HoraParadas"
 import Paradas from './components/Paradas';
 import { v4 as uuid } from "uuid";
+
 import useParadas from './context/ParadasContext/useParadas';
 
 export default function FormDialog(props) {
-  const {state, setState, updateGrupo} = useParadas();
+  const { userId } = useParams();
+
+  const {state, setState, updateGrupo,setNombreContext} = useParadas();
     const {open, handleClose, grupo,add} = props
     // console.log ("Dialog-grupo", grupo)
     const [nombre, setnombre] = useState('')
@@ -40,12 +45,13 @@ export default function FormDialog(props) {
     const handleChange = (event) =>
     {
       setnombre(event.target.value)
+      setNombreContext(event.target.value)
       setnewGroup({... newGroup, "nombre":nombre,"id":id})
     }
 
     const handleOk =() => 
   {
-    updateGrupo()
+    updateGrupo(userId)
    console.log(`Ok - id:${id}`)
 
     setnewGroup({... newGroup, 'nombre':nombre,'id':id})
@@ -61,13 +67,14 @@ export default function FormDialog(props) {
 
   const handleHora = (horaInicial, horaFinal)=>
   {
-  console.log("🚀 ~ file: GroupDialog.js ~ line 60 ~ FormDialog ~ horaFinal", horaFinal)
-  console.log("🚀 ~ file: GroupDialog.js ~ line 60 ~ FormDialog ~ horaInicial", horaInicial)
-  var horaI = `${horaInicial.getHours()}:${horaInicial.getMinutes()}`
-  console.log("🚀 ~ file: GroupDialog.js ~ line 64 ~ FormDialog ~ horaI", horaI)
-  var horaF = `${horaFinal.getHours()}:${horaFinal.getMinutes()}` 
-  console.log("🚀 ~ file: GroupDialog.js ~ line 66 ~ FormDialog ~ horaF", horaF)
-  setHora(horaI+"-"+horaF)
+  // console.log("🚀 ~ file: GroupDialog.js ~ line 60 ~ FormDialog ~ horaFinal", horaFinal)
+  // console.log("🚀 ~ file: GroupDialog.js ~ line 60 ~ FormDialog ~ horaInicial", horaInicial)
+  // var horaI = `${horaInicial.getHours()}:${horaInicial.getMinutes()}`
+  // console.log("🚀 ~ file: GroupDialog.js ~ line 64 ~ FormDialog ~ horaI", horaI)
+  // var horaF = `${horaFinal.getHours()}:${horaFinal.getMinutes()}` 
+  // console.log("🚀 ~ file: GroupDialog.js ~ line 66 ~ FormDialog ~ horaF", horaF)
+  // setHora(horaI+"-"+horaF)
+  // setHoraContext(horaI+"-"+horaF)
 }
 
 useEffect(() => {
@@ -162,6 +169,8 @@ useEffect(() => {
             value = {nombre}
             onChange = {handleChange}
           />
+          <HoraParadas grupo={grupo} handleHora = {handleHora}></HoraParadas>
+     
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={null} index={0}></SubgrupoDlg>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={null} index={1}></SubgrupoDlg>
         <SubgrupoDlg handleSubChange = {handleSubChange} grupo={null} index={2}></SubgrupoDlg>

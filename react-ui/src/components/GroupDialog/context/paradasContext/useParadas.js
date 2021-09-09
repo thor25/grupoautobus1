@@ -1,11 +1,26 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import {ParadasContext} from "./ParadasContext"
+import {AddGrupo,DeleteGrupo, EditGrupo, ListGroup} from "../../../../firebaseutils"
+
 const useParadas = () => {
   const [state, setState] = useContext(ParadasContext);
- function edit(nombre,hora,sub1,sub2,sub3)
+ 
+
+
+ function  editContext(id,nombre,hora,sub1,sub2,sub3)
  {
-  setNombre(nombre)
-  setHora(hora)
+  setAdd(false)
+  edit(id,nombre,hora,sub1,sub2,sub3)
+  setValorInicial(state)
+  console.log("editcontext in context", state,add,valorInicial)
+ }
+ 
+
+ function edit(id,nombre,hora,sub1,sub2,sub3)
+ {
+   setId(id)
+  setNombreContext(nombre)
+  setHoraContext(hora)
   setState(state=>({...state,subgrupos:[
     {nombre:sub1.nombre,paradas:sub1.paradas},
     {nombre:sub2.nombre,paradas:sub2.paradas},
@@ -18,67 +33,126 @@ const useParadas = () => {
   setGrupo(sub3,2)
   */
  }
- function init()
+ function initContext(id)
  {
-   edit ('','00:00-00:00',{nombre:'',paradas:''},{nombre:'',paradas:''},{nombre:'',paradas:''}) 
+   setAdd(true)
+   setValorInicial({})
+   edit (id,'','00:00-00:00',{nombre:'',paradas:''},{nombre:'',paradas:''},{nombre:'',paradas:''}) 
+ }
+ function setId(valor)
+ {
+  setState(state => ({...state, id:valor}))
+  console.log("id en Context", state)
+ }
+ function setAdd(valor)
+ {
+  setState(state => ({...state, add:valor}))
+  console.log("add en Context", state)
  }
 
+ function setValorInicial(valor)
+ {
+  setState(state => ({...state, valorInicial:valor}))
+  console.log("add en Context", state)
+ }
  function setGrupo(valor,index)
  {
-   /*
+   
    switch (index)
    {
      case 0:
-      setState(state => ({...state, 'subgrupo1':valor}))
+      setState(state => ({...state.datos, 'subgrupo1':valor}))
       break;
       case 1:
-        setState(state => ({...state, 'subgrupo2':valor}))
+        setState(state => ({...state.datos, 'subgrupo2':valor}))
         break;
       case 2:
-       setState(state => ({...state, 'subgrupo3':valor}))
+       setState(state => ({...state.datos, 'subgrupo3':valor}))
        break;
 
    }
-   */
-  var grupos = state.subgrupos;
-  grupos[index]=valor
-   setState(state => ({...state, 'subgrupo1':grupos}))
+   
    console.log("Grupo en Context", state,valor)
   
  }  
- function setNombre(valor)
+ function setNombreContext(valor)
  {
-  setState(state => ({...state, nombre:valor}))
+  setState(state => ({...state.datos, nombre:valor}))
+  console.log("Nombre en Context", state)
  }
 
- function setHora(valor)
+ function setHoraContext(valor)
  {
-   setState(state => ({...state, hora:valor}))
+   setState(state => ({...state.datos, hora:valor}))
+   console.log("Hora en Context", state)
+
  }
-  function updateGrupo() 
+  function updateGrupo(userId) 
 {
-    console.log("Update grupo en userContext")
+    console.log("Update grupo en userContext", add, add0, state,userId, valorInicial)
+    // var tipo = 
+    // {
+    //   id:state.id,
+    //   nombre:state.nombre,
+    //   hora:state.hora,
+    //   subgrupo1:{
+    //     nombre:state.subgrupos[0].nombre,
+    //     paradas:state.subgrupos[0].paradas
+    //   },
+    //   subgrupo2:{
+    //     nombre:state.subgrupos[1].nombre,
+    //     paradas:state.subgrupos[1].paradas
+    //   },  subgrupo3:{
+    //     nombre:state.subgrupos[2].nombre,
+    //     paradas:state.subgrupos[2].paradas
+    //   }
+    // }
+    
+    if (add===true)
+       AddGrupo(userId,state.datos)
+    else
+      EditGrupo(userId,valorInicial,state.datos)
 }
-function toggleUpdate() {
-    setState(state => ({ ...state, isUpdate: !state.isUpdate }));
-  }
+
 function getGrupo(index)
 {
-  console.log("getgrupo in context", state)
-  return state.subgrupos[index]
+ 
+  var valor;
+  switch (index)
+  {
+    case 0:
+   valor = state.datos.subgrupo1
+     break;
+     case 1:
+    valor = state.datos.subgrupo2
+       break;
+     case 2:
+   valor= state.datos.subgrupo3
+      break;
+
+  }
+  console.log("getgrupo in context", state, index, valor)
+  return valor
+}
+function getHora()
+{
+  return state.datos.hora
+}
+
+function getNombre()
+{
+  return state.datos.nombre
 }
 return {
     updateGrupo,
-    toggleUpdate,
     setGrupo,
-    setNombre,
-    setHora,
-    init,
-    edit,
-    getGrupo
-   
-        
-
+    setNombreContext,
+    setHoraContext,
+    initContext,
+    editContext,
+    getGrupo,
+    getHora,
+    getNombre,
 }
 
 

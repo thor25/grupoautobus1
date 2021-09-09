@@ -5,15 +5,16 @@ const ParadasContext = React.createContext([{}, () => {}]);
 
 const ParadasProvider = (props) => {
     const [state, setState] = useState({
+        isAdd:true,
+        valorInicial:{},
+        datos:{
+        id : '', 
         nombre : '',
         hora:'00:00-00:00',
-        subgrupos : [
-          { nombre:'', paradas:''},
-          {nombre:'',paradas:''},
-          {nombre:'',paradas:''}
-        ],
-        isUpdate :false
-
+        subgrupo1 : {nombre:'', paradas:''},
+        subgrupo2:  {nombre:'',paradas:''},
+        subgrupo3:  {nombre:'',paradas:''}
+        }
     });
    
   return (

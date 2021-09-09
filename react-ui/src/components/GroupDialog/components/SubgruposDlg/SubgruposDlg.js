@@ -82,8 +82,9 @@ export default function SubgruposDlg(props) {
     setnombre(event.target.value)
    if (valor==='paradas')
     setparadas(event.target.value)
-   handleSubChange(index,{'nombre':nombre,"paradas":paradas})
- }
+  // handleSubChange(index,{'nombre':nombre,"paradas":paradas})
+   setGrupo({'nombre':nombre,"paradas":paradas}, index)
+  }
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -132,7 +133,8 @@ export default function SubgruposDlg(props) {
   };
 
 useEffect(() => {
- handleSubChange(index,{'nombre':nombre,'paradas':paradas})
+// handleSubChange(index,{'nombre':nombre,'paradas':paradas})
+ setGrupo({'nombre':nombre,'paradas':paradas}, index)
 }, [paradas,nombre])
 useEffect(()=>{
 console.log ("SubGrupoDlg context",getGrupo(index))
@@ -207,6 +209,7 @@ console.log ("SubGrupoDlg context",getGrupo(index))
 
      if (grupo!==null){
        {
+        
         var indice = `subgrupo${index+1}`
          var sg = grupo.dato.datos[indice]
          console.log("sg", sg);
@@ -373,7 +376,7 @@ console.log ("SubGrupoDlg context",getGrupo(index))
         parada.map((dato, index) => 
             ( <Chip key = {index} label={dato.numero  } 
             color='primary'
-            clickcable
+            clickcable='true'
             onClick={()=>{handleClick(index)}} onDelete={() => {handleDelete(index,dato.numero)}} />))
         }
           <Chip label = 'Add' disabled={nombre===''} onClick={()=>{setOpen(true)}} ></Chip>

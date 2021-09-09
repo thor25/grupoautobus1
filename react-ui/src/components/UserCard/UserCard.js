@@ -56,7 +56,7 @@ export default function UserCard(props) {
   const [loading, setloading] = useState(false)
   const [expanded, setExpanded] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
-  const {state,setState,setGrupo,setHora,setNombre,init,edit} = useParadas()
+  const {initContext,editContext} = useParadas()
   const handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds);
   };
@@ -157,14 +157,14 @@ export default function UserCard(props) {
     console.log(padre.dato.datos)
     console.log("🚀 ~ file: UserCard.js ~ line 159 ~ handleClickEdit ~ padre.dato.datos", padre.dato.datos)
     var hora = padre.dato.datos.hora===undefined?"00:00-00:00":padre.dato.datos.hora
-    edit(padre.dato.datos.nombre,hora,padre.dato.datos.subgrupo1,padre.dato.datos.subgrupo2,padre.dato.datos.subgrupo3 )
+    editContext(padre.dato.datos.id,padre.dato.datos.nombre,hora,padre.dato.datos.subgrupo1,padre.dato.datos.subgrupo2,padre.dato.datos.subgrupo3 )
     setAdd(false)
     setOpen(true);
 
   } 
 
   const handleClickAdd = () =>{
-    init()
+    initContext(uuid())
     setvalorInicial(null)
     setAdd(true)
     setOpen(true);
@@ -194,15 +194,15 @@ export default function UserCard(props) {
     setOpen(false);
 
     // Generamos base de datos
-    if (tipo!==null)
-    {
+    // if (tipo!==null)
+    // {
    
-      if (tipo.nombre!==undefined)
-        if (valorInicial===null)
-           AddGrupo(userId,tipo)
-        else
-           EditGrupo(userId,valorInicial,tipo)
-    }
+    //   if (tipo.nombre!==undefined)
+    //     if (valorInicial===null)
+    //        AddGrupo(userId,tipo)
+    //     else
+    //        EditGrupo(userId,valorInicial,tipo)
+    // }
     setloading(true)
     setSelected(null)
 

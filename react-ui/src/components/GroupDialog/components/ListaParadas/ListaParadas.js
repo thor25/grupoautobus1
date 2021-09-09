@@ -178,9 +178,9 @@ function CheckboxList(props) {
   };
 
   if (valores===undefined)
-    return (<div>No hay paradas</div>)
+    return (<p>No hay paradas</p>)
   if (valores.length===0)
-    return (<div>No hay paradas</div>)
+    return (<p>No hay paradas</p>)
   else 
    {
    return (
@@ -189,7 +189,7 @@ function CheckboxList(props) {
         const labelId = `checkbox-list-label-${value.codigo}`;
 
         return (      
-          <ListItem key={value} role={undefined} dense button onClick={handleToggle(value.codigo)}>
+          <ListItem key={value.codigo} role={undefined} dense button onClick={handleToggle(value.codigo)}>
             <ListItemIcon>
               <Checkbox
                 edge="start"
