@@ -178,9 +178,9 @@ function CheckboxList(props) {
   };
 
   if (valores===undefined)
-    return (<p>No hay paradas</p>)
+    return (<>No hay paradas</>)
   if (valores.length===0)
-    return (<p>No hay paradas</p>)
+    return (<>No hay paradas</>)
   else 
    {
    return (
