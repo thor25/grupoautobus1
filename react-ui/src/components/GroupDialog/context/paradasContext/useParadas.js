@@ -12,7 +12,7 @@ const useParadas = () => {
   setAdd(false)
   edit(id,nombre,hora,sub1,sub2,sub3)
   setValorInicial(state)
-  console.log("editcontext in context", state,add,valorInicial)
+  console.log("editcontext in context", state)
  }
  
 
@@ -89,7 +89,7 @@ const useParadas = () => {
  }
   function updateGrupo(userId) 
 {
-    console.log("Update grupo en userContext", add, add0, state,userId, valorInicial)
+    console.log("Update grupo en userContext",  state,userId )
     // var tipo = 
     // {
     //   id:state.id,
@@ -108,7 +108,7 @@ const useParadas = () => {
     //   }
     // }
     
-    if (add===true)
+    if (state.add===true)
        AddGrupo(userId,state.datos)
     else
       EditGrupo(userId,valorInicial,state.datos)
