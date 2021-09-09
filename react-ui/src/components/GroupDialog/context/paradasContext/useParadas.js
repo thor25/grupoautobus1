@@ -87,7 +87,7 @@ const useParadas = () => {
  function setHoraContext(valor)
  {
  
-  setState(state => ({...state, valor}))
+  setState(state => ({...state, hora:valor}))
    console.log("Hora en Context", state)
 
  }

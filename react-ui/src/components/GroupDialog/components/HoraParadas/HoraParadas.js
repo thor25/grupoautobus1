@@ -21,11 +21,15 @@ export default function HoraParadas(props) {
  
   console.log("🚀 ~ file: HoraParadas.js ~ line 21 ~ HoraParadas ~ horaFinal", horaFinal)
   console.log("🚀 ~ file: HoraParadas.js ~ line 21 ~ HoraParadas ~ horaInicial", horaInicial)
-   //var horaI = `${horaInicial.getHours()}:${horaInicial.getMinutes()}`
-   var horaI=  new Date(horaInicial).toLocaleTimeString().substring(0,5)
+   var horaI = horaInicial.getHours()<10?
+   `0${horaInicial.getHours()}:${horaInicial.getMinutes()}`:
+   `${horaInicial.getHours()}:${horaInicial.getMinutes()}`
+  var horaI=  new Date(horaInicial).toLocaleTimeString().substring(0,5)
+  if (horaInicial.getHours()<10) horaI = ('0'+horaI).substring(0,5)
    console.log("🚀 ~ file: HoraParadas.js ~ line 24 ~ HoraParadas ~ horaI",horaInicial, horaI)
  // var horaF = `${horaFinal.getHours()}:${horaFinal.getMinutes()}` 
  var horaF=  new Date(horaFinal).toLocaleTimeString().substring(0,5)
+ if (horaFinal.getHours()<10) horaF = ('0'+horaF).substring(0,5)
 
  console.log("🚀 ~ file: HoraParadas.js ~ line 26 ~ HoraParadas ~ horaF",horaFinal, horaF)
   setHoraContext(horaI+"-"+horaF)
