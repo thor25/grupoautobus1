@@ -111,6 +111,7 @@ export default function SeleccionParadas(props) {
       updateGrupo(0,arr)
      
     } 
+    
     if (grupos.length!==0)
     getGrupos(grupos)
   }, [grupos])

@@ -61,11 +61,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SubgruposDlg(props) {
   const classes = useStyles();
- const {grupo,index,handleSubChange} = props
+ const {index} = props
  const [nombre, setnombre] = useState('')
  const [paradas, setparadas] = useState('')
  const [parada, setparada] = useState([])
- const [chips,setchips] = useState([])
  const [lista, setlista] = useState([])
  const [nombreParada, setnombreParada] = useState('')
  const [indice, setindice] = useState(0)
@@ -73,17 +72,14 @@ export default function SubgruposDlg(props) {
  const [checked, setChecked] = React.useState([0]);
 
  const [open, setOpen] = useState(false)
- const {state,setState,getGrupo,setGrupo} = useParadas()
+ const {getGrupo, setGrupo} = useParadas()
 
  const handleChange = (valor) => (event) =>
  {
-  //  console.log("handleChange",valor,event.target.value)
    if (valor==='nombre')
     setnombre(event.target.value)
    if (valor==='paradas')
     setparadas(event.target.value)
-  // handleSubChange(index,{'nombre':nombre,"paradas":paradas})
-   setGrupo({'nombre':nombre,"paradas":paradas}, index)
   }
 
   const handleToggle = (value) => () => {
@@ -103,7 +99,6 @@ export default function SubgruposDlg(props) {
 
     newChecked.map((nombre)=>{
       var linea = lineas[nombre].linea
-  //    console.log("check",linea,txtLineas)
       if (txtLineas.length>0)
         txtLineas = txtLineas+"-"+linea
       else
@@ -111,14 +106,12 @@ export default function SubgruposDlg(props) {
 
     })
     txtLineas = ":"+txtLineas
- //   console.log("txtParadas",txtLineas)
    var txtParada=paradas.split(',')
    txtParada[indice]= txtParada[indice]+txtLineas
    var i = txtParada[indice].indexOf(':')
    if (i!=-1)
         txtParada[indice]=txtParada[indice].substring(0,i)
    txtParada[indice]=txtParada[indice]+txtLineas
-   // console.log(txtParada[indice],i)
    var txtParadas = ""
    txtParada.map((linea)=>{
     if (txtParadas.length==0)
@@ -128,20 +121,17 @@ export default function SubgruposDlg(props) {
 
 
    })    
-  //  console.log("txtParadas", txtParadas)
    setparadas(txtParadas)
   };
 
 useEffect(() => {
-// handleSubChange(index,{'nombre':nombre,'paradas':paradas})
  setGrupo({'nombre':nombre,'paradas':paradas}, index)
 }, [paradas,nombre])
-useEffect(()=>{
-console.log ("SubGrupoDlg context",getGrupo(index))
-},[])
+
  const paradasRef =   firestore.collection("paradas")
  
  const getData = async(array) => {
+  
   return Promise.all( array.map(async (dato)=>{
     var jsonParada = {numero:dato, lineas:[], todo:[]}
 
@@ -160,10 +150,7 @@ console.log ("SubGrupoDlg context",getGrupo(index))
       }
    
       var lineas = []
-    
-      snapshot.forEach(doc => {
-     //   console.log(doc.id, '=>', doc.data());
-       // jsonParada.todo.push(doc.data().LINEA)
+      snapshot.forEach(doc => {   
         lineas.push({
           nombre:doc.data()['NOMBRE PARADA'],
           linea: doc.data().LINEA})
@@ -185,45 +172,23 @@ console.log ("SubGrupoDlg context",getGrupo(index))
    return jsonParada
   }))
  }
-
- 
-
  useEffect(() => {
+   var sg = getGrupo(index)
      async function  formatText  (sg) {
-
-      if (sg!==undefined)
-      {
-      
         setnombre ( sg.nombre )
-        setparadas ( sg.paradas)
-        var jsonParada = await  getData( sg.paradas.split(','))
+        setparadas ( sg.paradas)        
+        var jsonParada = []
+        if (sg.paradas!=='')
+          jsonParada = await  getData( sg.paradas.split(','))
         setparada(jsonParada)
-      
-        // console.log("parada",jsonParada,parada)
         return jsonParada
-      }
-      else
-        return null
        }
-
-
-     if (grupo!==null){
-       {
-        
-        var indice = `subgrupo${index+1}`
-         var sg = grupo.dato.datos[indice]
-         console.log("sg", sg);
-         if (sg !==undefined )
-         {
-         
+     if (sg!==null)
+         if ( sg !==undefined )
              formatText(sg)
-         }
-       }
-     }
      return () => {
-      
     }
- }, [grupo])
+ }, [])
 
 
  function handleClick(index)
@@ -231,8 +196,6 @@ console.log ("SubGrupoDlg context",getGrupo(index))
   
   setindice(index)
   var  newChecked = [];
-  console.log( "handleclick", index, parada[index]) 
-  //  setlista(parada[index].todo)
    var array = []
    var valor = 0  
    parada[index].todo.map((dato)=>{
@@ -250,20 +213,16 @@ console.log ("SubGrupoDlg context",getGrupo(index))
    var lineas0 = parada[index].lineas
    if (lineas0.length!==0)
    {
-    //  console.log("lineas",lineas0)
    newChecked = []
    lineas0.map((dato)=>{
     
     var i = array.indexOf (dato) 
-   //  console.log(i,dato)
     if (i!==-1)
          newChecked.push(i)
-
  }
   );
    }  
    setChecked(newChecked)
-
    setnombreParada(parada[index].todo[0].nombre)
    setlista(array)
  }
@@ -272,7 +231,6 @@ console.log ("SubGrupoDlg context",getGrupo(index))
    var valor = parada
    valor.splice(index,1)
    setparada(valor)
-
    var txtParadas = ''
    var lineas = paradas.split(',')
    lineas.map((linea)=>
@@ -300,11 +258,7 @@ console.log ("SubGrupoDlg context",getGrupo(index))
     }
     setparadas(txtParadas)
  }
- const handleClickAccept = ()=>
- {
-   console.log("accept", paradas,indice)
-   handleSubChange(``)
- }
+
 
  const handleClose = async  (valor) => {
   console.log("Close Dialog")
@@ -326,9 +280,7 @@ console.log ("SubGrupoDlg context",getGrupo(index))
     s=s+','
   s= s + valor
   setparadas(s)
-
-
-    handleClick(i)
+  handleClick(i)
   i++
   })
 };
@@ -344,7 +296,6 @@ console.log ("SubGrupoDlg context",getGrupo(index))
           <div className={classes.column}>
           <TextField className={classes.primaryHeading}
                       autoComplete='off'
-
              value={nombre}
             margin="dense"
             id={`name${index}`}
@@ -371,7 +322,6 @@ console.log ("SubGrupoDlg context",getGrupo(index))
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
           <div className={classes.column} >
-          
           {
         parada.map((dato, index) => 
             ( <Chip key = {index} label={dato.numero  } 
@@ -384,7 +334,6 @@ console.log ("SubGrupoDlg context",getGrupo(index))
           <div className={classes.column}>
           <List>
           {lista.map((dato, value) => (
-           
           <ListItem key={dato} onClick={handleToggle(value)}>
           <ListItemIcon>
               <Checkbox
@@ -399,17 +348,14 @@ console.log ("SubGrupoDlg context",getGrupo(index))
           </ListItem>
           ))}
       </List>
-          
           </div>
           <div className={clsx(classes.column, classes.helper)}>
             <Typography variant="caption">
              {nombreParada}    
-             
             </Typography>
           </div>
         </AccordionDetails>
         <Divider />
-      
       </Accordion>
       <ParadasDialog  open={open} onClose={handleClose}></ParadasDialog>
     </div>

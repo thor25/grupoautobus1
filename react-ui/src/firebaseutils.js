@@ -16,8 +16,10 @@ export const ListGroup = async(id) =>
     // console.log('No such document!');
     return null;
   } else {
-    // console.log('Document data:', doc.data());
-    return doc.data();
+    var data = doc.data()
+    console.log('Document data:', data);
+
+    return data;
   }
 
 }

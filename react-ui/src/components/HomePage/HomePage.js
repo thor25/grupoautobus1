@@ -82,8 +82,7 @@ class HomePage extends Component {
       // settxtParadas(valor)
       var paradas = valor  
     }
-    if (user) {
-
+    if (user) {    
       return (
         <>
         <SeleccionParada setParadas={setParadas} grupos={user.datos} refresh={refresh}></SeleccionParada>
@@ -94,8 +93,8 @@ class HomePage extends Component {
     return (
       <EmptyState
         image={<InsertBlockIllustration />}
-        title="RMUIF"
-        description="Supercharged version of Create React App with all the bells and whistles."
+        title={process.env.REACT_APP_TITLE}
+        description={process.env.REACT_APP_DESCRIPTION}
       />
     );
   }

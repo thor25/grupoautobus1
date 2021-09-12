@@ -432,8 +432,8 @@ class SignInDialog extends Component {
                           ? errors.emailAddress[0]
                           : ""
                       }
-                      label="Usuaio"
-                      placeholder="john"
+                      label="Usuario"
+                      placeholder="juan"
                       required
                       type="email"
                       value={emailAddress}

@@ -1,5 +1,4 @@
 import React, {useState,useEffect,useContext} from 'react';
-import { useParams } from "react-router-dom";
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -17,103 +16,33 @@ import { v4 as uuid } from "uuid";
 import useParadas from './context/ParadasContext/useParadas';
 
 export default function FormDialog(props) {
-  const { userId } = useParams();
 
-  const {state, setState, updateGrupo,setNombreContext} = useParadas();
-    const {open, handleClose, grupo,add} = props
-    // console.log ("Dialog-grupo", grupo)
+  const {updateGrupo,setNombreContext,getNombre} = useParadas();
+    const {open, handleClose,add} = props
     const [nombre, setnombre] = useState('')
-    const [hora, setHora] = useState('00:00-00:00')
-    const [id,setId] = useState('')
-    const [newGroup, setnewGroup] = useState(
-      {
-        'nombre':"",
-        'id':"",
-         'subgrupo1':{'nombre':'','paradas':''},
-         'subgrupo2':{'nombre':'','paradas':''},
-         'subgrupo3':{'nombre':'','paradas':''},       
-      }
-    )
-    const handleSubChange = (index, valor) =>
-    {
     
-      var indice = `subgrupo${index+1}`
-    //  console.log("SubChange", index,indice,valor)
-      setnewGroup({... newGroup, [indice]:valor})
-
-    }
     const handleChange = (event) =>
     {
       setnombre(event.target.value)
       setNombreContext(event.target.value)
-      setnewGroup({... newGroup, "nombre":nombre,"id":id})
     }
 
     const handleOk =() => 
   {
-    updateGrupo(userId)
-   console.log(`Ok - id:${id}`)
-
-    setnewGroup({... newGroup, 'nombre':nombre,'id':id})
-     
-    handleClose(newGroup)
+    updateGrupo()
+    handleClose()  
   }
 
   const handleCancel = () => 
   {
-    console.log('cancel')
-    handleClose(null)
+    handleClose()
   }
 
-  const handleHora = (horaInicial, horaFinal)=>
-  {
-  // console.log("🚀 ~ file: GroupDialog.js ~ line 60 ~ FormDialog ~ horaFinal", horaFinal)
-  // console.log("🚀 ~ file: GroupDialog.js ~ line 60 ~ FormDialog ~ horaInicial", horaInicial)
-  // var horaI = `${horaInicial.getHours()}:${horaInicial.getMinutes()}`
-  // console.log("🚀 ~ file: GroupDialog.js ~ line 64 ~ FormDialog ~ horaI", horaI)
-  // var horaF = `${horaFinal.getHours()}:${horaFinal.getMinutes()}` 
-  // console.log("🚀 ~ file: GroupDialog.js ~ line 66 ~ FormDialog ~ horaF", horaF)
-  // setHora(horaI+"-"+horaF)
-  // setHoraContext(horaI+"-"+horaF)
-}
-
+ 
 useEffect(() => {
+setnombre(getNombre())
+}, [])
 
-  setnewGroup({... newGroup, "nombre":nombre})
-
-}, [nombre])
-useEffect(() => {
-  if (add===true)
-  {   
-  setnombre('')
-  setId(uuid())
-  }
-  
-  else
-  if (grupo!==null)
-   if (grupo.dato.name!= ''){
-    console.log(`Edit - id:${id},dato:${grupo.dato.id}`)
-
-     setnombre(grupo.dato.name)
-     setId(grupo.dato.id)
-   }
-}, [add])
-useEffect(() => {
-
-   const setText = (texto)=>
-   {
-    setnombre(texto)
-   }
-  //  console.log('UseEffect-grupo', grupo)
-   if (add===true)
-   {
-     setText('')
-   }
-   else
-   if (grupo!==null)
-    if (grupo.dato.name!= '')
-      setText(grupo.dato.name)
-}, [grupo])
   if (add===false)
    return (
     <div>
@@ -133,10 +62,10 @@ useEffect(() => {
             onChange = {handleChange}
           
           />
-          <HoraParadas grupo={grupo} handleHora = {handleHora}></HoraParadas>
-        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={0}></SubgrupoDlg>
-        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={1}></SubgrupoDlg>
-        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={grupo} index={2}></SubgrupoDlg>
+          <HoraParadas></HoraParadas>
+        <SubgrupoDlg  index={0}></SubgrupoDlg>
+        <SubgrupoDlg  index={1}></SubgrupoDlg>
+        <SubgrupoDlg  index={2}></SubgrupoDlg>
       
         </DialogContent>
         <DialogActions>
@@ -169,11 +98,11 @@ useEffect(() => {
             value = {nombre}
             onChange = {handleChange}
           />
-          <HoraParadas grupo={grupo} handleHora = {handleHora}></HoraParadas>
+          <HoraParadas></HoraParadas>
      
-        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={null} index={0}></SubgrupoDlg>
-        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={null} index={1}></SubgrupoDlg>
-        <SubgrupoDlg handleSubChange = {handleSubChange} grupo={null} index={2}></SubgrupoDlg>
+        <SubgrupoDlg  index={0}></SubgrupoDlg>
+        <SubgrupoDlg  index={1}></SubgrupoDlg>
+        <SubgrupoDlg  index={2}></SubgrupoDlg>
      
         </DialogContent>
         <DialogActions>

@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserCard(props) {
   const user = props.user;
-  const [arbol, setArbol] = useState([])
+  const [arbol, setArbol] = useState({})
   const [padre, setPadre] = useState(null)
   const [open,setOpen]=useState(false)
   const [add, setAdd] = useState(false)
@@ -61,48 +61,66 @@ export default function UserCard(props) {
     setExpanded(nodeIds);
   };
 
-  const handleSelect = (event, nodeIds) => {
-    setSelected(nodeIds);
-  };
-  
- //  const datos = user.datos
-  // console.log(grupos)
-
+ 
+ 
   useEffect(() => {
     
 
     async function  SetTreeData() 
     {
       var  datos =  await  ListGroup(userId)
-      // console.log("UserCard - Datos",datos)
+      console.log("UserCard - Datos",datos)
+      if (datos.datos===undefined)
+      {
+        await AddGrupo(userId,
+           {
+            nombre:'',
+            id:'',
+            subgrupo1:{nombre:'',paradas:''},
+            subgrupo2:{nombre:'',paradas:''},
+            subgrupo3:{nombre:'',paradas:''}
+           })
+        datos = await  ListGroup(userId)
+      }
+    
       setgrupos(datos)
       // console.log(grupos)
-      var arr = [];
-      datos.datos.forEach(function(subgrupos) {
-         let datosNodo = {id:uuid(),
-          name : subgrupos.nombre, 
-          nameTree : subgrupos.hora===undefined ? subgrupos.nombre : `${subgrupos.nombre} (${subgrupos.hora})`,
-        
-          children:[],datos:subgrupos}
-          
-        Object.keys(subgrupos).forEach(function(key0) {
-          //  console.log("subgrupo",subgrupos[key0],key0,subgrupos[key0].nombre)
-            if (subgrupos[key0].nombre!==undefined)
-            if (subgrupos[key0].nombre!=="")
-            datosNodo.children.push(
-              { 
-                id:uuid(),
-                name:`${subgrupos[key0].nombre}.- ${subgrupos[key0].paradas}` 
-              });
-        }
-        );
-        arr.push(datosNodo);
-      });
+      var arr = {id:'root' , name:'Paradas', children:[]};
+      datos.datos.forEach(function(subgrupos) { creaGrupo(subgrupos, arr. children); });
+      console.log("🚀 ~ file: UserCard.js ~ line 96 ~ useEffect ~ arr", arr)
+
       // console.log(arr)
      
       setArbol(arr)
      
   
+
+      function creaGrupo(subgrupos ,arr) {
+        var id = arr.length.toString()
+        console.log("longitud",arr.length)
+        let datosNodo = {
+          id:id,
+          nameTree: 'padre',
+          name: subgrupos.hora === undefined ? subgrupos.nombre : `${subgrupos.nombre} (${subgrupos.hora})`,
+          children: [], 
+          datos: subgrupos
+        };
+
+        Object.keys(subgrupos).forEach(function (key0) {
+          console.log("🚀 ~ file: UserCard.js ~ line 110 ~ key0", key0)
+          //  console.log("subgrupo",subgrupos[key0],key0,subgrupos[key0].nombre)
+          
+          if (subgrupos[key0].nombre !== undefined)
+            if (subgrupos[key0].nombre !== "")
+              datosNodo.children.push(
+                {
+                  id: `${id}-${key0.substring(8)}`,
+                  name: `${subgrupos[key0].nombre}.- ${subgrupos[key0].paradas}`
+                });
+        }
+        );  
+        arr.push(datosNodo);
+      }
     }
      SetTreeData();
     //  console.log("selected",selected)
@@ -113,13 +131,18 @@ export default function UserCard(props) {
   }, [loading])
   const handleTreeSelected =( event, value)=>
   {
-  // console.log("treeSelect",event.target, value)
+  console.log("🚀 ~ file: UserCard.js ~ line 130 ~ UserCard ~ value", value)
+
    var padre = 1
    var valorBusqueda = {}
+
+   if (value==='root')
+    setSelected(null)
+  else  
+  { 
+   arbol.children.map((dato)=>
  
-  arbol.map((dato)=>
- 
-    {
+     {
     if (dato.id===value)
       {
         valorBusqueda = {
@@ -145,9 +168,12 @@ export default function UserCard(props) {
     }
     
   )
-  setPadre(valorBusqueda)
+   console.log("🚀 ~ file: UserCard.js ~ line 163 ~ UserCard ~ valorBusqueda", valorBusqueda)
+  
+   setPadre(valorBusqueda)
   // console.log("valor", valorBusqueda,padre)
-  setSelected(value)
+   setSelected(value)
+  }
   }
 
   // Control Dialog
@@ -183,29 +209,14 @@ export default function UserCard(props) {
   const handleCloseDeleteOk = ()=>
   {
     // console.log("Cierra delete - Accept", padre)
-    setopenDelete(false)
-   
+    setopenDelete(false)   
     DeleteGrupo(userId,padre.dato.datos)
     setloading(true)
   }
-  const handleClose = (tipo = null) => {
-    console.log("Close Dialog - user card", tipo, user,valorInicial)
-
+  const handleClose = () => {
     setOpen(false);
-
-    // Generamos base de datos
-    // if (tipo!==null)
-    // {
-   
-    //   if (tipo.nombre!==undefined)
-    //     if (valorInicial===null)
-    //        AddGrupo(userId,tipo)
-    //     else
-    //        EditGrupo(userId,valorInicial,tipo)
-    // }
-    setloading(true)
+   setloading(true)
     setSelected(null)
-
   };
 
 
@@ -214,16 +225,29 @@ export default function UserCard(props) {
   {
     // console.log("Node", event.target.label, nodeIds)
   }
+
+  const renderTree = (nodes) => 
+    {
+    if (nodes.id===undefined)
+      nodes.id = uuid()
+      
+    return (
+    <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+      {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
+    </TreeItem>
+    )
+    }
+  ;
   const getTreeItemsFromData = treeItems => {
   return treeItems.map(treeItemData => {
       let children = undefined;
-      // console.log("Tree", treeItemData)
       if (treeItemData.children && treeItemData.children.length > 0) {
         children = getTreeItemsFromData(treeItemData.children);
       }
+      console.log("🚀 ~ file: UserCard.js ~ line 228 ~ UserCard ~ children", children)
+
       return (
-        <TreeItem
-          key={treeItemData.name}
+        <TreeItem       
           nodeId={treeItemData.id}
           label={treeItemData.nameTree}
           children={children}
@@ -241,9 +265,9 @@ export default function UserCard(props) {
         onNodeSelect={handleTreeSelected}
         expanded={expanded}
         selected={selected}
-        onNodeToggle={handleToggle}   
+        onNodeToggle={handleToggle}
       >
-        {getTreeItemsFromData(treeItems)}
+        {renderTree(arbol)}
       </TreeView>
     );
   };

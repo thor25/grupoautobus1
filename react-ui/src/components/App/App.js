@@ -17,7 +17,7 @@ import Router from "../Router";
 import DialogHost from "../DialogHost";
 import { ParadasProvider } from "../GroupDialog/context/ParadasContext/ParadasContext";
  
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 const initialState = {
   ready: false,
   performingAction: false,

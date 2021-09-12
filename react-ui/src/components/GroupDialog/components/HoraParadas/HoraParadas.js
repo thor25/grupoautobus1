@@ -12,39 +12,34 @@ import useParadas from "../../context/ParadasContext/useParadas"
 
 export default function HoraParadas(props) {
   const {getHora, setHoraContext} = useParadas()
-  const {grupo} = props
   const [horaInicial,setHoraInicial] = useState(new Date('2021-07-08T00:00:00'))
   const [horaFinal,setHoraFinal] = useState(new Date('2021-07-08T00:00:00'))
 
   const handleHora = (horaInicial, horaFinal)=>
   {
+    
+  var horaI = formatHora(horaInicial);
+  var horaF = formatHora(horaFinal)
  
-  console.log("🚀 ~ file: HoraParadas.js ~ line 21 ~ HoraParadas ~ horaFinal", horaFinal)
-  console.log("🚀 ~ file: HoraParadas.js ~ line 21 ~ HoraParadas ~ horaInicial", horaInicial)
-   var horaI = horaInicial.getHours()<10?
-   `0${horaInicial.getHours()}:${horaInicial.getMinutes()}`:
-   `${horaInicial.getHours()}:${horaInicial.getMinutes()}`
-  var horaI=  new Date(horaInicial).toLocaleTimeString().substring(0,5)
-  if (horaInicial.getHours()<10) horaI = ('0'+horaI).substring(0,5)
-   console.log("🚀 ~ file: HoraParadas.js ~ line 24 ~ HoraParadas ~ horaI",horaInicial, horaI)
- // var horaF = `${horaFinal.getHours()}:${horaFinal.getMinutes()}` 
- var horaF=  new Date(horaFinal).toLocaleTimeString().substring(0,5)
- if (horaFinal.getHours()<10) horaF = ('0'+horaF).substring(0,5)
-
- console.log("🚀 ~ file: HoraParadas.js ~ line 26 ~ HoraParadas ~ horaF",horaFinal, horaF)
   setHoraContext(horaI+"-"+horaF)
+
+    function formatHora(hora) {
+      var horaI = hora.toLocaleTimeString();
+      if (hora.getHours() < 10)
+        horaI = ('0' + horaI);
+      horaI = horaI.substring(0, 5);
+      return horaI;
+    }
 }
 
 
   const handleDateChangeInicial = (date) => {
     setHoraInicial(date);
-    console.log("🚀 ~ file: HoraParadas.js ~ line 33 ~ handleDateChangeInicial ~ date", date)
     handleHora(date,horaFinal)
     };
 
      const handleDateChangeFinal = (date) => {
        setHoraFinal(date);
-       console.log("🚀 ~ file: HoraParadas.js ~ line 39 ~ handleDateChangeFinal ~ date", date)  
        handleHora(horaInicial,date)
      };
       
@@ -55,7 +50,6 @@ export default function HoraParadas(props) {
   
    if (horas!=="")
    {
-    console.log("🚀 ~ file: HoraParadas.js ~ line 51 ~ useEffect ~ horas", horas)
      setHoraInicial(new Date(`2021-08-07T${horas.substring(0,5)}:00`))
      setHoraFinal(new Date(`2021-08-07T${horas.substring(6)}:00`))
    }
@@ -64,11 +58,7 @@ export default function HoraParadas(props) {
     setHoraInicial(new Date(`2021-08-07T00:00:00`))
     setHoraFinal(new Date(`2021-08-07T$00:00:00`)) 
    }
-  console.log("🚀 ~ file: HoraParadas.js ~ line 21 ~ HoraParadas ~ horaInicial", horaInicial)
-  console.log("🚀 ~ file: HoraParadas.js ~ line 23 ~ HoraParadas ~ horaFinal", horaFinal)
 
-   
-  
   }, [])
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
