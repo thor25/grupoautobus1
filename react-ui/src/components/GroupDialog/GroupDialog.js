@@ -40,8 +40,10 @@ export default function FormDialog(props) {
 
  
 useEffect(() => {
-setnombre(getNombre())
-}, [])
+  var nombre = getNombre()
+  
+setnombre(nombre)
+})
 
   if (add===false)
    return (

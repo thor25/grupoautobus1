@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 export default function UserCard(props) {
   const user = props.user;
   const [arbol, setArbol] = useState({})
-  const [padre, setPadre] = useState(null)
+  const [datos, setDatos] = useState(null)
   const [open,setOpen]=useState(false)
   const [add, setAdd] = useState(false)
   const [openDelete, setopenDelete] = useState(false)
@@ -84,12 +84,10 @@ export default function UserCard(props) {
       }
     
       setgrupos(datos)
-      // console.log(grupos)
       var arr = {id:'root' , name:'Paradas', children:[]};
       datos.datos.forEach(function(subgrupos) { creaGrupo(subgrupos, arr. children); });
-      console.log("🚀 ~ file: UserCard.js ~ line 96 ~ useEffect ~ arr", arr)
 
-      // console.log(arr)
+    
      
       setArbol(arr)
      
@@ -97,9 +95,8 @@ export default function UserCard(props) {
 
       function creaGrupo(subgrupos ,arr) {
         var id = arr.length.toString()
-        console.log("longitud",arr.length)
         let datosNodo = {
-          id:id,
+          id:id+'-',
           nameTree: 'padre',
           name: subgrupos.hora === undefined ? subgrupos.nombre : `${subgrupos.nombre} (${subgrupos.hora})`,
           children: [], 
@@ -107,9 +104,7 @@ export default function UserCard(props) {
         };
 
         Object.keys(subgrupos).forEach(function (key0) {
-          console.log("🚀 ~ file: UserCard.js ~ line 110 ~ key0", key0)
-          //  console.log("subgrupo",subgrupos[key0],key0,subgrupos[key0].nombre)
-          
+         
           if (subgrupos[key0].nombre !== undefined)
             if (subgrupos[key0].nombre !== "")
               datosNodo.children.push(
@@ -131,7 +126,9 @@ export default function UserCard(props) {
   }, [loading])
   const handleTreeSelected =( event, value)=>
   {
-  console.log("🚀 ~ file: UserCard.js ~ line 130 ~ UserCard ~ value", value)
+   
+
+   
 
    var padre = 1
    var valorBusqueda = {}
@@ -140,37 +137,39 @@ export default function UserCard(props) {
     setSelected(null)
   else  
   { 
-   arbol.children.map((dato)=>
+    var index =  parseInt(value.substring(value.indexOf('-')-1))
+    valorBusqueda= arbol.children[index].datos
+       
+  //  arbol.children.map((dato)=>
  
-     {
-    if (dato.id===value)
-      {
-        valorBusqueda = {
-        'grupo' : padre,
-        'subgrupo' : 0,
-        'dato':dato
-        }
-      }
-    var hijo = 1
-    dato.children.map((child)=>{
-      if (child.id===value)
-      {
-        valorBusqueda = {
-        'grupo' : padre,
-        'subgrupo' : hijo,
-        'dato':dato
-        }
-      }
-      hijo ++
+  //    {
+  //   if (dato.id===value)
+  //     {
+  //       valorBusqueda = {
+  //       'grupo' : padre,
+  //       'subgrupo' : 0,
+  //       'dato':dato
+  //       }
+  //     }
+  //   var hijo = 1
+  //   dato.children.map((child)=>{
+  //     if (child.id===value)
+  //     {
+  //       valorBusqueda = {
+  //       'grupo' : padre,
+  //       'subgrupo' : hijo,
+  //       'dato':dato
+  //       }
+  //     }
+  //     hijo ++
 
-    })  
-      padre++;
-    }
+  //   })  
+  //     padre++;
+  //   }
     
-  )
-   console.log("🚀 ~ file: UserCard.js ~ line 163 ~ UserCard ~ valorBusqueda", valorBusqueda)
+  // )
   
-   setPadre(valorBusqueda)
+   setDatos(valorBusqueda)
   // console.log("valor", valorBusqueda,padre)
    setSelected(value)
   }
@@ -179,11 +178,10 @@ export default function UserCard(props) {
   // Control Dialog
   const handleClickEdit = () =>{
     
-    setvalorInicial(padre.dato.datos)
-    console.log(padre.dato.datos)
-    console.log("🚀 ~ file: UserCard.js ~ line 159 ~ handleClickEdit ~ padre.dato.datos", padre.dato.datos)
-    var hora = padre.dato.datos.hora===undefined?"00:00-00:00":padre.dato.datos.hora
-    editContext(padre.dato.datos.id,padre.dato.datos.nombre,hora,padre.dato.datos.subgrupo1,padre.dato.datos.subgrupo2,padre.dato.datos.subgrupo3 )
+    setvalorInicial(datos)
+    console.log("🚀 ~ file: UserCard.js ~ line 183 ~ handleClickEdit ~ datos", datos)
+    var hora = datos.hora===undefined?"00:00-00:00":datos.hora
+    editContext(datos.id,datos.nombre,hora,datos.subgrupo1,datos.subgrupo2,datos.subgrupo3 )
     setAdd(false)
     setOpen(true);
 
@@ -210,7 +208,7 @@ export default function UserCard(props) {
   {
     // console.log("Cierra delete - Accept", padre)
     setopenDelete(false)   
-    DeleteGrupo(userId,padre.dato.datos)
+    DeleteGrupo(userId,datos)
     setloading(true)
   }
   const handleClose = () => {
@@ -315,13 +313,13 @@ export default function UserCard(props) {
       
     </Card>
 
-    <GroupDialog open={open} handleClose={handleClose} grupo={padre} add={add}></GroupDialog>
+    <GroupDialog open={open} handleClose={handleClose}  add={add}></GroupDialog>
     <ConfirmationDialog  dialogProps={{
         open: openDelete,
         onClose: handleCloseDelete,
       }}
     title="Borrar parada" 
-    content={selected!==null?<Box> Con esta acción, borrará la parada {padre.dato.datos.nombre} </Box> 
+    content={selected!==null?<Box> Con esta acción, borrará la parada {datos.nombre} </Box> 
     :<Box></Box>}
     dismissiveAction = {<Button color="primary" onClick = {handleCloseDelete}>Cancelar</Button>}
     confirmingAction  =  {<Button color="primary" onClick = {handleCloseDeleteOk}>Aceptar</Button>}

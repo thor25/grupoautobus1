@@ -76,7 +76,10 @@ export default function Lista(props)
          fetchData(paradas);
         },[refresh,paradas]);
       
-     
+      const handleClick = (valor) => {
+      console.log("🚀 ~ file: Lista.js ~ line 80 ~ handleClick ~ event", valor)
+
+      }
       const  setUrl =  (url) =>
       {
   /*      enqueueSnackbar('CArgando datos', { 
@@ -134,7 +137,7 @@ export default function Lista(props)
                   
                 />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete">
+                  <IconButton edge="end" aria-label="delete" onClick={handleClick(value)}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>

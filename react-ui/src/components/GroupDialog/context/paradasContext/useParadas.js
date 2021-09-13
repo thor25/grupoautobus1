@@ -40,7 +40,7 @@ const useParadas = () => {
  {
   
   setState(state => ({...state, id:valor}))
-  console.log("id en Context", state)
+ // console.log("id en Context", state)
  }
 
  function setGrupo(valor,index)
@@ -62,21 +62,21 @@ const useParadas = () => {
    }
    
    
-   console.log("Grupo en Context", state,valor)
+//  console.log("Grupo en Context", state,valor)
 
 
  }  
  function setNombreContext(valor)
  {
   setState(state => ({...state, nombre:valor}))
-  console.log("Nombre en Context", state)
+//  console.log("Nombre en Context", state)
  }
 
  function setHoraContext(valor)
  {
  
   setState(state => ({...state, hora:valor}))
-   console.log("Hora en Context", state)
+//   console.log("Hora en Context", state)
 
  }
   function updateGrupo() 
@@ -105,7 +105,7 @@ function getGrupo(index)
    valor= state.subgrupo3
       break;
   }
-  console.log("getgrupo in context", state, index, valor)
+ //  console.log("getgrupo in context", state, index, valor)
   
   return valor
 }
