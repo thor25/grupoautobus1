@@ -22,8 +22,7 @@ import {url}  from "../GroupDialog/utils/utils"
 export default function Lista(props)
 {
  const {paradas} = props
-//  console.log(paradas)
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
 
       const [refresh, setRefresh] = useState(true) 
