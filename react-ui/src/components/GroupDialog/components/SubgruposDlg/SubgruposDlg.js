@@ -23,7 +23,7 @@ import ParadasDialog from "../ParadasDialog"
 
 import firebase, { firestore } from "../../../../firebase"
 import { deprecatedPropType } from '@material-ui/core';
-import useParadas from '../../context/ParadasContext/useParadas';
+import useParadas from '../../context/paradasContextuseParadas';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',

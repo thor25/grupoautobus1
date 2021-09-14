@@ -25,7 +25,7 @@ import ConfirmationDialog from "../ConfirmationDialog"
 
 import {AddGrupo,DeleteGrupo, EditGrupo, ListGroup} from "../../firebaseutils"
 
-import useParadas from "../GroupDialog/context/ParadasContext/useParadas"
+import useParadas from "../GroupDialog/context/paradasContextuseParadas"
 
 const useStyles = makeStyles((theme) => ({
   root: {

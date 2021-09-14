@@ -7,7 +7,7 @@ import {
   KeyboardTimePicker,
 } from '@material-ui/pickers';
 
-import useParadas from "../../context/ParadasContext/useParadas"
+import useParadas from "../../context/paradasContextuseParadas"
   // The first commit of Material-UI
 
 export default function HoraParadas(props) {

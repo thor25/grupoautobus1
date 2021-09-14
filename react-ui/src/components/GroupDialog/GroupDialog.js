@@ -13,7 +13,7 @@ import HoraParadas from "./components/HoraParadas"
 import Paradas from './components/Paradas';
 import { v4 as uuid } from "uuid";
 
-import useParadas from './context/ParadasContext/useParadas';
+import useParadas from './context/paradasContextuseParadas';
 
 export default function FormDialog(props) {
 
