@@ -52,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Lista(props)
 {
  const {paradas} = props
-  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const classes = useStyles();
 
  
@@ -182,7 +181,7 @@ export default function Lista(props)
             <h3>{resultModal[0].descripcion} </h3>           
             <p id="simple-modal-description">
              {resultModal.map((valor)=>(
-            <p>Linea: {valor.linea} :Prox. {valor.tiempo1}, Sig. {valor.tiempo1}</p>
+            <p>Linea: {valor.linea} :Prox. {valor.tiempo1}, Sig. {valor.tiempo2}</p>
           ))}
 
             </p>
