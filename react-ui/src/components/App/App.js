@@ -15,7 +15,7 @@ import LaunchScreen from "../LaunchScreen";
 import Bar from "../Bar";
 import Router from "../Router";
 import DialogHost from "../DialogHost";
-import { ParadasProvider } from "../GroupDialog/context/paradasContextParadasContext.js";
+import { ParadasProvider } from "../GroupDialog/context/paradasContext/ParadasContext.js";
  
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 const initialState = {
