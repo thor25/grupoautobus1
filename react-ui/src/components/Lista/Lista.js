@@ -170,7 +170,7 @@ export default function Lista(props)
         const body =  (valor) =>
         {
        
-         console.log(valor,datosModal,resultModal)
+         console.log(valor,datosModal,resultModal) 
           return (
           <div className={classes.paper} style={modalStyle}>
             <h2 id="simple-modal-title">Parada {datosModal}</h2> 
