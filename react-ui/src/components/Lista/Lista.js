@@ -1,5 +1,4 @@
 import React, {useEffect,useState} from "react"
-import { Button } from '@material-ui/core'
 
 import BotonRedondo from "../../components/BotonRedondo"
 import { useSnackbar } from 'notistack';
@@ -14,9 +13,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import Alert from '@material-ui/lab/Alert';
-import Typography from '@material-ui/core/Typography';
-import FolderIcon from '@material-ui/icons/Folder';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@material-ui/icons/Info';
 
 import {url}  from "../GroupDialog/utils/utils"
 
@@ -171,6 +168,14 @@ export default function Lista(props)
         {
        
          console.log(valor,datosModal,resultModal) 
+          if (resultModal===null)
+          return (
+          <div className={classes.paper} style={modalStyle}>
+            <h2 id="simple-modal-title">Parada {datosModal}</h2>                    
+            <p id="simple-modal-description">
+            Sin datos </p>
+          </div>)
+          else
           return (
           <div className={classes.paper} style={modalStyle}>
             <h2 id="simple-modal-title">Parada {datosModal}</h2> 

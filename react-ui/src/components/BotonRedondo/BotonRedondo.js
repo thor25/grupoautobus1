@@ -1,6 +1,6 @@
 import React  from "react"
 import {Fab} from "@material-ui/core"
-import AddIcon from "@material-ui/icons/Add"
+import AddIcon from "@material-ui/icons/Update"
 
 import "./BotonRedondo.css"
 
