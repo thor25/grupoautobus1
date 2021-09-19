@@ -287,12 +287,11 @@ function FormControlLabelPlacement(props) {
     var grupoJSON = JSON.parse(grupo)
     
   return (
-    
     <FormControl component="fieldset">
       <FormLabel component="legend">Paradas</FormLabel>
       <RadioGroup row aria-label="Paradas" onChange={handleRadioChange} 
        name="paradas" defaultValue="top" >
-         {      
+         {
           grupoJSON.map((dato, index) => (
           <FormControlLabel
           id = {`radio${index}`}
