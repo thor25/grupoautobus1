@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Lista(props)
 {
  const {paradas} = props
-  const classes = useStyles();
+  const classes = useStyles(); 
 
  
       const [refresh, setRefresh] = useState(true) 
